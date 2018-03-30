@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="bkvDataSource" class="org.postgresql.ds.PGPoolingDataSource">
+        <property name="serverName" value="${dataSource.serverName}"/>
+        <property name="portNumber" value="${dataSource.portNumber}"/>
+        <property name="databaseName" value="${dataSource.databaseName}"/>
+        <property name="user" value="${dataSource.user}"/>
+        <property name="password" value="${dataSource.password}"/>
+    </bean>
+
+    <!--NOTE DB: use it to log actual sql scripts with input arguments. To activate this datasource just replace property datasource.name-->
+    <!--<bean id="bkvDataSourceSpy" class="net.sf.log4jdbc.sql.jdbcapi.DataSourceSpy">-->
+        <!--<constructor-arg ref="bkvDataSource"/>-->
+    <!--</bean>-->
+
+</beans>

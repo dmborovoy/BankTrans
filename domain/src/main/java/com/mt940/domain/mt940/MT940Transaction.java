@@ -106,7 +106,7 @@ public class MT940Transaction implements Comparable<MT940Transaction> {
 
     @Column(name = "funds_code")
     @Type(type = "PersistentEnum", parameters = {
-            @org.hibernate.annotations.Parameter(name = "enumClass", value = "com.nxsystems.common.interaction.enums.MT940FundsCode")
+            @org.hibernate.annotations.Parameter(name = "enumClass", value = "com.mt940.domain.enums.MT940FundsCode")
             , @org.hibernate.annotations.Parameter(name = "identifierMethod", value = "getCode")
             , @org.hibernate.annotations.Parameter(name = "valueOfMethod", value = "findByCode")})
     public MT940FundsCode getFundsCode() {
@@ -191,7 +191,7 @@ public class MT940Transaction implements Comparable<MT940Transaction> {
 
     @Column(name = "status")
     @Type(type = "PersistentEnum", parameters = {
-            @org.hibernate.annotations.Parameter(name = "enumClass", value = "com.nxsystems.common.interaction.enums.MT940TransactionStatus")
+            @org.hibernate.annotations.Parameter(name = "enumClass", value = "com.mt940.domain.enums.MT940TransactionStatus")
             , @org.hibernate.annotations.Parameter(name = "identifierMethod", value = "getCode")
             , @org.hibernate.annotations.Parameter(name = "valueOfMethod", value = "findByCode")})
     public MT940TransactionStatus getStatus() {
@@ -213,7 +213,7 @@ public class MT940Transaction implements Comparable<MT940Transaction> {
 
     @Column(name = "instance")
     @Type(type = "PersistentEnum", parameters = {
-            @org.hibernate.annotations.Parameter(name = "enumClass", value = "com.nxsystems.common.interaction.enums.Instance")
+            @org.hibernate.annotations.Parameter(name = "enumClass", value = "com.mt940.domain.enums.Instance")
             , @org.hibernate.annotations.Parameter(name = "identifierMethod", value = "getCode")
             , @org.hibernate.annotations.Parameter(name = "valueOfMethod", value = "findByCode")})
     public Instance getInstance() {

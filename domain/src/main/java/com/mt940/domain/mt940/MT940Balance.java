@@ -47,7 +47,7 @@ public class MT940Balance {
 
     @Column(name = "balance_type")
     @Type(type = "PersistentEnum", parameters = {
-            @org.hibernate.annotations.Parameter(name = "enumClass", value = "com.nxsystems.common.interaction.enums.MT940BalanceType")
+            @org.hibernate.annotations.Parameter(name = "enumClass", value = "com.mt940.domain.enums.MT940BalanceType")
             , @org.hibernate.annotations.Parameter(name = "identifierMethod", value = "getCode")
             , @org.hibernate.annotations.Parameter(name = "valueOfMethod", value = "findByCode")})
     public MT940BalanceType getBalanceType() {
