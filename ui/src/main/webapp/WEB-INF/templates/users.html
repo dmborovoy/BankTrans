@@ -1,0 +1,300 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DxBoroView - Users</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.2-1/css/bootstrap.min.css}" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.2-1/css/bootstrap-theme.min.css}" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" th:href="@{/webjars/datatables-plugins/ca6ec50/integration/bootstrap/3/dataTables.bootstrap.css}" href="http://cdn.jsdelivr.net/webjars/org.webjars/datatables-plugins/ca6ec50/integration/bootstrap/3/dataTables.bootstrap.css"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-datetimepicker/2.3.1/css/bootstrap-datetimepicker.min.css}" href="http://cdn.jsdelivr.net/webjars/org.webjars/bootstrap-datetimepicker/2.3.1/css/datetimepicker.css"/>
+    <link rel="stylesheet" th:href="@{/styles/style.css}" href="../../styles/style.css"/>
+</head>
+<body>
+<div class="container">
+    <div class="row" th:replace="fragments :: nav">
+        <div class="page-header">
+            <h1>DXBORO <small>DXBORO Inc.</small></h1>
+        </div>
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a href="#" th:href="@{/emails}">Emails</a></li>
+            <li role="presentation"><a href="attachments.html" th:href="@{/attachments}">Attachments</a></li>
+            <li role="presentation"><a href="statements.html" th:href="@{/statements}">Statements</a></li>
+            <li role="presentation"><a href="transactions.html" th:href="@{/transactions}">Transactions</a></li>
+        </ul>
+    </div>
+    <div class="top-margin bottom-margin">
+        <button id="addNewUserBtn" class="btn btn-default" data-toggle="modal" data-target="#createUserModal">
+            <span class="glyphicon glyphicon-plus"></span>
+            Add user
+        </button>
+    </div>
+
+    <div class="row top-margin">
+        <table class="table grid">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Username</th>
+                <th>Description</th>
+                <th>Roles</th>
+                <th>Instances</th>
+                <th>Disabled</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tr th:each="item : ${items}">
+                <td th:text="${{item.id}}">1</td>
+                <td th:text="${{item.login}}">admin</td>
+                <td th:text="${{item.description}}">admin user</td>
+                <td th:text="${{item.roles}}">UI_ADMIN, UI_USER</td>
+                <td th:text="${{item.instances}}">NXPAY.EU</td>
+                <td th:text="${{item.disabled}}">false</td>
+                <td>
+                    <button type="button" class="btn btn-default btn-xs editUserBtn" data-id="1" th:attr="data-id=${item.id}">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> edit
+                    </button>
+                    <a type="button" class="btn btn-default btn-xs disableUserBtn" href="#" th:if="${not item.disabled}" th:href="@{/admin/users/disable(id=${item.id})}">
+                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> disable
+                    </a>
+                    <a type="button" class="btn btn-default btn-xs enableUserBtn" href="#" th:if="${item.disabled}" th:href="@{/admin/users/enable(id=${item.id})}">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> enable
+                    </a>
+                    <a type="button" class="btn btn-default btn-xs removeUserBtn" href="#" th:href="@{/admin/users/remove(id=${item.id})}">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> remove
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- create new user modal -->
+<form id="createUserForm" th:action="@{/admin/api/user}" method="post">
+    <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">New user</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="validationMessagesPlaceholder"></div>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input id="username" data-json-bind="login" name="username" type="text" class="form-control" placeholder="Username" autocomplete="off"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input id="password" name="password" type="password" class="form-control" placeholder="Password" autocomplete="off"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordAgain">Password confirmation</label>
+                        <input id="passwordAgain" name="passwordAgain" type="password" class="form-control" placeholder="Password" autocomplete="off"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input id="description" data-json-bind="description" name="description" type="text" class="form-control" placeholder="Description"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="roles">Roles</label>
+                        <select id="roles" data-json-bind="roles" name="roles" multiple="multiple" class="form-control">
+                            <option th:each="role : ${roles}" th:text="${{role}}" th:value="${role}">Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="instances">Instances</label>
+                        <select id="instances" data-json-bind="instances" name="instances" multiple="multiple" class="form-control">
+                            <option th:each="instance : ${instances}" th:text="${{instance}}" th:value="${instance.stringCode}">Admin</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default closeModalBtn" data-dismiss="modal">Close</button>
+                    <button id="createUserBtn" type="submit" class="btn btn-primary saveModalBtn">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<form id="updateUserForm" th:action="@{/admin/api/user}" method="put">
+    <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Edit user</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="userId" name="userId" data-json-bind="id"/>
+                    <div class="validationMessagesPlaceholder"></div>
+                    <div class="form-group">
+                        <label for="username-update">Username</label>
+                        <input id="username-update" data-json-bind="login" name="username" type="text" class="form-control" disabled="disabled" />
+                    </div>
+                    <div class="form-group">
+                        <label for="password-update">Password</label>
+                        <input id="password-update" name="password" type="password" class="form-control" placeholder="Password" autocomplete="off"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordAgain-update">Password confirmation</label>
+                        <input id="passwordAgain-update" name="passwordAgain" type="password" class="form-control" placeholder="Password" autocomplete="off"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="description-update">Description</label>
+                        <input id="description-update" data-json-bind="description" name="description" type="text" class="form-control" placeholder="Description"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="roles-update">Roles</label>
+                        <select id="roles-update" data-json-bind="roles" name="roles" multiple="multiple" class="form-control">
+                            <option th:each="role : ${roles}" th:text="${{role}}" th:value="${role}">Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="instances-update">Instances</label>
+                        <select id="instances-update" data-json-bind="instances" name="instances" multiple="multiple" class="form-control">
+                            <option th:each="instance : ${instances}" th:text="${{instance}}" th:value="${instance.stringCode}">NXPAY.EU</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default closeModalBtn" data-dismiss="modal">Close</button>
+                    <button id="updateUserBtn" type="submit" class="btn btn-primary saveModalBtn">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script id="validation-errors-template" type="x-tmpl-mustache">
+    <div class="alert alert-danger">
+        <ul>
+            {{#messages}}
+            <li>{{message}}</li>
+            {{/messages}}
+        </ul>
+    </div>
+</script>
+<script id="validation-success-template" type="x-tmpl-mustache">
+    <div class="alert alert-success">
+    {{message}}
+    </div>
+</script>
+<!-- end of create new user modal -->
+
+<script th:src="@{/webjars/jquery/2.1.3/jquery.min.js}" src="http://cdn.jsdelivr.net/webjars/org.webjars/jquery/2.1.3/jquery.min.js"></script>
+<script th:src="@{/webjars/bootstrap/3.3.2-1/js/bootstrap.min.js}" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script th:src="@{/webjars/datatables/1.10.5/js/jquery.dataTables.min.js}" src="http://cdn.jsdelivr.net/webjars/org.webjars/datatables/1.10.5/js/jquery.dataTables.min.js"></script>
+<script th:src="@{/webjars/datatables-plugins/ca6ec50/integration/bootstrap/3/dataTables.bootstrap.js}" src="http://cdn.jsdelivr.net/webjars/org.webjars/datatables-plugins/ca6ec50/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+<script th:src="@{/webjars/bootstrap-datetimepicker/2.3.1/js/bootstrap-datetimepicker.min.js}" src="http://cdn.jsdelivr.net/webjars/org.webjars/bootstrap-datetimepicker/2.3.1/js/bootstrap-datetimepicker.min.js"></script>
+<script th:src="@{/webjars/mustachejs/0.8.1/mustache.js}" src="http://cdn.jsdelivr.net/webjars/org.webjars/mustachejs/0.8.1/mustache.js"></script>
+<script th:src="@{/js/s.js}" src="../../js/s.js"></script>
+<script th:inline="javascript">
+    $(document).ready(function(){
+        var page_size = /*[[${page_size}]]*/ 100;
+        $('.grid.table').DataTable($.extend(DATA_TABLE_PROPS, {
+            "iDisplayLength": page_size,
+            "columnDefs": [
+                { "name": 'id', "targets": 0},
+                { "name": 'username', "targets": 1},
+                { "name": 'description', "targets": 2},
+                { "name": 'disabled', "targets": 3},
+                { "name": 'none', "targets": 4, "orderable": false}
+            ]
+        }));
+
+        var validationErrorsTemplate = $("#validation-errors-template").html();
+        Mustache.parse(validationErrorsTemplate);
+        var validationSuccessTemplate = $("#validation-success-template").html();
+        Mustache.parse(validationSuccessTemplate);
+
+        function clearCreateUserFormValidationMessages($form) {
+            $form.find(".validationMessagesPlaceholder").html("");
+            $form.find(".form-group.has-error").removeClass("has-error");
+            $form.find("[type=submit]").attr("disabled", false);
+        }
+
+        $("#createUserModal").on("show.bs.modal", function() {
+            clearCreateUserFormValidationMessages($("#createUserForm"));
+            $("#createUserForm").find("input.form-control").val("");
+        });
+        $("#updateUserModal").on("show.bs.modal", function() {
+            clearCreateUserFormValidationMessages($("#updateUserForm"));
+            $("#updateUserForm").find("input.form-control").val("");
+        });
+
+        function ajaxHandler($form) {
+            return {
+                "url": /*[[@{/admin/api/user}]]*/ "/admin/api/user",
+                "data": $form.serialize(),
+                beforeSend: function () {
+                    $form.find("[type=submit]").attr("disabled", true);
+                    clearCreateUserFormValidationMessages($form);
+                },
+                success: function (data) {
+                    var html = Mustache.render(validationSuccessTemplate, "The operation is completed");
+                    $form.find(".validationMessagesPlaceholder").html(html);
+                    location.reload();
+                },
+                complete: function () {
+                    $form.find("[type=submit]").attr("disabled", false);
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    if (jqXhr.status == 400) {
+                        var error = jqXhr.responseJSON;
+                        var html = Mustache.render(validationErrorsTemplate, error);
+                        $form.find(".validationMessagesPlaceholder").html(html);
+                        $(error.messages).each(function (idx, item) {
+                            if (item.field) {
+                                $form.find(".form-group #" + item.field).parent(".form-group").addClass("has-error");
+                            }
+                        });
+
+                    }
+                }
+            };
+        }
+
+
+        $("#createUserForm").submit(function() {
+            $.ajax($.extend(ajaxHandler($("#createUserForm")), {
+                type: "post"
+            }));
+            return false;
+        });
+
+        $(".editUserBtn").on("click", function() {
+            $me = $(this);
+            var userId = $(this).data("id");
+            var base_url = /*[[@{/admin/api/user}]]*/ "http://localhost:8080/admin/api/user";
+
+            $.ajax({
+                url: base_url + "/" + userId,
+                method: "get",
+                beforeSend: function() {
+                    $me.attr("disabled", true);
+                },
+                complete: function() {
+                    $me.attr("disabled", false);
+                },
+                success: function(data) {
+                    $("#updateUserModal").modal("show");
+                    $("#updateUserForm").find("[data-json-bind='login']").attr("disabled", true);
+                    for (prop in data) {
+                        $("#updateUserForm [data-json-bind=" +prop+ "]").val(data[prop]);
+                    }
+                }
+            });
+
+            return false;
+        });
+
+        $("#updateUserForm").submit(function () {
+            $.ajax($.extend(ajaxHandler($("#updateUserForm")), {
+                method: "put"
+            }));
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

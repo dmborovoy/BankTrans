@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+
+    <!-- Enables the Spring MVC @Controller programming model -->
+    <mvc:annotation-driven validator="validator" conversion-service="conversionService">
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper" ref="jacksonObjectMapper"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled"/>
+
+    <mvc:default-servlet-handler/>
+
+    <context:component-scan base-package="com.mt940.domain"/>
+    <context:component-scan base-package="com.mt940.dao"/>
+    <context:component-scan base-package="com.mt940.ui"/>
+
+    <bean id="bkvUserDetailsService" class="com.mt940.ui.service.BKVUserDetailsService"/>
+
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
+
+    <bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+        <property name="prefix" value="/WEB-INF/templates/"/>
+        <property name="suffix" value=".html"/>
+        <property name="templateMode" value="HTML5"/>
+    </bean>
+
+    <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver"/>
+        <property name="additionalDialects">
+            <set>
+                <bean class="org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect"/>
+            </set>
+        </property>
+    </bean>
+
+    <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine"/>
+        <property name="order" value="1"/>
+        <property name="viewNames" value="**"/>
+        <property name="staticVariables">
+            <map>
+                <entry key="page_size" value="${bkv.ui.page_size}"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean name="main" class="org.thymeleaf.spring4.view.ThymeleafView"/>
+
+    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+    <mvc:resources mapping="/js/**" location="/js/"/>
+    <mvc:resources mapping="/styles/**" location="/styles/"/>
+    <mvc:resources mapping="/img/**" location="/img/"/>
+
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="registerDefaultFormatters" value="true" />
+        <property name="converters">
+            <set>
+                <bean class="com.mt940.ui.converter.TransactionFilterFormToMT940TransactionSearchRequestConverter"/>
+                <bean class="com.mt940.ui.converter.MT940TransactionStatusToEnumItemConverter"/>
+                <bean class="com.mt940.ui.converter.InstanceToEnumItemConverter"/>
+                <bean class="com.mt940.ui.converter.MT940TransactionToTransactionDetailsConverter"/>
+                <bean class="com.mt940.ui.converter.EARMessageToMessageDetailsConverter"/>
+                <bean class="com.mt940.ui.converter.EARAttachmentToAttachmentDetailsConverter"/>
+                <bean class="com.mt940.ui.converter.MT940StatementToStatementDetailsConverter"/>
+                <bean class="com.mt940.ui.converter.MT940TransactionToTransactionConverter"/>
+                <bean class="com.mt940.ui.converter.BkvUserToUserDetailsConverter"/>
+                <bean class="com.mt940.ui.converter.UserFormToBkvUserConverter"/>
+            </set>
+        </property>
+        <property name="formatters">
+            <set>
+                <bean class="org.springframework.format.number.NumberFormatAnnotationFormatterFactory" />
+            </set>
+        </property>
+        <property name="formatterRegistrars">
+            <set>
+                <bean class="org.springframework.format.datetime.standard.DateTimeFormatterRegistrar">
+                    <property name="dateFormatter">
+                        <bean class="org.springframework.format.datetime.standard.DateTimeFormatterFactoryBean">
+                            <property name="pattern" value="dd/MM/yyyy"/>
+                        </bean>
+                    </property>
+                    <property name="timeFormatter">
+                        <bean class="org.springframework.format.datetime.standard.DateTimeFormatterFactoryBean">
+                            <property name="pattern" value="HH:mm"/>
+                        </bean>
+                    </property>
+                    <property name="dateTimeFormatter">
+                        <bean class="org.springframework.format.datetime.standard.DateTimeFormatterFactoryBean">
+                            <property name="pattern" value="dd/MM/yyyy HH:mm"/>
+                        </bean>
+                    </property>
+                </bean>
+            </set>
+        </property>
+    </bean>
+
+    <!-- formatters for jackson -->
+    <bean id="domainObjectSerializer" class="com.mt940.ui.service.serializer.DomainObjectSerializer"/>
+
+    <bean id="jacksonObjectMapper"
+          class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
+        <property name="serializers">
+            <array>
+                <bean class="com.mt940.ui.service.serializer.DateTimeSerializer"/>
+                <bean class="com.mt940.ui.service.serializer.LocalDateSerializer"/>
+                <bean class="com.mt940.ui.service.serializer.LocalDateTimeSerializer"/>
+                <bean class="com.mt940.ui.service.serializer.LocalTimeSerializer"/>
+                <bean class="com.mt940.ui.service.serializer.AmountSerializer"/>
+            </array>
+        </property>
+        <property name="serializersByType">
+            <map>
+                <entry key="com.mt940.ui.domain.MessageDetails" value-ref="domainObjectSerializer"/>
+                <entry key="com.mt940.ui.domain.AttachmentDetails" value-ref="domainObjectSerializer"/>
+                <entry key="com.mt940.ui.domain.StatementDetails" value-ref="domainObjectSerializer"/>
+                <entry key="com.mt940.ui.domain.TransactionDetails" value-ref="domainObjectSerializer"/>
+            </map>
+        </property>
+    </bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/login**"/>
+            <mvc:exclude-mapping path="/logout**"/>
+            <bean class="com.mt940.ui.interceptor.MainMenuInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <mvc:view-controller path="/login.html" view-name="login"/>
+
+    <!-- $2a$10$VLaQ4DiWUtMEIPr2GMKG0OF4kTgrVftTwVjHBHGNeMGwXyfh/i4h2 is 123 encoded by bcrypt -->
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+</beans>

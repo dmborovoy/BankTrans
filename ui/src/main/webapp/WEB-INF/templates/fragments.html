@@ -1,0 +1,181 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <title>DxBoroView</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.2-1/css/bootstrap.min.css}" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.2-1/css/bootstrap-theme.min.css}" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" th:href="@{/webjars/datatables-plugins/ca6ec50/integration/bootstrap/3/dataTables.bootstrap.css}" href="http://cdn.jsdelivr.net/webjars/org.webjars/datatables-plugins/ca6ec50/integration/bootstrap/3/dataTables.bootstrap.css"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-datetimepicker/2.3.1/css/bootstrap-datetimepicker.min.css}" href="http://cdn.jsdelivr.net/webjars/org.webjars/bootstrap-datetimepicker/2.3.1/css/datetimepicker.css"/>
+    <link rel="stylesheet" th:href="@{/styles/style.css}" href="../../styles/style.css"/>
+</head>
+<body>
+<div class="container">
+    <div th:fragment="nav" class="row">
+        <div class="page-header">
+            <img id="logo" th:src="@{/img/dxboro.png}" src="img/dxboro.png"/>
+        </div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a href="#" th:href="@{/}" class="navbar-brand">DxBoroView</a>
+                </div>
+                <ul id="mainMenu" class="nav navbar-nav">
+                    <li role="presentation" th:classappend="${controllerName} eq 'MessagesController' ? 'active'"><a href="#" th:href="@{/emails}">Emails</a></li>
+                    <li role="presentation" th:classappend="${controllerName} eq 'AttachmentsController' ? 'active'"><a href="attachments.html" th:href="@{/attachments}">Attachments</a></li>
+                    <li role="presentation" th:classappend="${controllerName} eq 'StatementsController' ? 'active'"><a href="statements.html" th:href="@{/statements}">Statements</a></li>
+                    <li role="presentation" th:classappend="${controllerName} eq 'TransactionsController' ? 'active'"><a href="transactions.html" th:href="@{/transactions}">Transactions</a></li>
+                    <li sec:authorize="${hasRole('ROLE_UI_ADMIN')}" class="dropdown" th:classappend="${controllerName} eq 'UsersController' ? 'active'">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li th:classappend="${controllerName} eq 'UsersController' ? 'active'">
+                                <a href="#" th:href="@{/admin/users}">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                    Users
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" th:href="@{/admin/system}">
+                                    <span class="glyphicon glyphicon-th-large"></span>
+                                    System
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li role="presentation"><a id="logoutLink" href="#" th:href="@{/logout}">Logout</a></li>
+                </ul>
+                <form id="logoutForm" th:action="@{/logout}" method="post">
+                </form>
+            </div>
+        </nav>
+        <div class="overflow-hidden">
+        </div>
+    </div>
+
+    <div th:fragment="modal" class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModelLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="prop-table-target"></div>
+                </div>
+                <div class="modal-footer">
+                    <button id="detailsModalCloseBtn" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="saveBtn" type="button" class="btn btn-primary" disabled="disabled">Save</button>
+                </div>
+            </div>
+        </div>
+        <script id="prop-table-template" type="x-tmpl-mustache">
+        <table class="table" id="fieldsTable">
+            <thead>
+            <tr>
+                <th>field</th>
+                <th>value</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#items}}
+            <tr>
+                <td class="field-name">{{name}}</td>
+                <td>
+                    <span id="field-value-{{name}}-target" class="field-value" data-field-name="{{name}}" data-current-value="{{value}}" data-value="{{value}}">{{value}}</span>
+                    {{#editable}}
+                    <button data-name="{{name}}" type="button" class="btn btn-default btn-xs pull-right edit-field-btn">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    </button>
+                    {{/editable}}
+                </td>
+            </tr>
+            {{/items}}
+            </tbody>
+        </table>
+    </script>
+        <script id="select-template" type="x-tmpl-mustache">
+        <select class="form-control">
+            {{#items}}
+            <option value="{{value}}">{{name}}</option>
+            {{/items}}
+        </select>
+    </script>
+        <script id="details-button" type="x-tmpl-mustache">
+        <button type="button" class="btn btn-default btn-xs detailsBtn" data-toggle="modal" data-target="#detailsModal">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> details
+        </button>
+    </script>
+    </div>
+
+    <div th:fragment="filter" class="pull-right bottom-margin">
+        <span th:unless="${form.isFilterEmpty()}">Found <span th:text="${count}">99</span> records</span>
+        <button class="btn btn-default btn-sm" th:class="${form.isFilterEmpty()} ? 'btn btn-default btn-sm' : 'btn btn-primary btn-sm'" type="button" id="filterToggleBtn">
+            Filter
+            <span class="caret"></span>
+        </button>
+    </div>
+
+    <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#detailsModal" data-id="1" th:attr="data-id=${item.id}">
+        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> details
+    </button>
+</div>
+
+<script th:src="@{/webjars/jquery/2.1.3/jquery.min.js}" src="/webjars/jquery/2.1.3/jquery.min.js"></script>
+<script th:src="@{/webjars/bootstrap/3.3.2-1/js/bootstrap.min.js}" src="/webjars/bootstrap/3.3.2-1/js/bootstrap.min.js"></script>
+<script th:src="@{/webjars/datatables/1.10.5/js/jquery.dataTables.min.js}" src="/webjars/datatables/1.10.5/js/jquery.dataTables.min.js"></script>
+<script th:src="@{/webjars/datatables-plugins/ca6ec50/integration/bootstrap/3/dataTables.bootstrap.js}" src="/webjars/datatables-plugins/ca6ec50/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+<script th:src="@{/webjars/bootstrap-datetimepicker/2.3.1/js/bootstrap-datetimepicker.min.js}" src="http://cdn.jsdelivr.net/webjars/org.webjars/bootstrap-datetimepicker/2.3.1/js/bootstrap-datetimepicker.min.js"></script>
+<script th:src="@{/webjars/mustachejs/0.8.1/mustache.js}" src="/webjars/mustachejs/0.8.1/mustache.js"></script>
+
+<!-- a little playground -->
+<script th:inline="javascript">
+/*<![CDATA[*/
+    var data = [{"name":"id","value":19,"editable":false},{"name":"date","value":1390222800000,"editable":false},{"name":"Entry Date","value":1390222800000,"editable":false},{"name":"Funds Code","value":"DEBIT","editable":false},{"name":"amount","value":290704.000000,"editable":false},{"name":"currency","value":"USD","editable":false},{"name":"Swift Code","value":"NTRF","editable":false},{"name":"Reference For Account Owner","value":".","editable":false},{"name":"Reference For Bank","value":"2935372","editable":false},{"name":"Transaction Description","value":"bla","editable":false},{"name":"Statement Id","value":4,"editable":false},{"name":"Status","value":"NEW","editable":true},{"name":"Error Description","value":null,"editable":false},{"name":"Instance","value":"NXPAY_EU","editable":true},{"name":"Entry Order","value":1,"editable":false},{"name":"Raw Transaction","value":null,"editable":false},{"name":"Information to Account Owner","value":"GLOBAL REACH PARTNERS LIMITED\\nEUR290700.00\\nZB3243\\n","editable":false}];
+    $(document).ready(function() {
+        var changedFields = {};
+        var propTableTemplate = $("#prop-table-template").html();
+        Mustache.parse(propTableTemplate);
+        $("#prop-table-target").html(Mustache.render(propTableTemplate, {"items": data}));
+
+        var selectTemplate = $("#select-template").html();
+        Mustache.parse(selectTemplate);
+
+        var statuses = /*[[${statuses}]]*/ [{name: "status1", value: 1}, {name: "status2", value: 2}];
+        var instances = /*[[${instances}]]*/ [{name: "instance1", value: 1}, {name: "instance2", value: 2}];
+        $(".edit-field-btn").on("click", function (event) {
+            var fieldName = $(this).data("name");
+            var $target;
+            if (fieldName == "Status") {
+                $target = $("#field-value-Status-target");
+                $target.html(Mustache.render(selectTemplate, {"items": statuses}));
+            } else if(fieldName == "Instance") {
+                $target = $("#field-value-Instance-target");
+                $target.html(Mustache.render(selectTemplate, {"items": instances}));
+            }
+            var $select = $target.find("select");
+            $select.on("change", function(event) {
+                var oldValue = $target.data("value");
+                var newValue = $select.find("option:selected").text();
+
+                if (oldValue == newValue) {
+                    changedFields[fieldName] = newValue;
+                } else {
+                    delete changedFields[fieldName];
+                }
+
+                var $saveBtn = $("#saveBtn");
+                if (changedFields.length == 0) {
+                    $saveBtn.attr("disabled", "disabled");
+                } else {
+                    $saveBtn.removeAttr("disabled");
+                }
+            });
+            $(this).addClass("hidden");
+        });
+    });
+/*]]>*/
+</script>
+
+</body>
+</html>

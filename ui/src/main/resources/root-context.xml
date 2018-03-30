@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <beans profile="test">
+        <context:property-placeholder location="classpath:/ui-default.properties,classpath:/ui-test.properties"/>
+        <import resource="classpath:/data-source.xml"/>
+        <import resource="classpath:/entity-manager.xml"/>
+        <!--<import resource="data-init.xml"/>-->
+    </beans>
+    <beans profile="dev">
+        <context:property-placeholder location="classpath:ui-default.properties"/>
+        <import resource="classpath:/data-source.xml"/>
+        <import resource="classpath:/entity-manager.xml"/>
+    </beans>
+    <beans profile="live">
+        <context:property-placeholder system-properties-mode="OVERRIDE" location="#{ systemProperties['properties'] }"/>
+        <import resource="classpath:/data-source.xml"/>
+        <import resource="classpath:/entity-manager.xml"/>
+    </beans>
+
+    <beans>
+        <import resource="classpath:/security.xml"/>
+        <import resource="classpath:/servlet-context.xml"/>
+    </beans>
+
+</beans>

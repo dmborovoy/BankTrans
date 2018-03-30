@@ -1,0 +1,55 @@
+package com.mt940.ui.service;
+
+import com.mt940.dao.jpa.BKVUserDao;
+import com.mt940.domain.enums.BKVRoles;
+import com.mt940.domain.permission.BKVUser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Service("bkvUserDetailsService")
+public class BKVUserDetailsService implements UserDetailsService {
+
+    protected Logger l = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    @Qualifier(value = "bkvUserDaoImpl")
+    private BKVUserDao userDao;
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+        BKVUser user = userDao.findUser(username);
+        l.info("BKVUser: {}", user);
+        List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
+        return buildUserForAuthentication(user, authorities);
+    }
+
+    private User buildUserForAuthentication(BKVUser user, List<GrantedAuthority> authorities) {
+        return new User(user.getLogin(), user.getPassword(), !user.isDisabled(), true, true, true, authorities);
+    }
+
+    private List<GrantedAuthority> buildUserAuthority(Set<BKVRoles> userRoles) {
+        Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
+
+        for (BKVRoles userRole : userRoles) {
+            setAuths.add(new SimpleGrantedAuthority("ROLE_" + userRole.name()));
+        }
+
+        return new ArrayList<GrantedAuthority>(setAuths);
+    }
+}

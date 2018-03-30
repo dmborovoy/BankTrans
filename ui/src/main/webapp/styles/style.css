@@ -1,0 +1,38 @@
+.container {
+    margin-bottom: 20px;
+}
+
+.container_login {
+    width: 450px;
+    margin: 0 auto;
+    padding-top: 170px;
+}
+
+.container_login #logo {
+    text-align: center;
+}
+
+.container_login #logo img {
+    width: 250px;
+    margin-bottom: 15px;
+}
+
+.top-margin {
+    margin-top: 10px;
+}
+
+.bottom-margin {
+    margin-bottom: 5px;
+}
+
+.position-absolute {
+    position: absolute;
+}
+
+.container #logo {
+    width: 250px;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}

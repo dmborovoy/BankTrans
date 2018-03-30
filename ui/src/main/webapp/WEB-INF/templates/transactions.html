@@ -1,0 +1,431 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DxBoroView - Transactions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.2-1/css/bootstrap.min.css}" href="/webjars/bootstrap/3.3.2-1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.2-1/css/bootstrap-theme.min.css}" href="/webjars/bootstrap/3.3.2-1/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" th:href="@{/webjars/datatables-plugins/ca6ec50/integration/bootstrap/3/dataTables.bootstrap.css}" href="/webjars/datatables-plugins/ca6ec50/integration/bootstrap/3/dataTables.bootstrap.css"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-datetimepicker/2.3.1/css/bootstrap-datetimepicker.min.css}" href="http://cdn.jsdelivr.net/webjars/org.webjars/bootstrap-datetimepicker/2.3.1/css/datetimepicker.css"/>
+    <link rel="stylesheet" th:href="@{/styles/style.css}" href="/styles/style.css"/>
+</head>
+<body>
+<div class="container">
+    <div class="row" th:replace="fragments :: nav">
+        <div class="page-header">
+            <h1>DXBORO <small>DXBORO Inc.</small></h1>
+        </div>
+        <ul class="nav nav-tabs">
+            <li role="presentation"><a href="#" th:href="@{/emails}">Emails</a></li>
+            <li role="presentation"><a href="#" th:href="@{/attachments}">Attachments</a></li>
+            <li role="presentation"><a href="#" th:href="@{/statements}">Statements</a></li>
+            <li role="presentation" class="active"><a href="#" th:href="@{/transactions}">Transactions</a></li>
+        </ul>
+    </div>
+
+    <!-- filter -->
+    <div class="top-margin">
+        <div th:replace="fragments :: filter" class="pull-right bottom-margin">
+            <span th:unless="${form.isFilterEmpty()}">Found <span th:text="${count}">99</span> records</span>
+            <button class="btn btn-default btn-sm" th:class="${form.isFilterEmpty()} ? 'btn btn-default btn-sm' : 'btn btn-primary btn-sm'" type="button" id="filterToggleBtn">
+                Filter
+                <span class="caret"></span>
+            </button>
+        </div>
+    </div>
+    <div id="filterPanel" class="row hidden">
+        <form id="filterForm" class="col-sm-offset-2 col-sm-10 panel form-horizontal" th:action="@{/transactions/filter}" th:object="${form}" method="post">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="from" class="col-sm-4 control-label">From</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input type="text" class="datetime form-control" id="from" name="from" placeholder="from" th:value="*{{from}}"/>
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="to" class="col-sm-4 control-label">To</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input type="text" class="datetime form-control" id="to" name="to" placeholder="to" th:value="*{{to}}"/>
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="messageId" class="col-sm-4 control-label">Email Id</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="messageId" name="messageId" placeholder="email id" th:value="*{messageId}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fileId" class="col-sm-4 control-label">File Id</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="fileId" name="fileId" placeholder="file id" th:value="*{fileId}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="statementId" class="col-sm-4 control-label">Statement Id</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="statementId" name="statementId" placeholder="statementId" th:value="*{statementId}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="status" class="col-sm-4 control-label">Status</label>
+                        <div class="col-sm-8">
+                            <select id="status" class="form-control" name="status" th:field="*{status}">
+                                <option value=""></option>
+                                <option th:each="status: ${T(com.mt940.domain.enums.EARAttachmentStatus).values()}"
+                                        th:value="${{status.code}}"
+                                        th:text="${{status}}">NEW</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="instance" class="col-sm-4 control-label">Instance</label>
+                        <div class="col-sm-8">
+                            <select id="instance" class="form-control" name="instance" th:field="*{instance}">
+                                <option value=""></option>
+                                <option th:each="code: ${T(com.mt940.domain.enums.Instance).values()}"
+                                        th:value="${{code.code}}"
+                                        th:text="${{code}}">LEGCOM</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fundsCode" class="col-sm-4 control-label">FundsCode</label>
+                        <div class="col-sm-8">
+                            <select id="fundsCode" class="form-control" name="fundsCode" th:field="*{fundsCode}">
+                                <option value=""></option>
+                                <option th:each="code: ${T(com.mt940.domain.enums.MT940FundsCode).values()}"
+                                        th:value="${{code}}"
+                                        th:text="${{code}}">Debit</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="infoToAccountOwner" class="col-sm-4 control-label">Info To Account Owner</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="infoToAccountOwner" name="infoToAccountOwner" placeholder="infoToAccountOwner" th:value="*{infoToAccountOwner}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="refForAccountOwner" class="col-sm-4 control-label">Ref For Account Owner</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="refForAccountOwner" name="refForAccountOwner" placeholder="refForAccountOwner" th:value="*{refForAccountOwner}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="refForBank" class="col-sm-4 control-label">Ref For Bank</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="refForBank" name="refForBank" placeholder="refForBank" th:value="*{refForBank}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="transactionDescription" class="col-sm-4 control-label">Transaction Description</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="transactionDescription" name="transactionDescription" placeholder="transaction description" th:value="*{transactionDescription}"/>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10 text-center">
+                        <button type="submit" class="btn btn-default">Filter</button>
+                        <button id="resetBtn" type="reset" class="btn btn-default">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- / filter -->
+
+    <div class="row top-margin">
+        <table class="grid table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>email id</th>
+                <th>file id</th>
+                <th>stmt id</th>
+                <th>amount</th>
+                <th>currency</th>
+                <th>date</th>
+                <th>description</th>
+                <th>ref for account owner</th>
+                <th>instance</th>
+                <th>funds code</th>
+                <th>status</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tr th:each="item : ${items}">
+                <td th:text="${{item.id}}">1</td>
+                <td th:text="${{item.messageId}}">1</td>
+                <td th:text="${{item.fileId}}">2</td>
+                <td th:text="${{item.statementId}}">3</td>
+                <td th:text="${{item.amount.amount}}">199</td>
+                <td th:text="${{item.amount.currency}}">EUR</td>
+                <td th:text="${{item.date}}">10-10-2099</td>
+                <td th:text="${{item.transactionDescription}}">description</td>
+                <td th:text="${{item.referenceForAccountOwner}}">ref for account owner</td>
+                <td th:text="${{item.instance}}">NXPAY.EU</td>
+                <td th:text="${{item.fundsCode}}">C</td>
+                <td th:text="${{item.status}}">NEW</td>
+                <td>
+                    <button type="button" class="btn btn-default btn-xs detailsBtn" data-toggle="modal" data-target="#detailsModal" data-id="1" th:attr="data-id=${item.id}">
+                        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> details
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div th:replace="fragments :: modal" class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Details</h4>
+            </div>
+            <div class="modal-body">
+                <div id="prop-table-target"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="saveBtn" type="button" class="btn btn-primary" disabled="disabled">Save</button>
+            </div>
+        </div>
+    </div>
+    <script id="prop-table-template" type="x-tmpl-mustache">
+        <table class="table" id="fieldsTable">
+            <thead>
+            <tr>
+                <th>field</th>
+                <th>value</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#items}}
+            <tr>
+                <td class="field-name">{{name}}</td>
+                <td>
+                    <span id="field-value-{{name}}-target" class="field-value" data-value="{{value}}">{{value}}</span>
+                    {{#editable}}
+                    <button data-name="{{name}}" type="button" class="btn btn-default btn-xs pull-right edit-field-btn">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    </button>
+                    {{/editable}}
+                </td>
+            </tr>
+            {{/items}}
+            </tbody>
+        </table>
+    </script>
+    <script id="select-template" type="x-tmpl-mustache">
+        <select class="form-control">
+            {{#items}}
+            <option value="{{value}}">{{value}}</option>
+            {{/items}}
+        </select>
+    </script>
+    <script id="details-button" type="x-tmpl-mustache">
+        <button type="button" class="btn btn-default btn-xs detailsBtn" data-toggle="modal" data-target="#detailsModal">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> details
+        </button>
+    </script>
+</div>
+
+<script th:src="@{/webjars/jquery/2.1.3/jquery.min.js}" src="/webjars/jquery/2.1.3/jquery.min.js"></script>
+<script th:src="@{/webjars/bootstrap/3.3.2-1/js/bootstrap.min.js}" src="/webjars/bootstrap/3.3.2-1/js/bootstrap.min.js"></script>
+<script th:src="@{/webjars/datatables/1.10.5/js/jquery.dataTables.js}" src="/webjars/datatables/1.10.5/js/jquery.dataTables.js"></script>
+<script th:src="@{/webjars/datatables-plugins/ca6ec50/integration/bootstrap/3/dataTables.bootstrap.js}" src="/webjars/datatables-plugins/ca6ec50/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+<script th:src="@{/webjars/bootstrap-datetimepicker/2.3.1/js/bootstrap-datetimepicker.min.js}" src="http://cdn.jsdelivr.net/webjars/org.webjars/bootstrap-datetimepicker/2.3.1/js/bootstrap-datetimepicker.min.js"></script>
+<script th:src="@{/webjars/mustachejs/0.8.1/mustache.js}" src="/webjars/mustachejs/0.8.1/mustache.js"></script>
+<script th:src="@{/js/s.js}" src="/js/s.js"/>
+<script th:inline="javascript">
+$(document).ready(function(){
+    function countProperties(obj) {
+        var count = 0;
+
+        for(var prop in obj) {
+            if(obj.hasOwnProperty(prop))
+                ++count;
+        }
+
+        return count;
+    }
+
+    function selectedValue(data, selected) {
+        for (var prop in data) {
+            var item = data[prop];
+            if (item.name == selected) {
+                return item.value;
+            }
+        }
+    }
+
+    var $saveBtn = $("#saveBtn");
+    var changedFields = {};
+
+    var selectTemplate = $("#select-template").html();
+    Mustache.parse(selectTemplate);
+
+    var page_size = /*[[${page_size}]]*/ 100;
+    var $table = $('.grid.table').DataTable({
+        "iDisplayLength": page_size,
+        "processing": true,
+        "serverSide": true,
+        "sDom": "rtip",
+        "columns": [
+            { "data": 'id'},
+            { "data": 'messageId'},
+            { "data": 'fileId'},
+            { "data": 'statementId'},
+            { "data": 'amount'},
+            { "data": 'currency'},
+            { "data": 'date'},
+            { "data": 'transactionDescription'},
+            { "data": 'referenceForAccountOwner'},
+            { "data": 'instance'},
+            { "data": 'fundsCode'},
+            { "data": 'status'},
+            { "orderable": false}
+        ],
+        "columnDefs": [
+            { "name": 'id', "targets": 0},
+            { "name": 'messageId', "targets": 1, orderable: false},
+            { "name": 'fileId', "targets": 2, orderable: false},
+            { "name": 'statementId', "targets": 3},
+            { "name": 'amount', "targets": 4},
+            { "name": 'currency', "targets": 5},
+            { "name": 'date', "targets": 6},
+            { "name": 'transactionDescription', "targets": 7},
+            { "name": 'referenceForAccountOwner', "targets": 8},
+            { "name": 'instance', "targets": 9},
+            { "name": 'fundsCode', "targets": 10},
+            { "name": 'status', "targets": 11},
+            { "targets": 12, "data": null, "defaultContent": $("#details-button").html(), "orderable": false}
+        ],
+        order: [[6, "desc"]],
+        "fnServerParams": function(data) {
+            var items = $("#filterForm").serializeArray();
+            items.forEach(function(item, idx) {
+                data[item.name] = item.value;
+            });
+        },
+        "ajax": /*[[@{/transactions/data}]]*/ "/transactions/data"
+    });
+
+    $saveBtn.on("click", function(event) {
+        var params = {};
+        for (prop in changedFields) {
+            if (changedFields.hasOwnProperty(prop)) {
+                var fieldName = prop;
+                var obj = changedFields[prop];
+                var value = obj.value;
+
+                params[fieldName.toLocaleLowerCase()] = value;
+            }
+        }
+
+        if (countProperties(params) > 0) {
+            var $modal = $("#detailsModal");
+            params["id"] = $modal.data("id");
+            $.ajax({
+                url: /*[[@{/transactions/update}]]*/ "/transactions/update",
+                data: params,
+                success: function(data, status, xhr) {
+                    $modal.modal("hide");
+                    for (prop in changedFields) {
+                        if (changedFields.hasOwnProperty(prop)) {
+                            var obj = changedFields[prop];
+                            var $target = obj.target;
+
+                            $target.data("current-value", $target.data("value"));
+                        }
+                    }
+                    changedFields = {};
+                    $table.rows().indexes().each(function(idx) {
+                        var row = $table.row(idx);
+                        var d = row.data();
+                        if (d["id"] == params["id"]) {
+                            d["status"] = data.status; // 7 - the number of the status column
+                            row.data(d);
+                            $table.draw();
+                        }
+                    });
+                },
+                error: function() {
+                    alert("error");
+                }
+            });
+        }
+    });
+
+    $("#detailsModal").on("show.bs.modal", function(e) {
+        changedFields = {};
+        $saveBtn.attr("disabled", "disabled");
+    });
+
+    nx_init({
+        "default_url": /*[[@{/transactions}]]*/ "/transactions",
+        "table": $table,
+        "modal_rendered_callback": function () {
+            var statuses = /*[[${statuses}]]*/ [{name: "status1", value: 1}, {name: "status2", value: 2}];
+            var instances = /*[[${instances}]]*/ [{name: "instance1", value: 1}, {name: "instance2", value: 2}];
+            $(".edit-field-btn").on("click", function (event) {
+                var $button = $(this);
+                var fieldName = $(this).data("name");
+                var data;
+                var $target;
+                if (fieldName == "Status") {
+                    data = statuses;
+                    $target = $("#field-value-Status-target");
+
+                } else if(fieldName == "Instance") {
+                    data = instances;
+                    $target = $("#field-value-Instance-target");
+                }
+                $target.html(Mustache.render(selectTemplate, {"items": data}));
+                var $select = $target.find("select");
+                var selectedVal = selectedValue(data, $target.data("value"));
+                $select.val(selectedVal);
+                $select.on("change", function(event) {
+                    var oldValue = $target.data("current-value");
+                    var newValue = $select.find("option:selected").text();
+                    var newCode = $select.find("option:selected").val();
+
+                    if (oldValue == newValue) {
+                        delete changedFields[fieldName];
+                    } else {
+                        changedFields[fieldName] = {"target": $target, "value": newCode};
+                    }
+
+                    if (countProperties(changedFields) == 0) {
+                        $saveBtn.attr("disabled", "disabled");
+                    } else {
+                        $saveBtn.removeAttr("disabled");
+                    }
+                    $target.html(newValue);
+                    $target.data("value", newValue);
+                    $button.removeClass("hidden");
+                });
+                $button.addClass("hidden");
+            });
+
+        }
+    });
+
+});
+</script>
+</body>
+</html>

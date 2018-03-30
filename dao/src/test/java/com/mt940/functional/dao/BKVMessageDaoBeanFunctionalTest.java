@@ -20,9 +20,6 @@ import static org.junit.Assert.assertNotNull;
 
 public class BKVMessageDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctionalTest {
 
-//    @Autowired
-//    @Qualifier(value = "earMessageDaoBean")
-//    com.nxsystems.bank.valletta.dao.EARMessageDao dao;
 
     @Autowired
     @Qualifier(value = "earMessageDaoImpl")

@@ -32,22 +32,22 @@
     <int:chain id="transform-filter-save-parse" input-channel="bkvEmailPollerChannel"
                output-channel="bkvFileSplitterChannel">
         <int:transformer>
-            <bean class="com.nxsystems.bank.bkv.daemon.endpoints.BKVEmailTransformer"/>
+            <bean class="com.mt940.daemon.endpoints.BKVEmailTransformer"/>
         </int:transformer>
         <int:filter>
-            <bean class="com.nxsystems.bank.bkv.daemon.endpoints.BKVEmailFilter"/>
+            <bean class="com.mt940.daemon.endpoints.BKVEmailFilter"/>
         </int:filter>
         <int:service-activator>
-            <bean class="com.nxsystems.bank.bkv.daemon.endpoints.BKVParser"/>
+            <bean class="com.mt940.daemon.endpoints.BKVParser"/>
         </int:service-activator>
         <int:service-activator>
-            <bean class="com.nxsystems.bank.bkv.daemon.endpoints.BKVFinalizer"/>
+            <bean class="com.mt940.daemon.endpoints.BKVFinalizer"/>
         </int:service-activator>
     </int:chain>
 
     <int:chain id="split-save" input-channel="bkvFileSplitterChannel">
         <int:splitter id="split">
-            <bean class="com.nxsystems.bank.bkv.daemon.endpoints.BKVSplitter"/>
+            <bean class="com.mt940.daemon.endpoints.BKVSplitter"/>
         </int:splitter>
         <int-file:outbound-channel-adapter id="save-as-file"
                                            auto-create-directory="true"
@@ -65,7 +65,7 @@
         <int-mail:outbound-channel-adapter mail-sender="bkvMailSender"/>
     </int:chain>
 
-    <bean id="bkvTransactionSearcher" class="com.nxsystems.bank.bkv.daemon.endpoints.BKVTransactionSearcher"/>
+    <bean id="bkvTransactionSearcher" class="com.mt940.daemon.endpoints.BKVTransactionSearcher"/>
 
     <int:inbound-channel-adapter id="numbers" ref="bkvTransactionSearcher" method="startSearchErrorTransactions" channel="bkvEmailErrorNotificationChannel">
         <int:poller max-messages-per-poll="1" cron="${bkv.daemon.error.search.schedule}"/>

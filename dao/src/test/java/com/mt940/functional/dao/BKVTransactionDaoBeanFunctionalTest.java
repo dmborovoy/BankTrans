@@ -21,10 +21,6 @@ import static org.junit.Assert.assertEquals;
 
 public class BKVTransactionDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctionalTest {
 
-//    @Autowired
-//    @Qualifier(value = "mt940TransactionDaoBean")
-//    com.nxsystems.bank.valletta.dao.MT940TransactionDao dao;
-
     @Autowired
     @Qualifier(value = "mt940TransactionDaoImpl")
     MT940TransactionDao dao1;
