@@ -1,14 +1,8 @@
 package com.mt940.domain.permission;
 
-
-
 import com.mt940.domain.enums.Instance;
 
 import javax.persistence.*;
-
-/**
- * Created by dimas on 25.11.2014.
- */
 
 @Entity
 @Table(schema = "bkv", name = "dict_instance")

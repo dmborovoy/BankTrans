@@ -7,9 +7,6 @@ import org.hibernate.annotations.SortType;
 import javax.persistence.*;
 import java.util.SortedSet;
 
-/**
- * Created by dimas on 25.11.2014.
- */
 @Entity
 @Table(schema = "bkv", name = "mt940_statement")
 public class MT940Statement implements Comparable<MT940Statement> {

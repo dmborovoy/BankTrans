@@ -1,7 +1,5 @@
 package com.mt940.domain.permission;
 
-
-
 import com.mt940.domain.converters.BkvRolesConverter;
 import com.mt940.domain.enums.BKVRoles;
 
@@ -9,10 +7,6 @@ import javax.persistence.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
-/**
- * Created by dimas on 25.11.2014.
- */
 
 @Entity
 @Table(schema = "bkv", name = "user")

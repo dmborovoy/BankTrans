@@ -5,10 +5,6 @@ import com.mt940.domain.enums.BKVRoles;
 
 import javax.persistence.*;
 
-/**
- * Created by dimas on 25.11.2014.
- */
-
 @Entity
 @Table(schema = "bkv", name = "dict_role")
 public class BKVRole {

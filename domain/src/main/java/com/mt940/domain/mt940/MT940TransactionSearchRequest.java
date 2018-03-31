@@ -7,9 +7,7 @@ import com.mt940.domain.enums.MT940TransactionStatus;
 
 import java.time.ZonedDateTime;
 
-/**
- * Created by dimas on 3/11/2015.
- */
+
 public class MT940TransactionSearchRequest {
     public Long statementId = null;
     public Long fileId = null;

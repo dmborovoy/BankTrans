@@ -11,9 +11,6 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
-/**
- * Created by dimas on 25.11.2014.
- */
 @Entity
 @Table(schema = "bkv", name = "mt940_transaction")
 @TypeDef(name = "PersistentEnum", typeClass = PersistentEnum.class)
