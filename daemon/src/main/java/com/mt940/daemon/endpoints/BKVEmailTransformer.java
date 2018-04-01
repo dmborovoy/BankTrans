@@ -60,7 +60,7 @@ public class BKVEmailTransformer {
                 .setHeader(BKVHeaders.MAIL_MESSAGE, mailMessage)
                 .setHeader(BKVHeaders.CURRENT_RECEIVED_DATE, currentReceivedDate)
                 .build();
-    }
+    }//
 
     private ZonedDateTime tryToParseReceivedHeader(String[] in) {
         ZonedDateTime result = null;
@@ -72,6 +72,7 @@ public class BKVEmailTransformer {
             if (split.length == 2) {
                 try {
 //                  Thu, 28 May 2015 17:29:12 +0100
+//                  Sat, 31 Mar 2018 19:54:15 -0700 (PDT)
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss Z", Locale.US);
                     String str = split[1].trim().replace("\r\n", " ").replace("\r", " ").replace("\n", " ").replace("  ", " ");
                     log.debug("date to parse: {}", str);

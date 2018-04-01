@@ -32,7 +32,7 @@
         <spring.security.version>4.2.5.RELEASE</spring.security.version>
         <spring.web.version>4.3.14.RELEASE</spring.web.version>
         <spring-data.version>1.11.10.RELEASE</spring-data.version>
-        <spring-integration.version>4.1.5.RELEASE</spring-integration.version>
+        <spring-integration.version>4.3.14.RELEASE</spring-integration.version>
 
         <hibernate.version>5.1.13.Final</hibernate.version>
         <hibernate.scope>compile</hibernate.scope>
