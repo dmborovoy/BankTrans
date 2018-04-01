@@ -28,7 +28,7 @@ public class BKVTransactionDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunct
     @Test
     public void findByAll() throws Exception {
         MT940TransactionStatus status = MT940TransactionStatus.NEW;
-        Instance instance = Instance.NXPAY_COM;
+        Instance instance = Instance.RUSSIA;
         MT940FundsCode fundsCode = MT940FundsCode.DEBIT;
 
         List<MT940Transaction> list = dao1.findByAllNullable(null, null, null, null, null, null, null, null, null, null, null, null);

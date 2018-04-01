@@ -25,6 +25,7 @@ public class MT940PropertyPlaceholderConfigurer extends PropertyPlaceholderConfi
         final Properties properties = super.mergeProperties();
         properties.keySet().stream()
                 .map(p -> p + "=" + properties.get(p))
+                .sorted()
                 .forEach(e -> log.debug("{}", e));
 //        if (propertiesLoggingEnabled) {
 //            StringBuilder stringBuilder = new StringBuilder();

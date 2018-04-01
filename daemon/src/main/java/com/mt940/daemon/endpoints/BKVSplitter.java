@@ -50,6 +50,7 @@ public class BKVSplitter {
             Message<?> message = MessageBuilder.withPayload(attachment.getRawData())
                     .setHeader(FileHeaders.FILENAME, attachment.getUniqueName())
                     .setHeader(BKVHeaders.DIRECTORY, outDir(attachment.getStatus()))
+                    .setHeader("COUNT", attachments.size())
                     .build();
             messages.add(message);
         }

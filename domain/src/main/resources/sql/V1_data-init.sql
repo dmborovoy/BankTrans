@@ -15,10 +15,10 @@ INSERT INTO bkv.dict_funds_code (code, value) VALUES
 
 INSERT INTO bkv.dict_instance (id, code, value, allowed) VALUES
   (-1, 'UNKNOWN', 'UNKNOWN', FALSE),
-  (0, 'LCOM', 'NxPay COM', TRUE),
-  (1, 'LEU', 'NxPay EU', TRUE),
-  (2, 'PEGCOM', 'Pegausus COM', FALSE),
-  (3, 'PEGEU', 'Pegasus EU', TRUE);
+  (0, 'RUSSIA', 'RUSSIA', TRUE),
+  (1, 'EUROPE', 'EUROPE', TRUE),
+  (2, 'ASIA', 'ASIA', FALSE),
+  (3, 'AMERICA', 'AMERICA', TRUE);
 
 INSERT INTO bkv.dict_result_code (code, value) VALUES
   (-1, 'UNKNOWN'),
@@ -57,7 +57,7 @@ INSERT INTO bkv.dict_role (id, description) VALUES
   (103, 'API_CONFIRM_TRANSACTIONS');
 
 INSERT INTO bkv.user (id, login, password, description, super_admin, disabled) VALUES
-  (0, 'nxall', '123', 'this monster is permitted for everething', TRUE, FALSE), -- allowed all instances, all permissions
+  (0, 'dxall', '123', 'this monster is permitted for everething', TRUE, FALSE), -- allowed all instances, all permissions
   (1, 'admin', '$2a$10$Rj3NMGE88KJnyiutHJbNaup/spC5XV.WChz8bI4YBB4OvdYTknzGG', 'super admin', FALSE, FALSE), -- hashed pass 123
   (2, 'ui-admin', '123', 'UI admin', FALSE, FALSE),
   (3, 'api-admin', '123', 'API admin', FALSE, TRUE),
