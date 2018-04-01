@@ -7,10 +7,19 @@
         </encoder>
     </appender>
 
+    <appender name="File-Appender" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_PATH}/logfile-${timestamp-by-second}.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss,SSS} %5p \(%t\) [%c{1}] %m%n</pattern>
+            <outputPatternAsHeader>true</outputPatternAsHeader>
+        </encoder>
+    </appender>
+
     <logger name="ch.qos.logback" level="INFO" />
     <logger name="com.mt940" level="DEBUG" />
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="File-Appender" />
     </root>
 </configuration>

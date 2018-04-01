@@ -332,11 +332,6 @@
                 <version>${logback.version}</version>
                 <scope>${logback.scope}</scope>
             </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>jcl-over-slf4j</artifactId>
-                <version>1.7.11</version>
-            </dependency>
 
 
             <dependency>
