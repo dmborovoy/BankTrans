@@ -28,11 +28,9 @@
             <groupId>org.jadira.usertype</groupId>
             <artifactId>usertype.extended</artifactId>
         </dependency>
-        <!--http://docs.jboss.org/hibernate/orm/4.3/topical/html/metamodelgen/MetamodelGenerator.html-->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
         </dependency>
-
     </dependencies>
 </project>
