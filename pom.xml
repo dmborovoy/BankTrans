@@ -18,48 +18,42 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <project.minimal.maven.version>3.0.0</project.minimal.maven.version>
         <maven-surefire-plugin.redirectTestOutputToFile.unit>false</maven-surefire-plugin.redirectTestOutputToFile.unit>
         <maven-surefire-plugin.redirectTestOutputToFile.functional>true
         </maven-surefire-plugin.redirectTestOutputToFile.functional>
 
-        <org.postgresql.version>42.2.2</org.postgresql.version>
+        <postgresql.version>42.2.2</postgresql.version>
         <hikari.version>2.7.8</hikari.version>
         <thymeleaf.version>2.1.4.RELEASE</thymeleaf.version>
         <lombok.version>1.16.20</lombok.version>
 
         <spring.version>4.3.14.RELEASE</spring.version>
-        <spring.scope>compile</spring.scope>
-        <spring-test.scope>test</spring-test.scope>
         <spring.security.version>4.2.5.RELEASE</spring.security.version>
         <spring.web.version>4.3.14.RELEASE</spring.web.version>
         <spring-data.version>1.11.10.RELEASE</spring-data.version>
         <spring-integration.version>4.3.14.RELEASE</spring-integration.version>
 
         <hibernate.version>5.1.13.Final</hibernate.version>
-        <hibernate.scope>compile</hibernate.scope>
-        <hibernate.validator.version>6.0.9.Final</hibernate.validator.version>
+        <hibernate-validator.version>6.0.9.Final</hibernate-validator.version>
         <hibernate-jpamodelgen.version>5.1.13.Final</hibernate-jpamodelgen.version>
 
         <jadira.user.type.version>5.0.0.GA</jadira.user.type.version>
 
-        <jackson2.version>2.9.5</jackson2.version>
+        <jackson.version>2.9.5</jackson.version>
         <dumbster.version>1.6</dumbster.version>
         <log4jdbc-log4j2-jdbc4.version>1.16</log4jdbc-log4j2-jdbc4.version>
         <log4jdbc-log4j2-jdbc4.scope>test</log4jdbc-log4j2-jdbc4.scope>
         <javassist.version>3.22.0-GA</javassist.version>
 
-        <javax.validation.api.version>2.0.1.Final</javax.validation.api.version>
+        <javax.validation-api.version>2.0.1.Final</javax.validation-api.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <javax.mail.version>1.4.7</javax.mail.version>
 
-        <commons.io.version>2.6</commons.io.version>
-        <commons.lang.version>2.6</commons.lang.version>
+        <commons-io.version>2.6</commons-io.version>
+        <commons-lang.version>2.6</commons-lang.version>
 
         <junit.version>4.12</junit.version>
-        <junit.scope>test</junit.scope>
         <mockito.version>1.10.19</mockito.version>
-        <mockito.scope>test</mockito.scope>
         <log4j2.version>2.3</log4j2.version>
         <log4j2.scope>compile</log4j2.scope>
         <slf4j.version>1.7.12</slf4j.version>
@@ -82,9 +76,6 @@
         <maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
     </properties>
 
-    <prerequisites>
-        <maven>${project.minimal.maven.version}</maven>
-    </prerequisites>
 
     <dependencyManagement>
         <dependencies>
@@ -103,49 +94,42 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
                 <version>${spring.version}</version>
-                <scope>${spring.scope}</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
                 <version>${spring.version}</version>
-                <scope>${spring.scope}</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>${spring.version}</version>
-                <scope>${spring.scope}</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context-support</artifactId>
                 <version>${spring.version}</version>
-                <scope>${spring.scope}</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-jdbc</artifactId>
                 <version>${spring.version}</version>
-                <scope>${spring.scope}</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-orm</artifactId>
                 <version>${spring.version}</version>
-                <scope>${spring.scope}</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
                 <version>${spring.version}</version>
-                <scope>${spring-test.scope}</scope>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring.web.version}</version>
-                <scope>${spring.scope}</scope>
             </dependency>
             <!--Spring-Security-->
             <dependency>
@@ -195,7 +179,7 @@
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
-                <version>${org.postgresql.version}</version>
+                <version>${postgresql.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.zaxxer</groupId>
@@ -207,19 +191,16 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
                 <version>${hibernate.version}</version>
-                <scope>${hibernate.scope}</scope>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-entitymanager</artifactId>
                 <version>${hibernate.version}</version>
-                <scope>${hibernate.scope}</scope>
             </dependency>
             <dependency>
-                <groupId>org.hibernate</groupId>
+                <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator</artifactId>
-                <version>${hibernate.validator.version}</version>
-                <scope>${hibernate.scope}</scope>
+                <version>${hibernate-validator.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
@@ -284,28 +265,28 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
-                <version>${jackson2.version}</version>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${jackson2.version}</version>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>${jackson2.version}</version>
+                <version>${jackson.version}</version>
             </dependency>
             <!-- Apache commons-->
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>${commons.io.version}</version>
+                <version>${commons-io.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
-                <version>${commons.lang.version}</version>
+                <version>${commons-lang.version}</version>
             </dependency>
             <!-- javax-->
             <dependency>
@@ -317,7 +298,7 @@
             <dependency>
                 <groupId>javax.validation</groupId>
                 <artifactId>validation-api</artifactId>
-                <version>${javax.validation.api.version}</version>
+                <version>${javax.validation-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.mail</groupId>
@@ -329,14 +310,14 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
-                <scope>${junit.scope}</scope>
+                <scope>test</scope>
             </dependency>
             <!--Mockito-->
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-all</artifactId>
                 <version>${mockito.version}</version>
-                <scope>${mockito.scope}</scope>
+                <scope>test</scope>
             </dependency>
             <!--Log4j2-->
             <dependency>
