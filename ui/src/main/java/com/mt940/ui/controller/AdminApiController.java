@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/admin/api")
 public class AdminApiController {
-    //protected Logger l = LoggerFactory.getLogger(getClass());
 
     @Qualifier("bkvUserDaoImpl")
     @Autowired
