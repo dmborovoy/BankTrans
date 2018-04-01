@@ -3,9 +3,9 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
     <jdbc:initialize-database data-source="bkvDataSource">
-        <jdbc:script location="classpath:/sql/schema.sql"/>
-        <jdbc:script location="classpath:/sql/patch-299.sql"/>
-        <jdbc:script location="classpath:/sql/data-init.sql"/>
-        <jdbc:script location="classpath:/sql/test-data.sql"/>
+        <jdbc:script location="classpath:/sql/V0_schema.sql"/>
+        <jdbc:script location="classpath:/sql/V2_patch-299.sql"/>
+        <jdbc:script location="classpath:/sql/V1_data-init.sql"/>
+        <jdbc:script location="classpath:/sql/V3_test-data.sql"/>
     </jdbc:initialize-database>
 </beans>
