@@ -23,56 +23,46 @@ import static org.springframework.data.jpa.domain.Specifications.where;
 
 @Repository("earMessageDaoImpl")
 public class EARMessageDaoImpl extends AbstractDao<EARMessage, Long> implements EARMessageDao {
-    //    TODO DB: replace annonime methods with lambda after migration to java8
     @Autowired
     @Qualifier("earMessageRepository")
     private EARMessageRepository earMessageRepository;
 
     private static Specification<EARMessage> sentDateCondition(final ZonedDateTime from, final ZonedDateTime to) {
-        return new Specification<EARMessage>() {
-            @Override
-            public Predicate toPredicate(Root<EARMessage> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (from != null && to != null) {
-                    return cb.between(root.get(EARMessage_.sentDate), from, to);
-                } else if (from != null) {
-                    return cb.greaterThanOrEqualTo(root.get(EARMessage_.sentDate), from);
-                } else if (to != null) {
-                    return cb.lessThanOrEqualTo(root.get(EARMessage_.sentDate), to);
-                } else
-                    return null;
-            }
+        return (root, query, cb) -> {
+            if (from != null && to != null) {
+                return cb.between(root.get(EARMessage_.sentDate), from, to);
+            } else if (from != null) {
+                return cb.greaterThanOrEqualTo(root.get(EARMessage_.sentDate), from);
+            } else if (to != null) {
+                return cb.lessThanOrEqualTo(root.get(EARMessage_.sentDate), to);
+            } else
+                return null;
         };
     }
 
     private static Specification<EARMessage> receivedDateCondition(final ZonedDateTime from, final ZonedDateTime to) {
-        return new Specification<EARMessage>() {
-            @Override
-            public Predicate toPredicate(Root<EARMessage> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (from != null && to != null) {
-                    return cb.between(root.get(EARMessage_.receivedDate), from, to);
-                } else if (from != null) {
-                    return cb.greaterThanOrEqualTo(root.get(EARMessage_.receivedDate), from);
-                } else if (to != null) {
-                    return cb.lessThanOrEqualTo(root.get(EARMessage_.receivedDate), to);
-                } else
-                    return null;
-            }
+        return (root, query, cb) -> {
+            if (from != null && to != null) {
+                return cb.between(root.get(EARMessage_.receivedDate), from, to);
+            } else if (from != null) {
+                return cb.greaterThanOrEqualTo(root.get(EARMessage_.receivedDate), from);
+            } else if (to != null) {
+                return cb.lessThanOrEqualTo(root.get(EARMessage_.receivedDate), to);
+            } else
+                return null;
         };
     }
 
     private static Specification<EARMessage> processingDateCondition(final ZonedDateTime from, final ZonedDateTime to) {
-        return new Specification<EARMessage>() {
-            @Override
-            public Predicate toPredicate(Root<EARMessage> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (from != null && to != null) {
-                    return cb.between(root.get(EARMessage_.processingDate), from, to);
-                } else if (from != null) {
-                    return cb.greaterThanOrEqualTo(root.get(EARMessage_.processingDate), from);
-                } else if (to != null) {
-                    return cb.lessThanOrEqualTo(root.get(EARMessage_.processingDate), to);
-                } else
-                    return null;
-            }
+        return (root, query, cb) -> {
+            if (from != null && to != null) {
+                return cb.between(root.get(EARMessage_.processingDate), from, to);
+            } else if (from != null) {
+                return cb.greaterThanOrEqualTo(root.get(EARMessage_.processingDate), from);
+            } else if (to != null) {
+                return cb.lessThanOrEqualTo(root.get(EARMessage_.processingDate), to);
+            } else
+                return null;
         };
     }
 

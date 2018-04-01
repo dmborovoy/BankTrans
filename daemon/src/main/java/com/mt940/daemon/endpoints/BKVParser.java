@@ -22,9 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 
-/**
- * Created by dimas on 6/15/2015.
- */
 @Service("BKVParser")
 public class BKVParser {
     protected Logger log = LoggerFactory.getLogger(getClass());

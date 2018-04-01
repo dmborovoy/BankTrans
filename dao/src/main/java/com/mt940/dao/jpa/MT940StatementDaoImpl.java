@@ -23,67 +23,54 @@ import static org.springframework.data.jpa.domain.Specifications.where;
 
 @Repository("mt940StatementDaoImpl")
 public class MT940StatementDaoImpl extends AbstractDao<MT940Statement, Long> implements MT940StatementDao {
-    //    TODO DB: replace annonime methods with lambda after migration to java8
     @Autowired
     @Qualifier("mt940StatementRepository")
     private MT940StatementRepository mt940StatementRepository;
 
     private static Specification<MT940Statement> accountIdCondition(final String accountId) {
-        return new Specification<MT940Statement>() {
-            @Override
-            public Predicate toPredicate(Root<MT940Statement> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (accountId != null && accountId.length() > 0) {
-                    return cb.like(cb.lower(root.get(MT940Statement_.accountId)), "%" + accountId.toLowerCase() + "%");
-                } else
-                    return null;
-            }
+        return (root, query, cb) -> {
+            if (accountId != null && accountId.length() > 0) {
+                return cb.like(cb.lower(root.get(MT940Statement_.accountId)), "%" + accountId.toLowerCase() + "%");
+            } else
+                return null;
         };
     }
 
     private static Specification<MT940Statement> relatedReferenceCondition(final String relatedReference) {
-        return new Specification<MT940Statement>() {
-            @Override
-            public Predicate toPredicate(Root<MT940Statement> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (relatedReference != null && relatedReference.length() > 0) {
-                    return cb.like(cb.lower(root.get(MT940Statement_.relatedReference)), "%" + relatedReference.toLowerCase() + "%");
-                } else
-                    return null;
-            }
+        return (root, query, cb) -> {
+            if (relatedReference != null && relatedReference.length() > 0) {
+                return cb.like(cb.lower(root.get(MT940Statement_.relatedReference)), "%" + relatedReference.toLowerCase() + "%");
+            } else
+                return null;
         };
     }
 
     private static Specification<MT940Statement> transactionReferenceCondition(final String transactionReference) {
-        return new Specification<MT940Statement>() {
-            @Override
-            public Predicate toPredicate(Root<MT940Statement> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (transactionReference != null && transactionReference.length() > 0) {
-                    return cb.like(cb.lower(root.get(MT940Statement_.transactionReference)), "%" + transactionReference.toLowerCase() + "%");
-                } else
-                    return null;
-            }
+        return (root, query, cb) -> {
+            if (transactionReference != null && transactionReference.length() > 0) {
+                return cb.like(cb.lower(root.get(MT940Statement_.transactionReference)), "%" + transactionReference.toLowerCase() + "%");
+            } else
+                return null;
         };
     }
 
     private static Specification<MT940Statement> idsCondition(final Long messageId, final Long fileId) {
-        return new Specification<MT940Statement>() {
-            @Override
-            public Predicate toPredicate(Root<MT940Statement> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Join<MT940Statement, EARAttachment> attachmentJoin = null;
-                Join<EARAttachment, EARMessage> messageJoin = null;
-                List<Predicate> predicateList = new ArrayList<Predicate>();
+        return (root, query, cb) -> {
+            Join<MT940Statement, EARAttachment> attachmentJoin = null;
+            Join<EARAttachment, EARMessage> messageJoin = null;
+            List<Predicate> predicateList = new ArrayList<Predicate>();
 //NOTE DB: this complication is required to avoid multiple redundant inner joins
-                if (fileId != null) {
-                    attachmentJoin = root.join(MT940Statement_.settlementFile, JoinType.INNER);
-                    predicateList.add(cb.equal(attachmentJoin.get(EARAttachment_.id), fileId));
-                }
-                if (messageId != null) {
-                    if (attachmentJoin == null)
-                        attachmentJoin = root.join(MT940Statement_.settlementFile, JoinType.INNER);
-                    messageJoin = attachmentJoin.join(EARAttachment_.message, JoinType.INNER);
-                    predicateList.add(cb.equal(messageJoin.get(EARMessage_.id), messageId));
-                }
-                return predicateList.size() > 0 ? cb.and(predicateList.toArray(new Predicate[predicateList.size()])) : null;
+            if (fileId != null) {
+                attachmentJoin = root.join(MT940Statement_.settlementFile, JoinType.INNER);
+                predicateList.add(cb.equal(attachmentJoin.get(EARAttachment_.id), fileId));
             }
+            if (messageId != null) {
+                if (attachmentJoin == null)
+                    attachmentJoin = root.join(MT940Statement_.settlementFile, JoinType.INNER);
+                messageJoin = attachmentJoin.join(EARAttachment_.message, JoinType.INNER);
+                predicateList.add(cb.equal(messageJoin.get(EARMessage_.id), messageId));
+            }
+            return predicateList.size() > 0 ? cb.and(predicateList.toArray(new Predicate[predicateList.size()])) : null;
         };
     }
 

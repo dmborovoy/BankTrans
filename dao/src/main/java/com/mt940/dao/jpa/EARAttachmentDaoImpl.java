@@ -28,26 +28,20 @@ public class EARAttachmentDaoImpl extends AbstractDao<EARAttachment, Long> imple
     private EARAttachmentRepository earAttachmentRepository;
 
     private static Specification<EARAttachment> fileNameCondition(final String fileName) {
-        return new Specification<EARAttachment>() {
-            @Override
-            public Predicate toPredicate(Root<EARAttachment> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (fileName != null && fileName.length() > 0) {
-                    return cb.like(cb.lower(root.get(EARAttachment_.originalName)), "%" + fileName.toLowerCase() + "%");
-                } else
-                    return null;
-            }
+        return (root, query, cb) -> {
+            if (fileName != null && fileName.length() > 0) {
+                return cb.like(cb.lower(root.get(EARAttachment_.originalName)), "%" + fileName.toLowerCase() + "%");
+            } else
+                return null;
         };
     }
 
     private static Specification<EARAttachment> statusCondition(final EARAttachmentStatus status) {
-        return new Specification<EARAttachment>() {
-            @Override
-            public Predicate toPredicate(Root<EARAttachment> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (status != null) {
-                    return cb.equal(root.get(EARAttachment_.status), status);
-                } else
-                    return null;
-            }
+        return (root, query, cb) -> {
+            if (status != null) {
+                return cb.equal(root.get(EARAttachment_.status), status);
+            } else
+                return null;
         };
     }
 
@@ -105,18 +99,15 @@ public class EARAttachmentDaoImpl extends AbstractDao<EARAttachment, Long> imple
     }
 
     private Specification<EARAttachment> idCondition(final Long messageId) {
-        return new Specification<EARAttachment>() {
-            @Override
-            public Predicate toPredicate(Root<EARAttachment> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Join<EARAttachment, EARMessage> messageJoin = null;
-                List<Predicate> predicateList = new ArrayList<Predicate>();
+        return (root, query, cb) -> {
+            Join<EARAttachment, EARMessage> messageJoin = null;
+            List<Predicate> predicateList = new ArrayList<Predicate>();
 //NOTE DB: this complication is required to avoid multiple redundant inner joins
-                if (messageId != null) {
-                    messageJoin = root.join(EARAttachment_.message, JoinType.INNER);
-                    predicateList.add(cb.equal(messageJoin.get(EARMessage_.id), messageId));
-                }
-                return predicateList.size() > 0 ? cb.and(predicateList.toArray(new Predicate[predicateList.size()])) : null;
+            if (messageId != null) {
+                messageJoin = root.join(EARAttachment_.message, JoinType.INNER);
+                predicateList.add(cb.equal(messageJoin.get(EARMessage_.id), messageId));
             }
+            return predicateList.size() > 0 ? cb.and(predicateList.toArray(new Predicate[predicateList.size()])) : null;
         };
     }
 }

@@ -32,102 +32,78 @@ public class MT940TransactionDaoImpl extends AbstractDao<MT940Transaction, Long>
     private MT940TransactionRepository mt940TransactionRepository;
 
     private static Specification<MT940Transaction> statusCondition(final MT940TransactionStatus status) {
-        return new Specification<MT940Transaction>() {
-            @Override
-            public Predicate toPredicate(Root<MT940Transaction> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (status != null) {
-                    return cb.equal(root.get(MT940Transaction_.status), status);
-                } else
-                    return null;
-            }
+        return (root, query, cb) -> {
+            if (status != null) {
+                return cb.equal(root.get(MT940Transaction_.status), status);
+            } else
+                return null;
         };
     }
 
     private static Specification<MT940Transaction> instanceCondition(final Instance instance) {
-        return new Specification<MT940Transaction>() {
-            @Override
-            public Predicate toPredicate(Root<MT940Transaction> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (instance != null) {
-                    return cb.equal(root.get(MT940Transaction_.instance), instance);
-                } else
-                    return null;
-            }
+        return (root, query, cb) -> {
+            if (instance != null) {
+                return cb.equal(root.get(MT940Transaction_.instance), instance);
+            } else
+                return null;
         };
     }
 
     private static Specification<MT940Transaction> fundsCodeCondition(final MT940FundsCode fundsCode) {
-        return new Specification<MT940Transaction>() {
-            @Override
-            public Predicate toPredicate(Root<MT940Transaction> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (fundsCode != null) {
-                    return cb.equal(root.get(MT940Transaction_.fundsCode), fundsCode);
-                } else
-                    return null;
-            }
+        return (root, query, cb) -> {
+            if (fundsCode != null) {
+                return cb.equal(root.get(MT940Transaction_.fundsCode), fundsCode);
+            } else
+                return null;
         };
     }
 
     private static Specification<MT940Transaction> dateCondition(final ZonedDateTime from, final ZonedDateTime to) {
-        return new Specification<MT940Transaction>() {
-            @Override
-            public Predicate toPredicate(Root<MT940Transaction> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (from != null && to != null) {
-                    return cb.between(root.get(MT940Transaction_.date), from, to);
-                } else if (from != null) {
-                    return cb.greaterThanOrEqualTo(root.get(MT940Transaction_.date), from);
-                } else if (to != null) {
-                    return cb.lessThanOrEqualTo(root.get(MT940Transaction_.date), to);
-                } else
-                    return null;
-            }
+        return (root, query, cb) -> {
+            if (from != null && to != null) {
+                return cb.between(root.get(MT940Transaction_.date), from, to);
+            } else if (from != null) {
+                return cb.greaterThanOrEqualTo(root.get(MT940Transaction_.date), from);
+            } else if (to != null) {
+                return cb.lessThanOrEqualTo(root.get(MT940Transaction_.date), to);
+            } else
+                return null;
         };
     }
 
     private static Specification<MT940Transaction> infoToAccountOwnerCondition(final String infoToAccountOwner) {
-        return new Specification<MT940Transaction>() {
-            @Override
-            public Predicate toPredicate(Root<MT940Transaction> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (infoToAccountOwner != null && infoToAccountOwner.length() > 0) {
-                    return cb.like(cb.lower(root.get(MT940Transaction_.informationToAccountOwner)), "%" + infoToAccountOwner.toLowerCase() + "%");
-                } else
-                    return null;
-            }
+        return (root, query, cb) -> {
+            if (infoToAccountOwner != null && infoToAccountOwner.length() > 0) {
+                return cb.like(cb.lower(root.get(MT940Transaction_.informationToAccountOwner)), "%" + infoToAccountOwner.toLowerCase() + "%");
+            } else
+                return null;
         };
     }
 
     private static Specification<MT940Transaction> referenceForAccountOwnerCondition(final String referenceForAccountOwner) {
-        return new Specification<MT940Transaction>() {
-            @Override
-            public Predicate toPredicate(Root<MT940Transaction> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (referenceForAccountOwner != null && referenceForAccountOwner.length() > 0) {
-                    return cb.like(cb.lower(root.get(MT940Transaction_.referenceForAccountOwner)), "%" + referenceForAccountOwner.toLowerCase() + "%");
-                } else
-                    return null;
-            }
+        return (root, query, cb) -> {
+            if (referenceForAccountOwner != null && referenceForAccountOwner.length() > 0) {
+                return cb.like(cb.lower(root.get(MT940Transaction_.referenceForAccountOwner)), "%" + referenceForAccountOwner.toLowerCase() + "%");
+            } else
+                return null;
         };
     }
 
     private static Specification<MT940Transaction> referenceForBankCondition(final String referenceForBank) {
-        return new Specification<MT940Transaction>() {
-            @Override
-            public Predicate toPredicate(Root<MT940Transaction> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (referenceForBank != null && referenceForBank.length() > 0) {
-                    return cb.like(cb.lower(root.get(MT940Transaction_.referenceForBank)), "%" + referenceForBank.toLowerCase() + "%");
-                } else
-                    return null;
-            }
+        return (root, query, cb) -> {
+            if (referenceForBank != null && referenceForBank.length() > 0) {
+                return cb.like(cb.lower(root.get(MT940Transaction_.referenceForBank)), "%" + referenceForBank.toLowerCase() + "%");
+            } else
+                return null;
         };
     }
 
     private static Specification<MT940Transaction> transactionDescriptionCondition(final String transactionDescription) {
-        return new Specification<MT940Transaction>() {
-            @Override
-            public Predicate toPredicate(Root<MT940Transaction> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (transactionDescription != null && transactionDescription.length() > 0) {
-                    return cb.like(cb.lower(root.get(MT940Transaction_.transactionDescription)), "%" + transactionDescription.toLowerCase() + "%");
-                } else
-                    return null;
-            }
+        return (root, query, cb) -> {
+            if (transactionDescription != null && transactionDescription.length() > 0) {
+                return cb.like(cb.lower(root.get(MT940Transaction_.transactionDescription)), "%" + transactionDescription.toLowerCase() + "%");
+            } else
+                return null;
         };
     }
 
@@ -148,35 +124,32 @@ public class MT940TransactionDaoImpl extends AbstractDao<MT940Transaction, Long>
     }
 
     private Specification<MT940Transaction> idsCondition(final Long emailId, final Long fileId, final Long statementId) {
-        return new Specification<MT940Transaction>() {
-            @Override
-            public Predicate toPredicate(Root<MT940Transaction> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Join<MT940Transaction, MT940Statement> statementJoin = null;
-                Join<MT940Statement, EARAttachment> attachmentJoin = null;
-                Join<EARAttachment, EARMessage> messageJoin = null;
+        return (root, query, cb) -> {
+            Join<MT940Transaction, MT940Statement> statementJoin = null;
+            Join<MT940Statement, EARAttachment> attachmentJoin = null;
+            Join<EARAttachment, EARMessage> messageJoin = null;
 
-                List<Predicate> predicateList = new ArrayList<Predicate>();
+            List<Predicate> predicateList = new ArrayList<Predicate>();
 //NOTE DB: this complication is required to avoid multiple redundant inner joins
-                if (statementId != null) {
-                    statementJoin = root.join(MT940Transaction_.statement, JoinType.INNER);
-                    predicateList.add(cb.equal(statementJoin.get(MT940Statement_.id), statementId));
-                }
-                if (fileId != null) {
-                    if (statementJoin == null)
-                        statementJoin = root.join(MT940Transaction_.statement, JoinType.INNER);
-                    attachmentJoin = statementJoin.join(MT940Statement_.settlementFile, JoinType.INNER);
-                    predicateList.add(cb.equal(attachmentJoin.get(EARAttachment_.id), fileId));
-                }
-                if (emailId != null) {
-                    if (statementJoin == null)
-                        statementJoin = root.join(MT940Transaction_.statement, JoinType.INNER);
-                    if (attachmentJoin == null)
-                        attachmentJoin = statementJoin.join(MT940Statement_.settlementFile, JoinType.INNER);
-                    messageJoin = attachmentJoin.join(EARAttachment_.message, JoinType.INNER);
-                    predicateList.add(cb.equal(messageJoin.get(EARMessage_.id), emailId));
-                }
-                return predicateList.size() > 0 ? cb.and(predicateList.toArray(new Predicate[predicateList.size()])) : null;
+            if (statementId != null) {
+                statementJoin = root.join(MT940Transaction_.statement, JoinType.INNER);
+                predicateList.add(cb.equal(statementJoin.get(MT940Statement_.id), statementId));
             }
+            if (fileId != null) {
+                if (statementJoin == null)
+                    statementJoin = root.join(MT940Transaction_.statement, JoinType.INNER);
+                attachmentJoin = statementJoin.join(MT940Statement_.settlementFile, JoinType.INNER);
+                predicateList.add(cb.equal(attachmentJoin.get(EARAttachment_.id), fileId));
+            }
+            if (emailId != null) {
+                if (statementJoin == null)
+                    statementJoin = root.join(MT940Transaction_.statement, JoinType.INNER);
+                if (attachmentJoin == null)
+                    attachmentJoin = statementJoin.join(MT940Statement_.settlementFile, JoinType.INNER);
+                messageJoin = attachmentJoin.join(EARAttachment_.message, JoinType.INNER);
+                predicateList.add(cb.equal(messageJoin.get(EARMessage_.id), emailId));
+            }
+            return predicateList.size() > 0 ? cb.and(predicateList.toArray(new Predicate[predicateList.size()])) : null;
         };
     }
 
