@@ -58,8 +58,8 @@
         <junit.scope>test</junit.scope>
         <mockito.version>1.10.19</mockito.version>
         <mockito.scope>test</mockito.scope>
-        <log4j2.version>2.3</log4j2.version>
-        <log4j2.scope>compile</log4j2.scope>
+        <logback.version>1.2.2</logback.version>
+        <logback.scope>compile</logback.scope>
         <slf4j.version>1.7.12</slf4j.version>
 
         <!--plugin section-->
@@ -284,7 +284,7 @@
                 <version>${hibernate-jpamodelgen.version}</version>
                 <optional>true</optional>
             </dependency>
-            <!-- Themeleaf-->
+            <!-- Thymeleaf-->
             <dependency>
                 <groupId>org.thymeleaf</groupId>
                 <artifactId>thymeleaf</artifactId>
@@ -395,37 +395,26 @@
                 <version>${mockito.version}</version>
                 <scope>${mockito.scope}</scope>
             </dependency>
-            <!--Log4j2-->
+            <!--Logback-->
             <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-api</artifactId>
-                <version>${log4j2.version}</version>
-                <scope>${log4j2.scope}</scope>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+                <scope>${logback.scope}</scope>
             </dependency>
             <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-core</artifactId>
-                <version>${log4j2.version}</version>
-                <scope>${log4j2.scope}</scope>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+                <scope>${logback.scope}</scope>
             </dependency>
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-slf4j-impl</artifactId>
-                <version>${log4j2.version}</version>
-                <scope>${log4j2.scope}</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-to-slf4j</artifactId>
-                <version>${log4j2.version}</version>
-                <scope>${log4j2.scope}</scope>
-            </dependency>
-            <!--Slf4j-->
             <dependency>
                 <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>${slf4j.version}</version>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>1.7.11</version>
             </dependency>
+
+
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
@@ -471,21 +460,18 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
         </dependency>
     </dependencies>
 
