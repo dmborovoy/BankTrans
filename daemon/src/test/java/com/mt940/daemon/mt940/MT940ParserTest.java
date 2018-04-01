@@ -109,15 +109,15 @@ public class MT940ParserTest {
 
     @Test
     public void testTryParseInstance() throws Exception {
-        assertEquals(Instance.NXPAY_COM, validator.tryToParseInstance("LCOM12312321"));
-        assertEquals(Instance.NXPAY_COM, validator.tryToParseInstance("LCOMabc12312321"));
-        assertEquals(Instance.NXPAY_COM, validator.tryToParseInstance("LCOM 12312321"));
-        assertEquals(Instance.NXPAY_EU, validator.tryToParseInstance("LEU12312321"));
-        assertEquals(Instance.PEGASUS_COM, validator.tryToParseInstance("PEGCOM12312321"));
-        assertEquals(Instance.PEGASUS_EU, validator.tryToParseInstance("PEGEU12312321"));
-        assertEquals(Instance.UNKNOWN, validator.tryToParseInstance("PEG COM12312321"));
-        assertEquals(Instance.UNKNOWN, validator.tryToParseInstance(" LCOM12312321"));
-        assertEquals(Instance.UNKNOWN, validator.tryToParseInstance("aLCOM12312321"));
+        assertEquals(Instance.RUSSIA, validator.tryToParseInstance("RUSSIA12312321"));
+        assertEquals(Instance.RUSSIA, validator.tryToParseInstance("RUSSIAabc12312321"));
+        assertEquals(Instance.RUSSIA, validator.tryToParseInstance("RUSSIA 12312321"));
+        assertEquals(Instance.EUROPE, validator.tryToParseInstance("EUROPE12312321"));
+        assertEquals(Instance.ASIA, validator.tryToParseInstance("ASIA12312321"));
+        assertEquals(Instance.AMERICA, validator.tryToParseInstance("AMERICA12312321"));
+        assertEquals(Instance.UNKNOWN, validator.tryToParseInstance("AME RICA12312321"));
+        assertEquals(Instance.UNKNOWN, validator.tryToParseInstance(" AMERICA12312321"));
+        assertEquals(Instance.UNKNOWN, validator.tryToParseInstance("aAMERICA12312321"));
     }
 
     @Test

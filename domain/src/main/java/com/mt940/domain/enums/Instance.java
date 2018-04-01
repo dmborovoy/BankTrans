@@ -2,10 +2,10 @@ package com.mt940.domain.enums;
 
 public enum Instance {
     UNKNOWN(-1, "UNKNOWN", false),
-    NXPAY_COM(0, "LCOM", true),
-    NXPAY_EU(1, "LEU", true),
-    PEGASUS_COM(2, "PEGCOM", false),
-    PEGASUS_EU(3, "PEGEU", true);
+    RUSSIA(0, "RUSSIA", true),
+    EUROPE(1, "EUROPE", true),
+    ASIA(2, "ASIA", false),
+    AMERICA(3, "AMERICA", true);
 
     final int code;
     final String stringCode;

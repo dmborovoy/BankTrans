@@ -68,8 +68,8 @@ public class BKVUserDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctionalTe
     @Test
     public void testInstances() throws Exception {
         BKVUser user = new BKVUser("name", "password", "description", false);
-        BKVInstance instance1 = getEntity(Instance.NXPAY_COM);
-        BKVInstance instance2 = getEntity(Instance.NXPAY_EU);
+        BKVInstance instance1 = getEntity(Instance.RUSSIA);
+        BKVInstance instance2 = getEntity(Instance.EUROPE);
         user.setInstances(new HashSet(Arrays.asList(instance1, instance2)));
         dao.save(user);
         dao.flush();
@@ -113,9 +113,9 @@ public class BKVUserDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctionalTe
     @Test
     public void testFindUser() throws Exception {
         log.debug("+++++++++++++++++++++++++");
-        BKVUser nxall = dao.findUser("nxall");
+        BKVUser nxall = dao.findUser("dxall");
         assertNotNull(nxall);
-        assertEquals("nxall", nxall.getLogin());
+        assertEquals("dxall", nxall.getLogin());
         assertEquals("123", nxall.getPassword());
         assertTrue(nxall.isSuperAdmin());
         assertEquals(0, nxall.getRoles().size());
