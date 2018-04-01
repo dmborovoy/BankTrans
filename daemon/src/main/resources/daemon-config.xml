@@ -8,10 +8,7 @@
         <property name="ignoreResourceNotFound" value="true"/>
         <property name="locations">
             <list>
-                <value>classpath:/default.properties</value>
-                <value>classpath:/daemon-default.properties</value>
-                <value>file:${nxs.home}/etc/bkv-daemon.properties</value>
-                <value>#{ (systemProperties['properties'] != null) ? systemProperties['properties'] : 'classpath:/daemon.properties' }</value>
+                <value>classpath:/daemon.properties</value>
             </list>
         </property>
     </bean>

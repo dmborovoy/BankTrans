@@ -13,7 +13,7 @@ public interface EARAttachmentDao extends Dao<EARAttachment, Long> {
 
     public List<EARAttachment> findByAllNullable(EARAttachmentStatus status, String fileName, Long messageId);
 
-    public Page<EARAttachment> findByAllNullable(EARAttachmentStatus status, String fileName, Long messageId, Pageable pageable);
+    public Page findByAllNullable(EARAttachmentStatus status, String fileName, Long messageId, Pageable pageable);
 
     public EARAttachment findByUniqueName(String uniqueName);
 
