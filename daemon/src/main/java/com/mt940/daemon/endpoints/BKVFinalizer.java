@@ -19,9 +19,8 @@ import com.mt940.daemon.BKVHeaders;
 import com.mt940.dao.jpa.EARMessageDao;
 import com.mt940.domain.EARAttachment;
 import com.mt940.domain.EARMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,9 +34,8 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 public class BKVFinalizer {
-
-    private static final Logger log = LoggerFactory.getLogger(BKVFinalizer.class);
 
     ZonedDateTime currentReceivedDate;
 

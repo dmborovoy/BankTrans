@@ -2,8 +2,7 @@ package com.mt940.daemon.endpoints;
 
 import com.mt940.daemon.BKVHeaders;
 import com.mt940.domain.EARAttachment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.integration.IntegrationMessageHeaderAccessor;
 import org.springframework.integration.annotation.Aggregator;
@@ -19,10 +18,9 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.List;
 
+@Slf4j
 @Service("bkvAggregator")
 public class BKVAggregator {
-
-    private static final Logger log = LoggerFactory.getLogger(BKVAggregator.class);
 
     @Value("${bkv.daemon.email.sender.max-message-to-send}")
     private int maxMessageToSend;

@@ -11,11 +11,10 @@ import com.mt940.domain.enums.MT940FundsCode;
 import com.mt940.domain.mt940.MT940Balance;
 import com.mt940.domain.mt940.MT940Statement;
 import com.mt940.domain.mt940.MT940Transaction;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
@@ -37,12 +36,10 @@ import java.util.Set;
 import static org.junit.Assert.*;
 
 
-
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/functional/bkv-parser-functional-test-context.xml")
 public class BKVParserFunctionalTest {
-    protected Logger l = LoggerFactory.getLogger(getClass());
-
     private String dateFormat = "yyMMdd";
 
     @Autowired
@@ -93,7 +90,7 @@ public class BKVParserFunctionalTest {
         FileInputStream fis = new FileInputStream(file);
         byte[] data = new byte[(int) file.length()];
         int size = fis.read(data);
-        l.info("Read {} bytes", size);
+        log.info("Read {} bytes", size);
         fis.close();
         List<EmailFragment> list = new ArrayList<>();
         list.add(new EmailFragment(data, fileName, null, size, null));

@@ -6,8 +6,7 @@ import com.mt940.daemon.mt940.MT940Parser;
 import com.mt940.domain.EARAttachment;
 import com.mt940.domain.enums.EARAttachmentStatus;
 import com.mt940.domain.mt940.MT940Statement;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.Message;
@@ -22,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 
+@Slf4j
 @Service("BKVParser")
 public class BKVParser {
-    protected Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     @Qualifier(value = "MT940Parser")

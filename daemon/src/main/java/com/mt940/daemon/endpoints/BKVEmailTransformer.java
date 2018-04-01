@@ -18,8 +18,7 @@ package com.mt940.daemon.endpoints;
 import com.mt940.daemon.BKVHeaders;
 import com.mt940.daemon.email.EmailFragment;
 import com.mt940.daemon.email.EmailParserUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.integration.annotation.Transformer;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
@@ -34,9 +33,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+@Slf4j
 public class BKVEmailTransformer {
-
-    protected Logger log = LoggerFactory.getLogger(getClass());
 
     private String relativePath = "/";
 

@@ -7,12 +7,11 @@ import com.mt940.domain.enums.MT940BalanceType;
 import com.mt940.domain.enums.MT940FundsCode;
 import com.mt940.domain.mt940.MT940Balance;
 import com.mt940.domain.mt940.MT940Transaction;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -25,9 +24,8 @@ import java.util.Locale;
 
 import static org.junit.Assert.*;
 
+@Slf4j
 public class MT940ParserTest {
-
-    private Logger l = LoggerFactory.getLogger(getClass());
 
     MT940Parser validator;
     private String dateFormat = "yyMMdd";
@@ -401,9 +399,9 @@ public class MT940ParserTest {
         LocalDate localDate = LocalDate.parse(in, DateTimeFormatter.ofPattern(dateFormat));
         LocalDateTime localDateTime = LocalDate.parse(in, DateTimeFormatter.ofPattern(dateFormat)).atStartOfDay();
         ZonedDateTime zonedDateTime = LocalDate.parse(in, DateTimeFormatter.ofPattern(dateFormat)).atStartOfDay(ZoneId.systemDefault());
-        l.info("{}", localDate);
-        l.info("{}", localDateTime);
-        l.info("{}", zonedDateTime);
+        log.info("{}", localDate);
+        log.info("{}", localDateTime);
+        log.info("{}", zonedDateTime);
 //        in = "1122";
 //        format =  "MMdd";
 //        localDate = LocalDate.parse(in, DateTimeFormatter.ofPattern(dateFormat));

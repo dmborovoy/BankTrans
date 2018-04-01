@@ -17,8 +17,7 @@ package com.mt940.daemon.endpoints;
 
 import com.mt940.daemon.BKVHeaders;
 import com.mt940.daemon.email.EmailFragment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.integration.annotation.Filter;
@@ -29,9 +28,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Slf4j
 public class BKVEmailFilter {
-
-    private static final Logger log = LoggerFactory.getLogger(BKVEmailFilter.class);
 
     @Autowired
     @Qualifier(value = "bkvEmailSearchStrategy")

@@ -15,9 +15,8 @@
  */
 package com.mt940.daemon.email;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import javax.mail.BodyPart;
@@ -34,10 +33,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 public final class EmailParserUtils {
 
 //    TODO DB: add more warnings in log about data content
-    private static final Logger log = LoggerFactory.getLogger(EmailParserUtils.class);
 
     /**
      * Prevent instantiation.

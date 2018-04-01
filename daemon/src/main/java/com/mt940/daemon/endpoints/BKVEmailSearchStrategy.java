@@ -1,8 +1,7 @@
 package com.mt940.daemon.endpoints;
 
 import com.mt940.dao.jpa.EARMessageDao;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.integration.mail.SearchTermStrategy;
@@ -19,10 +18,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
+@Slf4j
 @Service("bkvEmailSearchStrategy")
 public class BKVEmailSearchStrategy implements SearchTermStrategy {
-
-    private static final Logger log = LoggerFactory.getLogger(BKVEmailSearchStrategy.class);
 
     @Autowired
     @Qualifier(value = "earMessageDaoImpl")

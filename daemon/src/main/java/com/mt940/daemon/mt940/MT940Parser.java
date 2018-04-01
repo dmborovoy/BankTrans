@@ -9,8 +9,7 @@ import com.mt940.domain.enums.MT940FundsCode;
 import com.mt940.domain.mt940.MT940Balance;
 import com.mt940.domain.mt940.MT940Statement;
 import com.mt940.domain.mt940.MT940Transaction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -25,6 +24,7 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Slf4j
 @Service("MT940Parser")
 public class MT940Parser {
     
@@ -33,7 +33,6 @@ public class MT940Parser {
     }
 
     String notTag = "([^:]|:[^\\d]|:\\d[^\\d]|:\\d\\d[^:])";
-    private Logger l = LoggerFactory.getLogger(MT940Parser.class);
     //    private String dateFormat = "YYMMDD";
     private String dateFormat = "yyMMdd";
     private String amountReg = "([0-9]+(,){1}([0-9])*){1,15}";
@@ -235,7 +234,7 @@ public class MT940Parser {
         if (in != null) {
             int counter = 0;
             for (String[] s : in) {
-                l.debug("parsing pair MT940Transaction+Info #{}>", ++counter);
+                log.debug("parsing pair MT940Transaction+Info #{}>", ++counter);
                 MT940Transaction transaction = mapMT940Transaction(s[0]);
                 transaction.setInformationToAccountOwner(s[1]);
                 transaction.setEntryOrder(counter - 1);
@@ -278,7 +277,7 @@ public class MT940Parser {
         SortedSet<MT940Statement> statementSet = new TreeSet<MT940Statement>();
         int counter = 0;
         for (String s : in) {
-            l.debug("parsing MT940Statement #{}>>", ++counter);
+            log.debug("parsing MT940Statement #{}>>", ++counter);
             MT940Statement statement = mapMT940Statement(s);
             statement.setEntryOrder(counter - 1);
             statementSet.add(statement);

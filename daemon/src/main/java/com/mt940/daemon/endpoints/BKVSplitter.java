@@ -18,8 +18,7 @@ package com.mt940.daemon.endpoints;
 import com.mt940.daemon.BKVHeaders;
 import com.mt940.domain.EARAttachment;
 import com.mt940.domain.enums.EARAttachmentStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.integration.annotation.Splitter;
 import org.springframework.integration.file.FileHeaders;
@@ -30,9 +29,8 @@ import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class BKVSplitter {
-
-    protected Logger log = LoggerFactory.getLogger(getClass());
 
     @Value("${bkv.daemon.dir.working}")
     private String workingDir;

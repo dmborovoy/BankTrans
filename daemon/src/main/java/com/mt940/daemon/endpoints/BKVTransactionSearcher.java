@@ -4,8 +4,7 @@ import com.mt940.dao.jpa.MT940TransactionDao;
 import com.mt940.domain.enums.MT940FundsCode;
 import com.mt940.domain.enums.MT940TransactionStatus;
 import com.mt940.domain.mt940.MT940Transaction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,14 +16,9 @@ import org.springframework.stereotype.Service;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-/**
- * Created by dimas on 11.12.2014.
- */
-
+@Slf4j
 @Service("bkvTransactionSearcher")
 public class BKVTransactionSearcher {
-
-    protected Logger l = LoggerFactory.getLogger(getClass());
 
     @Autowired
     @Qualifier(value = "mt940TransactionDaoImpl")
@@ -43,14 +37,14 @@ public class BKVTransactionSearcher {
     public Message<?> startSearchErrorTransactions() {
         String totalMessage = "";
         if (errorTransactionSearchEnabled) {
-            l.info("error transaction search is initiated...");
+            log.info("error transaction search is initiated...");
             List<MT940Transaction> errorTransactionList = transactionDao.getErrorTransactionList(MT940FundsCode.DEBIT, MT940TransactionStatus.ERROR_BUSINESS);
             List<MT940Transaction> readTransactionList = transactionDao.getReadTransactionList(MT940FundsCode.DEBIT, MT940TransactionStatus.READ);
             List<MT940Transaction> unknownInstanceTransactionList = transactionDao.getUnknownInstanceTransactionList(MT940FundsCode.DEBIT);
 
-            l.info("Founded '{}' error transactions", errorTransactionList == null ? null : errorTransactionList.size());
-            l.info("Founded '{}' transactions with unknown instance", unknownInstanceTransactionList == null ? null : unknownInstanceTransactionList.size());
-            l.info("Founded '{}' read but not confirmed transactions", readTransactionList == null ? null : readTransactionList.size());
+            log.info("Founded '{}' error transactions", errorTransactionList == null ? null : errorTransactionList.size());
+            log.info("Founded '{}' transactions with unknown instance", unknownInstanceTransactionList == null ? null : unknownInstanceTransactionList.size());
+            log.info("Founded '{}' read but not confirmed transactions", readTransactionList == null ? null : readTransactionList.size());
             String errorTransactionMessage = "";
             String unknownInstanceTransactionMessage = "";
             String readTransactionMessage = "";
@@ -66,7 +60,7 @@ public class BKVTransactionSearcher {
             }
             totalMessage = errorTransactionMessage + unknownInstanceTransactionMessage + readTransactionMessage;
         } else {
-            l.warn("error transaction search is disabled...");
+            log.warn("error transaction search is disabled...");
         }
         if (totalMessage.length() > 0)
             return MessageBuilder.withPayload(totalMessage)
