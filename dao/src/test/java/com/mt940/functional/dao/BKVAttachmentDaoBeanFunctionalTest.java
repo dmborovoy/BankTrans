@@ -3,6 +3,7 @@ package com.mt940.functional.dao;
 import com.mt940.dao.jpa.EARAttachmentDao;
 import com.mt940.domain.EARAttachment;
 import com.mt940.domain.enums.EARAttachmentStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +16,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@Slf4j
 public class BKVAttachmentDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctionalTest {
 
     @Autowired
@@ -34,7 +36,7 @@ public class BKVAttachmentDaoBeanFunctionalTest extends AbstractBKVDaoBeanFuncti
         b = a % 3;
 
         int d = a - b;
-        l.info("" + d);
+        log.info("" + d);
     }
 
     @Test
@@ -46,16 +48,16 @@ public class BKVAttachmentDaoBeanFunctionalTest extends AbstractBKVDaoBeanFuncti
 
         Page<EARAttachment> page = dao1.findAllByPage(pageRequest);
 
-        l.info("total pages: {}", page.getTotalPages());
-        l.info("total elements: {}", page.getTotalElements());
+        log.info("total pages: {}", page.getTotalPages());
+        log.info("total elements: {}", page.getTotalElements());
 
         while (true) {
-            l.info("==============page idx: {}", page.getNumber());
-            l.info("total elements per pages: {}", page.getNumberOfElements());
+            log.info("==============page idx: {}", page.getNumber());
+            log.info("total elements per pages: {}", page.getNumberOfElements());
             for (EARAttachment attachment : page.getContent()) {
-                l.info("attachment: {}", attachment);
-                l.info("mess.id: {}", attachment.getMessage().getId());
-                l.info("stat.size: {}", attachment.getStatementSet().size());
+                log.info("attachment: {}", attachment);
+                log.info("mess.id: {}", attachment.getMessage().getId());
+                log.info("stat.size: {}", attachment.getStatementSet().size());
             }
 //            if (page.hasNextPage())
             if (page.hasNext())

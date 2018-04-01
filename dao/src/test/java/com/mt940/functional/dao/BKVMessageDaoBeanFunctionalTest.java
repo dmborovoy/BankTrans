@@ -3,6 +3,7 @@ package com.mt940.functional.dao;
 import com.mt940.dao.jpa.EARMessageDao;
 import com.mt940.domain.EARAttachment;
 import com.mt940.domain.EARMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,7 +18,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-
+@Slf4j
 public class BKVMessageDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctionalTest {
 
 
@@ -38,37 +39,37 @@ public class BKVMessageDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctiona
         ZonedDateTime to2 = ZonedDateTime.parse("2014-12-16 11:57:30 +1100", f);
 
         List<EARMessage> list = dao1.findByAllNullable(null, null, null, null, null, null);
-        l.info("total elements0: {}", list.size());
+        log.info("total elements0: {}", list.size());
         assertEquals(7, list.size());
         list = dao1.findByAllNullable(from, to, null, null, null, null);
-        l.info("total elements1: {}", list.size());
+        log.info("total elements1: {}", list.size());
         assertEquals(4, list.size());
         list = dao1.findByAllNullable(from, null, null, null, null, null);
-        l.info("total elements2: {}", list.size());
+        log.info("total elements2: {}", list.size());
         assertEquals(6, list.size());
         list = dao1.findByAllNullable(null, to, null, null, null, null);
-        l.info("total elements3: {}", list.size());
+        log.info("total elements3: {}", list.size());
         assertEquals(5, list.size());
 
 
         list = dao1.findByAllNullable(null, null, from1, to1, null, null);
-        l.info("total elements1: {}", list.size());
+        log.info("total elements1: {}", list.size());
         assertEquals(4, list.size());
         list = dao1.findByAllNullable(null, null, from1, null, null, null);
-        l.info("total elements2: {}", list.size());
+        log.info("total elements2: {}", list.size());
         assertEquals(6, list.size());
         list = dao1.findByAllNullable(null, null, null, to1, null, null);
-        l.info("total elements3: {}", list.size());
+        log.info("total elements3: {}", list.size());
         assertEquals(5, list.size());
 
         list = dao1.findByAllNullable(null, null, null, null, from2, to2);
-        l.info("total elements1: {}", list.size());
+        log.info("total elements1: {}", list.size());
         assertEquals(4, list.size());
         list = dao1.findByAllNullable(null, null, null, null, from2, null);
-        l.info("total elements2: {}", list.size());
+        log.info("total elements2: {}", list.size());
         assertEquals(6, list.size());
         list = dao1.findByAllNullable(null, null, null, null, null, to2);
-        l.info("total elements3: {}", list.size());
+        log.info("total elements3: {}", list.size());
         assertEquals(5, list.size());
 
         from = ZonedDateTime.parse("2014-12-05 13:34:42 +1100", f);
@@ -78,12 +79,12 @@ public class BKVMessageDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctiona
         from2 = ZonedDateTime.parse("2014-12-16 11:57:27 +1100", f);
         to2 = ZonedDateTime.parse("2014-12-16 11:57:28 +1100", f);
         list = dao1.findByAllNullable(from, to, from1, to1, from2, to2);
-        l.info("total elements1: {}", list.size());
+        log.info("total elements1: {}", list.size());
         assertEquals(1, list.size());
 
         to2 = ZonedDateTime.parse("2014-12-16 11:57:27 +1100", f);
         list = dao1.findByAllNullable(from, to, from1, to1, from2, to2);
-        l.info("total elements1: {}", list.size());
+        log.info("total elements1: {}", list.size());
         assertEquals(0, list.size());
     }
 
@@ -107,15 +108,15 @@ public class BKVMessageDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctiona
 
         Page<EARMessage> page = dao1.findByAllNullable(from, to, from1, to1, from2, to2, pageRequest);
 
-        l.info("total pages: {}", page.getTotalPages());
-        l.info("total elements: {}", page.getTotalElements());
+        log.info("total pages: {}", page.getTotalPages());
+        log.info("total elements: {}", page.getTotalElements());
 
         while (true) {
-            l.info("==============page idx: {}", page.getNumber());
-            l.info("total elements per pages: {}", page.getNumberOfElements());
+            log.info("==============page idx: {}", page.getNumber());
+            log.info("total elements per pages: {}", page.getNumberOfElements());
             for (EARMessage message : page.getContent()) {
-                l.info("message: {}", message);
-                l.info("att.size: {}", message.getAttachmentList().size());
+                log.info("message: {}", message);
+                log.info("att.size: {}", message.getAttachmentList().size());
             }
 //            if (page.hasNextPage())
             if (page.hasNext())
@@ -149,12 +150,12 @@ public class BKVMessageDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctiona
         List<EARMessage> content = byPage.getContent();
         assertNotNull(content);
         List<EARAttachment> attachmentList = content.get(0).getAttachmentList();
-        l.info("size: {}", attachmentList.size());
+        log.info("size: {}", attachmentList.size());
     }
 
     @Test
     public void testGetLastProcessedDate() throws Exception {
         ZonedDateTime lastReceivedDate = dao1.findLastReceivedDate();
-        l.info("lastProcessedDate: {}", lastReceivedDate);
+        log.info("lastProcessedDate: {}", lastReceivedDate);
     }
 }

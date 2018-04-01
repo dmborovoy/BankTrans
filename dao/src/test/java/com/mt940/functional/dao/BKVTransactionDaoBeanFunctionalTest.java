@@ -5,6 +5,7 @@ import com.mt940.domain.enums.Instance;
 import com.mt940.domain.enums.MT940FundsCode;
 import com.mt940.domain.enums.MT940TransactionStatus;
 import com.mt940.domain.mt940.MT940Transaction;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,7 +19,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-
+@Slf4j
 public class BKVTransactionDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctionalTest {
 
     @Autowired
@@ -32,92 +33,92 @@ public class BKVTransactionDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunct
         MT940FundsCode fundsCode = MT940FundsCode.DEBIT;
 
         List<MT940Transaction> list = dao1.findByAllNullable(null, null, null, null, null, null, null, null, null, null, null, null);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(14, list.size());
 
         list = dao1.findByAllNullable(status, null, null, null, null, null, null, null, null, null, null, null);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(9, list.size());
 
         list = dao1.findByAllNullable(null, instance, null, null, null, null, null, null, null, null, null, null);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(13, list.size());
 
         list = dao1.findByAllNullable(null, null, fundsCode, null, null, null, null, null, null, null, null, null);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(8, list.size());
 
         list = dao1.findByAllNullable(status, instance, fundsCode, null, null, null, null, null, null, null, null, null);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(2, list.size());
 
         list = dao1.findByAllNullable(null, null, null, null, null, null, null, null, null, null, null, 1L);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(4, list.size());
 
         list = dao1.findByAllNullable(null, null, MT940FundsCode.CREDIT, null, null, null, null, null, null, null, null, 1L);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(3, list.size());
 
         list = dao1.findByAllNullable(null, null, null, null, null, null, null, null, null, null, 1L, null);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(6, list.size());
 
         list = dao1.findByAllNullable(null, null, null, null, null, null, null, null, null, null, 1L, 1L);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(4, list.size());
 
         list = dao1.findByAllNullable(null, null, null, null, null, null, null, null, null, 100L, null, null);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(6, list.size());
 
         list = dao1.findByAllNullable(null, null, null, null, null, null, null, null, null, 100L, 1L, null);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(6, list.size());
 
         list = dao1.findByAllNullable(null, null, null, null, null, null, null, null, null, 100L, 1L, 1L);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(4, list.size());
 
         list = dao1.findByAllNullable(null, null, MT940FundsCode.CREDIT, null, null, null, null, null, null, 100L, 1L, 1L);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(3, list.size());
 
         list = dao1.findByAllNullable(null, null, null, null, null, "ONIC", null, null, null, null, null, null);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(2, list.size());
 
         list = dao1.findByAllNullable(null, null, null, null, null, null, "LTD", null, null, null, null, null);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(2, list.size());
 
         list = dao1.findByAllNullable(null, null, null, null, null, null, "ltd", null, null, null, null, null);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(2, list.size());
 
         list = dao1.findByAllNullable(null, null, null, null, null, null, null, "30", null, null, null, null);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(2, list.size());
 
         list = dao1.findByAllNullable(null, null, null, null, null, null, null, null, "bla", null, null, null);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(6, list.size());
 
         DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z");
         ZonedDateTime from = ZonedDateTime.parse("2014-01-19 00:00:00 +1100", f);
         ZonedDateTime to = ZonedDateTime.parse("2014-01-20 00:00:00 +1100", f);
         list = dao1.findByAllNullable(null, null, null, from, to, null, null, null, null, null, null, null);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(8, list.size());
 
         from = ZonedDateTime.parse("2014-01-20 00:00:00 +1100", f);
         list = dao1.findByAllNullable(null, null, null, from, null, null, null, null, null, null, null, null);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(8, list.size());
 
         to = ZonedDateTime.parse("2014-01-19 00:00:00 +1100", f);
         list = dao1.findByAllNullable(null, null, null, null, to, null, null, null, null, null, null, null);
-        l.info("total elements: {}", list.size());
+        log.info("total elements: {}", list.size());
         assertEquals(6, list.size());
     }
 
@@ -131,18 +132,18 @@ public class BKVTransactionDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunct
 
         Page<MT940Transaction> page = dao1.findAllByPage(pageRequest);
 
-        l.info("total pages: {}", page.getTotalPages());
-        l.info("total elements: {}", page.getTotalElements());
+        log.info("total pages: {}", page.getTotalPages());
+        log.info("total elements: {}", page.getTotalElements());
 
         while (true) {
-            l.info("==============page idx: {}", page.getNumber());
-            l.info("total elements per pages: {}", page.getNumberOfElements());
+            log.info("==============page idx: {}", page.getNumber());
+            log.info("total elements per pages: {}", page.getNumberOfElements());
             for (MT940Transaction transaction : page.getContent()) {
-                l.info("transaction: {}", transaction);
-                l.info("mess.id: {}", transaction.getStatement().getSettlementFile().getMessage().getId());
-                l.info("attach.id: {}", transaction.getStatement().getSettlementFile().getId());
-                l.info("stat.id: {}", transaction.getStatement().getId());
-                l.info("funds code: {}", transaction.getFundsCode());
+                log.info("transaction: {}", transaction);
+                log.info("mess.id: {}", transaction.getStatement().getSettlementFile().getMessage().getId());
+                log.info("attach.id: {}", transaction.getStatement().getSettlementFile().getId());
+                log.info("stat.id: {}", transaction.getStatement().getId());
+                log.info("funds code: {}", transaction.getFundsCode());
             }
 //            if (page.hasNextPage()) {
             if (page.hasNext()) {

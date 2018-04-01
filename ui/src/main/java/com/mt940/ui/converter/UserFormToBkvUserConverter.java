@@ -10,9 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.stream.Collectors;
 
-/**
- * Created by vmayorov on 22/05/2015.
- */
 public class UserFormToBkvUserConverter implements Converter<UserForm, BKVUser> {
     @Autowired
     private PasswordEncoder passwordEncoder;

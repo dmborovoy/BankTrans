@@ -11,6 +11,7 @@ import com.mt940.ui.domain.json.DatatablesReturnedData;
 import com.mt940.ui.domain.json.EnumItem;
 import com.mt940.ui.form.DatatablesForm;
 import com.mt940.ui.form.TransactionFilterForm;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Controller
 @RequestMapping("/transactions")
 public class TransactionsController {
@@ -44,8 +46,6 @@ public class TransactionsController {
 
     @Value("${bkv.ui.page_size}")
     private int PAGE_SIZE;
-
-    Logger l = LoggerFactory.getLogger(getClass());
 
     @Transactional
     @RequestMapping
@@ -90,7 +90,7 @@ public class TransactionsController {
             @RequestParam(value = "status", required = false) Integer status,
             @RequestParam(value = "instance", required = false) Integer instance) {
 
-        l.info("update transaction id = {}, status = {}, instance", id, status, instance);
+        log.info("update transaction id = {}, status = {}, instance", id, status, instance);
         MT940Transaction transaction = transactionDao.findById(id);
         if (status != null) {
             transaction.setStatus(MT940TransactionStatus.findByCode(status));

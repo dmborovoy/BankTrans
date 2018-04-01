@@ -4,9 +4,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by dimas on 25.11.2014.
- */
 public enum BKVRoles {
     SUPER_USER(0, true),
     UI_ADMIN(1, true),

@@ -1,8 +1,5 @@
 package com.mt940.domain.enums;
 
-/**
- * Created by dimas on 25.11.2014.
- */
 public enum EARAttachmentStatus {
     NEW(0),
     PROCESSED(1),

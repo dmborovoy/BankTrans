@@ -7,8 +7,7 @@ import com.mt940.ui.domain.json.ValidationErrorMessages;
 import com.mt940.ui.form.UserForm;
 import com.mt940.ui.form.groups.CreateGroup;
 import com.mt940.ui.form.groups.UpdateGroup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
@@ -23,11 +22,12 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @PreAuthorize("hasRole('UI_ADMIN')")
 @Controller
 @RequestMapping("/admin/api")
 public class AdminApiController {
-    protected Logger l = LoggerFactory.getLogger(getClass());
+    //protected Logger l = LoggerFactory.getLogger(getClass());
 
     @Qualifier("bkvUserDaoImpl")
     @Autowired
@@ -96,7 +96,7 @@ public class AdminApiController {
                 message.addMessage(error.getField(), error.getDefaultMessage());
             }
         } else {
-            l.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             message.addMessage(null, e.getMessage());
         }
 

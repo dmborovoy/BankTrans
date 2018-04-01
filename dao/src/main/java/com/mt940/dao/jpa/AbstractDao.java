@@ -1,7 +1,5 @@
 package com.mt940.dao.jpa;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
@@ -10,8 +8,6 @@ import java.io.Serializable;
 import java.util.List;
 
 public abstract class AbstractDao<E, PK extends Serializable> implements Dao<E, PK> {
-
-    protected Logger l = LoggerFactory.getLogger(getClass());
 
     private EntityManager entityManager;
 

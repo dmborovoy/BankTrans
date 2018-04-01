@@ -2,6 +2,7 @@ package com.mt940.functional.dao;
 
 import com.mt940.dao.jpa.MT940StatementDao;
 import com.mt940.domain.mt940.MT940Statement;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+@Slf4j
 public class BKVStatementDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctionalTest {
 
     @Autowired
@@ -28,17 +30,17 @@ public class BKVStatementDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctio
 
         Page<MT940Statement> page = dao1.findAllByPage(pageRequest);
 
-        l.info("total pages: {}", page.getTotalPages());
-        l.info("total elements: {}", page.getTotalElements());
+        log.info("total pages: {}", page.getTotalPages());
+        log.info("total elements: {}", page.getTotalElements());
 
         while (true) {
-            l.info("==============page idx: {}", page.getNumber());
-            l.info("total elements per pages: {}", page.getNumberOfElements());
+            log.info("==============page idx: {}", page.getNumber());
+            log.info("total elements per pages: {}", page.getNumberOfElements());
             for (MT940Statement attachment : page.getContent()) {
-                l.info("statement: {}", attachment);
-                l.info("mess.id: {}", attachment.getSettlementFile().getMessage().getId());
-                l.info("stat.id: {}", attachment.getSettlementFile().getId());
-                l.info("trans.size: {}", attachment.getTransactionSet().size());
+                log.info("statement: {}", attachment);
+                log.info("mess.id: {}", attachment.getSettlementFile().getMessage().getId());
+                log.info("stat.id: {}", attachment.getSettlementFile().getId());
+                log.info("trans.size: {}", attachment.getTransactionSet().size());
             }
 //            if (page.hasNextPage())
             if (page.hasNext())

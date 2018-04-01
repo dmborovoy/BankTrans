@@ -6,9 +6,6 @@ import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-/**
- * Created by dimas on 25.11.2014.
- */
 @Entity
 @Table(schema = "bkv", name = "ear_message")
 public class EARMessage {

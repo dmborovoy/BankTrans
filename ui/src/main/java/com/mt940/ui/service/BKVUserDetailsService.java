@@ -3,8 +3,7 @@ package com.mt940.ui.service;
 import com.mt940.dao.jpa.BKVUserDao;
 import com.mt940.domain.enums.BKVRoles;
 import com.mt940.domain.permission.BKVUser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,10 +20,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 @Service("bkvUserDetailsService")
 public class BKVUserDetailsService implements UserDetailsService {
-
-    protected Logger l = LoggerFactory.getLogger(getClass());
 
     @Autowired
     @Qualifier(value = "bkvUserDaoImpl")
@@ -34,7 +32,7 @@ public class BKVUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         BKVUser user = userDao.findUser(username);
-        l.info("BKVUser: {}", user);
+        log.info("BKVUser: {}", user);
         List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
         return buildUserForAuthentication(user, authorities);
     }

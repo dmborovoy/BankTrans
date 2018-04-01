@@ -7,6 +7,7 @@ import com.mt940.domain.enums.Instance;
 import com.mt940.domain.permission.BKVInstance;
 import com.mt940.domain.permission.BKVRole;
 import com.mt940.domain.permission.BKVUser;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+@Slf4j
 public class BKVUserDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctionalTest {
 
     @Autowired
@@ -30,7 +32,7 @@ public class BKVUserDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctionalTe
     @Test
     public void testDelete() throws Exception {
         BKVUser byId = dao.findById(1L);
-        l.info("{}", byId);
+        log.info("{}", byId);
         assertNotNull(byId);
         dao.deleteById(1L);
 //        dao.flush();
@@ -48,7 +50,7 @@ public class BKVUserDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctionalTe
         dao.clear();
         List<BKVUser> all = dao.findAll();
         assertNotNull(all);
-        l.info("all: {}", all);
+        log.info("all: {}", all);
         BKVUser savedUser = dao.findById(user.getId());
         assertEquals(new HashSet<BKVRoles>(Arrays.asList(BKVRoles.API_ADMIN, BKVRoles.UI_USER)), savedUser.getRoles());
         dao.delete(savedUser);
@@ -56,7 +58,7 @@ public class BKVUserDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctionalTe
         dao.clear();
         all = dao.findAll();
         assertNotNull(all);
-        l.info("all: {}", all);
+        log.info("all: {}", all);
     }
 
     private BKVInstance getEntity(Instance instance) {
@@ -74,13 +76,13 @@ public class BKVUserDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctionalTe
         dao.clear();
         List<BKVUser> all = dao.findAll();
         assertNotNull(all);
-        l.info("all: {}", all);
+        log.info("all: {}", all);
         dao.delete(dao.findById(user.getId()));
         dao.flush();
         dao.clear();
         all = dao.findAll();
         assertNotNull(all);
-        l.info("all: {}", all);
+        log.info("all: {}", all);
     }
 
     @Test(expected = PersistenceException.class)
@@ -110,7 +112,7 @@ public class BKVUserDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctionalTe
 
     @Test
     public void testFindUser() throws Exception {
-        l.debug("+++++++++++++++++++++++++");
+        log.debug("+++++++++++++++++++++++++");
         BKVUser nxall = dao.findUser("nxall");
         assertNotNull(nxall);
         assertEquals("nxall", nxall.getLogin());
