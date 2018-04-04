@@ -24,7 +24,6 @@ public class BKVTransactionSearcher {
     @Qualifier(value = "mt940TransactionDaoImpl")
     MT940TransactionDao transactionDao;
 
-
     @Value("${bkv.daemon.email.sender.subject.ok}")
     private String subjectOk;
 
