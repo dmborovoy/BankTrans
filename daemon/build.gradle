@@ -1,0 +1,20 @@
+
+description = ''
+dependencies {
+  compile project(':dao')
+  compile project(':domain')
+    compile group: 'javax.mail', name: 'mail', version:'1.4.7'
+    compile group: 'org.springframework.integration', name: 'spring-integration-mail', version:'4.3.14.RELEASE'
+    compile group: 'org.springframework.integration', name: 'spring-integration-file', version:'4.3.14.RELEASE'
+    compile group: 'org.springframework', name: 'spring-beans', version:'4.3.14.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version:'4.3.14.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context-support', version:'4.3.14.RELEASE'
+    compile group: 'org.springframework', name: 'spring-core', version:'4.3.14.RELEASE'
+    compile group: 'org.springframework', name: 'spring-orm', version:'4.3.14.RELEASE'
+    compile group: 'org.springframework', name: 'spring-jdbc', version:'4.3.14.RELEASE'
+    compile group: 'commons-lang', name: 'commons-lang', version:'2.6'
+    compile group: 'commons-io', name: 'commons-io', version:'2.6'
+    testCompile group: 'org.springframework.integration', name: 'spring-integration-test', version:'4.3.14.RELEASE'
+    testCompile group: 'org.springframework', name: 'spring-test', version:'4.3.14.RELEASE'
+    testCompile group: 'dumbster', name: 'dumbster', version:'1.6'
+}

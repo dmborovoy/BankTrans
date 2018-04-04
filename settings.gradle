@@ -1,0 +1,10 @@
+rootProject.name = 'mt940'
+include ':domain'
+include ':dao'
+include ':ui'
+include ':daemon'
+
+project(':domain').projectDir = "$rootDir/domain" as File
+project(':dao').projectDir = "$rootDir/dao" as File
+project(':ui').projectDir = "$rootDir/ui" as File
+project(':daemon').projectDir = "$rootDir/daemon" as File

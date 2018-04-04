@@ -1,0 +1,17 @@
+
+description = ''
+dependencies {
+  compile project(':domain')
+    compile group: 'org.springframework', name: 'spring-beans', version:'4.3.14.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version:'4.3.14.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context-support', version:'4.3.14.RELEASE'
+    compile group: 'org.springframework', name: 'spring-core', version:'4.3.14.RELEASE'
+    compile group: 'org.springframework', name: 'spring-orm', version:'4.3.14.RELEASE'
+    compile group: 'org.springframework', name: 'spring-jdbc', version:'4.3.14.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version:'1.11.10.RELEASE'
+    compile group: 'org.hibernate', name: 'hibernate-core', version:'5.1.13.Final'
+    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version:'5.1.13.Final'
+    compile group: 'org.postgresql', name: 'postgresql', version:'42.2.2'
+    compile group: 'com.zaxxer', name: 'HikariCP', version:'2.7.8'
+    testCompile group: 'org.springframework', name: 'spring-test', version:'4.3.14.RELEASE'
+}

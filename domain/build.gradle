@@ -1,0 +1,9 @@
+
+description = ''
+dependencies {
+    compile group: 'org.springframework', name: 'spring-beans', version:'4.3.14.RELEASE'
+    compile group: 'org.hibernate', name: 'hibernate-core', version:'5.1.13.Final'
+    compile group: 'org.jadira.usertype', name: 'usertype.core', version:'5.0.0.GA'
+    compile group: 'org.jadira.usertype', name: 'usertype.extended', version:'5.0.0.GA'
+    compile group: 'org.hibernate', name: 'hibernate-jpamodelgen', version:'5.1.13.Final'
+}
