@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="LOG_PATH" value="logs" />
+    <property name="LOG_PATH" value="target/logs" />
     <timestamp key="timestamp-by-second" datePattern="yyyyMMdd'T'HHmmss"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
