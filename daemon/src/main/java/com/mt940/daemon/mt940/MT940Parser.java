@@ -81,8 +81,10 @@ public class MT940Parser {
             String[] parts = pair.split(":86:");
             String[] out = new String[2];
             if (parts.length == 2) {
-                out[0] = parts[0].trim();
-                out[1] = parts[1].trim();
+//                out[0] = parts[0].trim();
+//                out[1] = parts[1].trim();
+                out[0] = parts[0];
+                out[1] = parts[1];
             } else {
                 out[0] = pair;
                 out[1] = "";

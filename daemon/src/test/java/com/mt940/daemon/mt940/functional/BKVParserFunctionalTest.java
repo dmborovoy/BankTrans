@@ -119,9 +119,12 @@ public class BKVParserFunctionalTest {
         assertEquals(1, statementSet.size());
 
         List<MT940Statement> statementList = new ArrayList<MT940Statement>(statementSet);
-
+        assertNotNull(statementSet);
+        assertEquals(1, statementSet.size());
         MT940Statement statement1 = statementList.get(0);
         log.info("{}", statement1);
+        assertNotNull(statement1.getTransactionSet());
+        assertEquals(19, statement1.getTransactionSet().size());
     }
 
     @Test
