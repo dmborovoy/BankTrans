@@ -12,6 +12,8 @@ was parsed incorrectly. It can be disabled in property file if needed
 to run:
 1. mvn clean install -> you will get uber jar file target/daemon.jar
 2. java -jar daemon.jar
+3. you can override any property via command line e.g. -DdataSource.user=user1
+4. or you can even pass whole property file e.g. -Dext.prop.file=<path to ext file>
 
 
 #ui
