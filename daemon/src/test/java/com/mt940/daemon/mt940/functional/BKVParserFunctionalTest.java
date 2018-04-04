@@ -107,6 +107,23 @@ public class BKVParserFunctionalTest {
         return LocalDate.parse(in, DateTimeFormatter.ofPattern(dateFormat)).atStartOfDay(ZoneId.systemDefault());
     }
 
+
+    @Test
+    public void testSWIFT_MT940_Standard() throws Exception {
+        String fileName = "SWIFT_MT940_Standard_27May.dat";
+        Message<List<EARAttachment>> messageOut = parser.handle(init(fileName));
+        EARAttachment file = extract(messageOut);
+        log.info("{}", file);
+        Set<MT940Statement> statementSet = file.getStatementSet();
+        assertNotNull(statementSet);
+        assertEquals(1, statementSet.size());
+
+        List<MT940Statement> statementList = new ArrayList<MT940Statement>(statementSet);
+
+        MT940Statement statement1 = statementList.get(0);
+        log.info("{}", statement1);
+    }
+
     @Test
     public void testFile40022530437() throws Exception {
         String fileName = "40022530437.dat";

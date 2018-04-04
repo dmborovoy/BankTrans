@@ -48,7 +48,8 @@ public class MT940Parser {
     private Pattern pattern28C = Pattern.compile(String.format(":28C:([^%s]{1,11}){1}", newLineReg1));
 //    private Pattern pattern28C = Pattern.compile(":28C:{1}([\\d]{1,5}(/[\\d]{1,5}){0,1}){1}");
 
-    private Pattern patternMT940Statement = Pattern.compile("\\u0001\\{([^\\u0001\\u0003]+)-\\}\\u0003");
+//    private Pattern patternMT940Statement = Pattern.compile("\\u0001\\{([^\\u0001\\u0003]+)-\\}\\u0003");
+    private Pattern patternMT940Statement = Pattern.compile("\\{([^\\u0001\\u0003]+)-\\}");
     private Pattern patternMT940Balance = Pattern.compile(mt940BalanceReg);
     private Pattern patternMT940Transaction = Pattern.compile(mt940TransactionReg);
     private Pattern patternMT940StatementNumber = Pattern.compile(mt940SequenceNumberReg);
