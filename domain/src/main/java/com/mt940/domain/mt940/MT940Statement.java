@@ -5,6 +5,7 @@ import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.SortedSet;
 
 @Entity
@@ -23,6 +24,8 @@ public class MT940Statement implements Comparable<MT940Statement> {
     private MT940Balance openingBalance;
     private SortedSet<MT940Transaction> transactionSet;
     private MT940Balance closingBalance;
+    private List<MT940Balance> closingAvailableBalance;
+    private List<MT940Balance> forwardAvailableBalance;
     private int entryOrder;
 
     private EARAttachment settlementFile;
@@ -129,6 +132,28 @@ public class MT940Statement implements Comparable<MT940Statement> {
         this.sequenceNumber = sequenceNumber;
     }
 
+//TODO something with that things placed below
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "closing_available_balance_id")
+    public List<MT940Balance> getClosingAvailableBalance() {
+        return closingAvailableBalance;
+    }
+
+    public void setClosingAvailableBalance(List<MT940Balance> closingAvailableBalance) {
+        this.closingAvailableBalance = closingAvailableBalance;
+    }
+
+//    @ManyToOne(cascade = CascadeType.ALL) ??????
+//    @JoinColumn(name = "forward_available_balance_id")
+    public List<MT940Balance> getForwardAvailableBalance() {
+        return forwardAvailableBalance;
+    }
+
+    public void setForwardAvailableBalance(List<MT940Balance> forwardAvailableBalance) {
+        this.forwardAvailableBalance = forwardAvailableBalance;
+    }
+
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "opening_balance_id")
     public MT940Balance getOpeningBalance() {
@@ -181,6 +206,8 @@ public class MT940Statement implements Comparable<MT940Statement> {
                 ", sequenceNumber='" + sequenceNumber + '\'' +
                 ", openingBalance=" + openingBalance +
                 ", closingBalance=" + closingBalance +
+                ", closingAvailableBalance=" + closingAvailableBalance +
+                ", forwardAvailableBalance=" + forwardAvailableBalance +
                 "'}@" + Integer.toHexString(hashCode());
     }
 
@@ -196,6 +223,8 @@ public class MT940Statement implements Comparable<MT940Statement> {
                 "openingBalance=" + "\r\n\t" + openingBalance + "\r\n" +
                 "transactionSet=" + transactionSet + "\r\n" +
                 "closingBalance=" + "\r\n\t" + closingBalance + "\r\n" +
+                ", closingAvailableBalance="+ "\r\n\t" + closingAvailableBalance + "\r\n" +
+                ", forwardAvailableBalance="+ "\r\n\t" + forwardAvailableBalance + "\r\n" +
                 "}@" + Integer.toHexString(hashCode());
     }
 

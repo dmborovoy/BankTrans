@@ -51,6 +51,8 @@ public class MT940Parser {
     private Pattern pattern62F_extract = Pattern.compile(String.format(":62[F|M]:([^%s]{1,25}){1}", newLineReg1));
     private Pattern pattern61_86_base = Pattern.compile(String.format("(:61:[\\w\\d\\W]*?):62[F|M]:"));
     private Pattern pattern61_86 = Pattern.compile(String.format(":61:(%s+):86:(%s+)", notTag, notTag));
+    private Pattern pattern64_extract = Pattern.compile(String.format(":64:([C|D][^\\r\\n]{1,25}){1}"));
+    private Pattern pattern65_extract = Pattern.compile(String.format(":65:([C|D][^\\r\\n]{1,25}){1}"));
     private Pattern patternHeader1 = Pattern.compile(String.format("1:([^:]+)\\}", newLineReg));
     private Pattern patternHeader2 = Pattern.compile(String.format("\\{2:([^:]+)\\}", newLineReg));
     private Pattern patternHeader3 = Pattern.compile(String.format("\\{3:([^%s]+)\\}", newLineReg));
@@ -189,6 +191,38 @@ public class MT940Parser {
         }
         return result;
     }
+
+    public List<MT940Balance> extractClosingAvailableBalance64(String in) throws MT940FormatException {
+        if (in == null) return null;
+        List<MT940Balance> result = new ArrayList<>();
+        List<String> allfields64 = new ArrayList<>();
+        Matcher matcher = pattern64_extract.matcher(in);
+        while (matcher.find()) {
+            allfields64.add(matcher.group(1));
+        }
+        if(allfields64.size() == 0) return null;
+        for (String s : allfields64) {
+            result.add(mapMT940Balance(s));
+        }
+        return result;
+    }
+
+    public List<MT940Balance> extractForwardAvailableBalance65(String in) throws MT940FormatException {
+        if (in == null) return null;
+        List<MT940Balance> result = new ArrayList<>();
+        List<String> allfields65 = new ArrayList<>();
+        Matcher matcher = pattern65_extract.matcher(in);
+        while (matcher.find()) {
+            allfields65.add(matcher.group(1));
+        }
+        if(allfields65.size() == 0) return null;
+        for (String s : allfields65) {
+            result.add(mapMT940Balance(s));
+        }
+        return result;
+    }
+
+
 
     public MT940Balance mapMT940Balance(String in) throws MT940FormatException {
         if (in == null) return null;
@@ -341,6 +375,8 @@ public class MT940Parser {
         }
         statement.setOpeningBalance(mapMT940Balance(extractOpeningBalance60F(data)));
         statement.setClosingBalance(mapMT940Balance(extractClosingBalance62F(data)));
+        statement.setClosingAvailableBalance(extractClosingAvailableBalance64(data));
+        statement.setForwardAvailableBalance(extractForwardAvailableBalance65(data));
         validateMT940Statement(statement);
         statement.setTransactionSet(mapListOfTransactions(extractListOfTransactions(data)));
         for (MT940Transaction transaction : statement.getTransactionSet()) {

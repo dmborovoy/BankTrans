@@ -4,6 +4,7 @@ package com.mt940.daemon.mt940.functional;
 import com.mt940.daemon.email.EmailFragment;
 import com.mt940.daemon.endpoints.BKVParser;
 import com.mt940.daemon.exceptions.MT940MandatoryFieldException;
+import com.mt940.daemon.mt940.MT940Parser;
 import com.mt940.domain.EARAttachment;
 import com.mt940.domain.enums.EARAttachmentStatus;
 import com.mt940.domain.enums.MT940BalanceType;
@@ -409,5 +410,17 @@ public class BKVParserFunctionalTest {
     public void testFileTestFail_omit62F() throws Exception {
         String fileName = "testFail_omit62F.dat";
         parser.handle(init(fileName));
+    }
+
+    @Test
+    public void test64field() throws Exception {
+        String filename = "SWIFT_MT940_Standard_27May.dat";
+        //MT940Parser parser = new MT940Parser();
+//        String result = parser.extractClosingAvailableBalance64(filename);
+//        log.debug(result);
+//        result = parser.extractAccountId25(filename);
+
+        parser.handle(init(filename));
+
     }
 }

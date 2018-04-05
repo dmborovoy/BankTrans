@@ -5,7 +5,7 @@ import com.mt940.domain.mt940.MT940Statement;
 import com.mt940.ui.domain.Amount;
 import com.mt940.ui.domain.StatementDetails;
 import org.springframework.core.convert.converter.Converter;
-
+//TODO add 64/65 fields
 public class MT940StatementToStatementDetailsConverter implements Converter<MT940Statement, StatementDetails> {
     @Override
     public StatementDetails convert(MT940Statement source) {
