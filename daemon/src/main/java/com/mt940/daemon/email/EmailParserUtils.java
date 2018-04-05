@@ -23,7 +23,9 @@ import javax.mail.BodyPart;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
+import javax.mail.internet.ContentType;
 import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.ParseException;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -83,10 +85,10 @@ public final class EmailParserUtils {
 //        }
 
         if (content instanceof String) {
-//            log.debug("skipping body1...");
-//            emailFragments.add(new EmailFragment(new File(subject), "message.txt", content));
-//            emailFragments.add(new EmailFragment(directory, "message.txt", content));
-//            log.warn("skipping message without attachment: {}", mailMessage);
+            log.debug("skipping body1...");
+            emailFragments.add(new EmailFragment(new File(subject), "message.txt", content));
+            emailFragments.add(new EmailFragment(directory, "message.txt", content));
+            log.warn("skipping message without attachment: {}", mailMessage);
         } else if (content instanceof Multipart) {
             Multipart multipart = (Multipart) content;
 //            handleMultipart(directoryToUse, multipart, mailMessage, emailFragments);
@@ -167,11 +169,12 @@ public final class EmailParserUtils {
             }
 
             if (content instanceof String) {
-//                log.warn("skipping body...");
-//                if (Part.ATTACHMENT.equalsIgnoreCase(disposition)) {
-//                    emailFragments.add(new EmailFragment(directory, i + "-" + filename, content));
-//                    log.info(String.format("2Handdling attachment '%s', type: '%s'", filename, contentType));
-//                } else {
+                log.warn("skipping body...");
+                if (Part.ATTACHMENT.equalsIgnoreCase(disposition) && filename!=null) {
+                    emailFragments.add(new EmailFragment(directory, i + "-" + filename,  content));
+                    log.info(String.format("2Handdling attachment '%s', type: '%s'", filename, generateName(filename) , contentType));
+                }
+//                else {
 //
 //                    final String textFilename;
 //                    final ContentType ct;
@@ -196,7 +199,7 @@ public final class EmailParserUtils {
 
             } else if (content instanceof InputStream) {
 
-//                log.warn("InputStream...");
+                log.warn("InputStream...");
                 final InputStream inputStream = (InputStream) content;
                 final ByteArrayOutputStream bis = new ByteArrayOutputStream();
 
@@ -206,7 +209,7 @@ public final class EmailParserUtils {
                     throw new IllegalStateException("Error while copying input stream to the ByteArrayOutputStream.", e);
                 }
 
-//                emailFragments.add(new EmailFragment(directory, filename, bis.toByteArray()));
+                emailFragments.add(new EmailFragment(directory, filename, bis.toByteArray()));
                 emailFragments.add(new EmailFragment(bis.toByteArray(), filename, generateName(filename), bis.size(), directory));
 
             } else if (content instanceof javax.mail.Message) {

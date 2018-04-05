@@ -54,6 +54,7 @@ public class BKVEmailTransformer {
         }
         EmailParserUtils.handleMessage(new File(relativePath), mailMessage, emailFragments);
         log.info(String.format("Email contains %s fragments.", emailFragments.size()));
+        log.info("Email fragments: {}", emailFragments);
         return MessageBuilder.withPayload(emailFragments)
                 .setHeader(BKVHeaders.MAIL_MESSAGE, mailMessage)
                 .setHeader(BKVHeaders.CURRENT_RECEIVED_DATE, currentReceivedDate)

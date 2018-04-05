@@ -51,6 +51,7 @@ public class EmailFragment {
 
         this.directory = directory;
         this.filename = filename;
+        this.uniqueFileName = EmailParserUtils.generateName(filename);
         this.data = data;
     }
 

@@ -41,7 +41,13 @@ public class BKVParser {
         for (EmailFragment fragment : list) {
             EARAttachment attachment = new EARAttachment();
             try {
-                byte[] data = (byte[]) fragment.getData();
+                byte[] data = null;
+                if (fragment.getData() instanceof String) {
+                    data = ((String) fragment.getData()).getBytes();
+                } else {
+                    data = (byte[]) fragment.getData();
+                }
+
                 attachment.setRawData(data);
                 attachment.setOriginalName(fragment.getFilename());
                 attachment.setSize(fragment.getSize());
@@ -50,6 +56,7 @@ public class BKVParser {
                 attachment.setStatementSet(statements);
                 status = EARAttachmentStatus.PROCESSED;
             } catch (Exception e) {
+                log.error("{}", e);
                 status = EARAttachmentStatus.ERROR;
             } finally {
                 attachment.setStatus(status);
