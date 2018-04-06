@@ -182,7 +182,7 @@ public class MT940ParserTest {
 
     @Test
     public void testExtractHeader1() throws Exception {
-        assertEquals("F01VALLMTMTAXXX.SS..SEQ..", validator.extractHeader1("1:F01VALLMTMTAXXX.SS..SEQ..}{2:I940BOVNXSYS1822N}{3:{108:STATEMENT}}{4:"));
+        assertEquals("F01VALLMTMTAXXX.SS..SEQ..", validator.extractHeader1("1:F01VALLMTMTAXXX.SS..SEQ..}{2:I940BOVDXSYS1822N}{3:{108:STATEMENT}}{4:"));
         assertEquals("F01VALLMTMTAXXX.SS..SEQ..", validator.extractHeader1("1:F01VALLMTMTAXXX.SS..SEQ..}"));
 //        assertNull(validator.extractHeader1("11:F01VALLMTMTAXXX.SS..SEQ..}"));
         assertNull(validator.extractHeader1("1::F01VALLMTMTAXXX.SS..SEQ..}"));
@@ -190,15 +190,15 @@ public class MT940ParserTest {
 
     @Test
     public void testExtractHeader2() throws Exception {
-        assertEquals("I940BOVNXSYS1822N", validator.extractHeader2("{1:F01VALLMTMTAXXX.SS..SEQ..}{2:I940BOVNXSYS1822N}{3:{108:STATEMENT}}{4:"));
-        assertEquals("I940BOVNXSYS1822N", validator.extractHeader2("{2:I940BOVNXSYS1822N}"));
+        assertEquals("I940BOVDXSYS1822N", validator.extractHeader2("{1:F01VALLMTMTAXXX.SS..SEQ..}{2:I940BOVDXSYS1822N}{3:{108:STATEMENT}}{4:"));
+        assertEquals("I940BOVDXSYS1822N", validator.extractHeader2("{2:I940BOVDXSYS1822N}"));
         assertNull(validator.extractHeader2("{22:F01VALLMTMTAXXX.SS..SEQ..}"));
         assertNull(validator.extractHeader2("{2::F01VALLMTMTAXXX.SS..SEQ..}"));
     }
 
     @Test
     public void testExtractHeader3() throws Exception {
-        assertEquals("{108:STATEMENT}", validator.extractHeader3("{1:F01VALLMTMTAXXX.SS..SEQ..}{2:I940BOVNXSYS1822N}{3:{108:STATEMENT}}{4:"));
+        assertEquals("{108:STATEMENT}", validator.extractHeader3("{1:F01VALLMTMTAXXX.SS..SEQ..}{2:I940BOVDXSYS1822N}{3:{108:STATEMENT}}{4:"));
         assertEquals("{108:STATEMENT}", validator.extractHeader3("{3:{108:STATEMENT}}"));
         assertNull(validator.extractHeader3("{33:F01VALLMTMTAXXX.SS..SEQ..}"));
     }

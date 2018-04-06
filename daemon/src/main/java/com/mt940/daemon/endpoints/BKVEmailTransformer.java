@@ -66,7 +66,7 @@ public class BKVEmailTransformer {
         if (in == null || in[0] == null) {
             result = null;
         } else {
-//            from ULYSSES.nxsys.ltd ([10.20.70.14]) by dub-exch-1.nxsys.ltd            ([::1]) with mapi id 14.02.0387.000; Thu, 28 May 2015 17:29:12 +0100
+//            from ULYSSES.gmail.ltd ([10.20.70.14]) by dub-exch-1.gmail.ltd            ([::1]) with mapi id 14.02.0387.000; Thu, 28 May 2015 17:29:12 +0100
             String[] split = in[0].split(";");
             if (split.length == 2) {
                 try {

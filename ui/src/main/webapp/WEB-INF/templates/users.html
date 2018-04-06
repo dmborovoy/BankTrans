@@ -48,7 +48,7 @@
                 <td th:text="${{item.login}}">admin</td>
                 <td th:text="${{item.description}}">admin user</td>
                 <td th:text="${{item.roles}}">UI_ADMIN, UI_USER</td>
-                <td th:text="${{item.instances}}">NXPAY.EU</td>
+                <td th:text="${{item.instances}}">EUROPE</td>
                 <td th:text="${{item.disabled}}">false</td>
                 <td>
                     <button type="button" class="btn btn-default btn-xs editUserBtn" data-id="1" th:attr="data-id=${item.id}">
@@ -153,7 +153,7 @@
                     <div class="form-group">
                         <label for="instances-update">Instances</label>
                         <select id="instances-update" data-json-bind="instances" name="instances" multiple="multiple" class="form-control">
-                            <option th:each="instance : ${instances}" th:text="${{instance}}" th:value="${instance.stringCode}">NXPAY.EU</option>
+                            <option th:each="instance : ${instances}" th:text="${{instance}}" th:value="${instance.stringCode}">EUROPE</option>
                         </select>
                     </div>
                 </div>
