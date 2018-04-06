@@ -209,7 +209,7 @@ public final class EmailParserUtils {
                     throw new IllegalStateException("Error while copying input stream to the ByteArrayOutputStream.", e);
                 }
 
-                emailFragments.add(new EmailFragment(directory, filename, bis.toByteArray()));
+//                emailFragments.add(new EmailFragment(directory, filename, bis.toByteArray()));
                 emailFragments.add(new EmailFragment(bis.toByteArray(), filename, generateName(filename), bis.size(), directory));
 
             } else if (content instanceof javax.mail.Message) {
@@ -226,6 +226,6 @@ public final class EmailParserUtils {
     }
 
     public static String generateName(String originalName) {
-        return String.format("%s-%s-%s", LocalDateTime.now().format(DateTimeFormatter.ISO_DATE), UUID.randomUUID(), originalName);
+        return String.format("%s-%s-%s", LocalDateTime.now().format(DateTimeFormatter.ISO_DATE), UUID.randomUUID(), originalName).replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
     }
 }
