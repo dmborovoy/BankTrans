@@ -1,7 +1,6 @@
 package com.mt940.daemon.endpoints;
 
 import com.mt940.daemon.email.EmailFragment;
-import com.mt940.daemon.exceptions.MT940Exception;
 import com.mt940.daemon.mt940.MT940Parser;
 import com.mt940.domain.EARAttachment;
 import com.mt940.domain.enums.EARAttachmentStatus;
@@ -13,53 +12,58 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
+import java.util.stream.Collectors;
 
 @Slf4j
-@Service("BKVParser")
+@Service("bkvParser")
 public class BKVParser {
 
+    private final MT940Parser validator;
+
     @Autowired
-    @Qualifier(value = "MT940Parser")
-    MT940Parser validator;
-
-    public void execute(EARAttachment attachment, File file) throws IOException, MT940Exception {
-
+    public BKVParser(@Qualifier(value = "MT940Parser") MT940Parser validator) {
+        this.validator = validator;
     }
 
-    public Message<List<EARAttachment>> handle(final Message<List<EmailFragment>> in) throws MessagingException, UnsupportedEncodingException, MT940Exception {
-        log.info("=============Start MT940 parser processing=============");
-        List<EARAttachment> result = new ArrayList<>();
-        EARAttachmentStatus status = EARAttachmentStatus.NEW;
-        List<EmailFragment> list = in.getPayload();
-        for (EmailFragment fragment : list) {
-            EARAttachment attachment = new EARAttachment();
-            try {
-                byte[] data = (byte[]) fragment.getData();
-                attachment.setRawData(data);
-                attachment.setOriginalName(fragment.getFilename());
-                attachment.setSize(fragment.getSize());
-                attachment.setUniqueName(fragment.getUniqueFileName());
-                SortedSet<MT940Statement> statements = validator.mapListOfStatements(validator.extractListOfStatements(new String(data, "UTF-8")));
-                attachment.setStatementSet(statements);
-                status = EARAttachmentStatus.PROCESSED;
-            } catch (Exception e) {
-                status = EARAttachmentStatus.ERROR;
-            } finally {
-                attachment.setStatus(status);
-                result.add(attachment);
-            }
-        }
-        log.info("=============END MT940 parser processing=============");
-        log.info("size {}", list.size());
+    public Message<List<EARAttachment>> handle(final Message<List<EmailFragment>> in) {
+        log.info("===Start MT940 parser processing===");
+        List<EARAttachment> result = in.getPayload().stream()
+                .map(this::map)
+                .collect(Collectors.toList());
+        log.info("===End MT940 parser processing===");
         return MessageBuilder.withPayload(result)
                 .copyHeaders(in.getHeaders())
                 .build();
+    }
+
+    private EARAttachment map(EmailFragment fragment) {
+        EARAttachment attachment = new EARAttachment();
+        try {
+            String body = getPayload(fragment.getData());
+            attachment.setRawData(body);
+            attachment.setOriginalName(fragment.getFilename());
+            attachment.setOriginalName(fragment.getFilename());
+            attachment.setSize(fragment.getSize());
+            attachment.setUniqueName(fragment.getUniqueFileName());
+            SortedSet<MT940Statement> statements = validator.mapListOfStatements(validator.extractListOfStatements(body));
+            attachment.setStatementSet(statements);
+            attachment.setStatus(EARAttachmentStatus.PROCESSED);
+        } catch (Exception e) {
+            log.error("{}", e);
+            attachment.setStatus(EARAttachmentStatus.ERROR);
+        }
+        return attachment;
+    }
+
+    private String getPayload(Object obj) {
+        String result = null;
+        if (obj instanceof String) {
+            result = (String) obj;
+        } else {
+            result = new String((byte[]) obj);
+        }
+        return result;
     }
 }

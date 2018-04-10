@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration status="trace">
+<configuration>
 
     <property name="LOG_PATH" value="logs" />
     <timestamp key="timestamp-by-second" datePattern="yyyyMMdd'T'HHmmss"/>
@@ -18,11 +18,11 @@
         </encoder>
     </appender>
 
-    <logger name="ch.qos.logback" level="INFO" />
-    <logger name="org.hibernate" level="INFO" />
+    <logger name="ch.qos.logback" level="INFO"/>
+    <logger name="com.mt940" level="DEBUG"/>
 
     <root level="INFO">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="File-Appender" />
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="File-Appender"/>
     </root>
 </configuration>

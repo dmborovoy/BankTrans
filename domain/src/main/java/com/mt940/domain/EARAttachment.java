@@ -21,7 +21,7 @@ public class EARAttachment {
 
     private EARMessage message;
     private SortedSet<MT940Statement> statementSet;
-    private byte[] rawData;
+    private String rawData;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -93,11 +93,11 @@ public class EARAttachment {
     }
 
     @Transient
-    public byte[] getRawData() {
+    public String getRawData() {
         return rawData;
     }
 
-    public void setRawData(byte[] rawData) {
+    public void setRawData(String rawData) {
         this.rawData = rawData;
     }
 

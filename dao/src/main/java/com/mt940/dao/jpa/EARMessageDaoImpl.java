@@ -124,4 +124,9 @@ public class EARMessageDaoImpl extends AbstractDao<EARMessage, Long> implements 
         }
         return result;
     }
+
+    @Override
+    public List<String> findDistinctSenders() {
+        return earMessageRepository.findDistinctSenders();
+    }
 }

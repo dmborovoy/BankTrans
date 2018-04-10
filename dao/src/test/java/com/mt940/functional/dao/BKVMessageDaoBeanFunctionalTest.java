@@ -27,6 +27,12 @@ public class BKVMessageDaoBeanFunctionalTest extends AbstractBKVDaoBeanFunctiona
     EARMessageDao dao1;
 
     @Test
+    public void findDistinctSenders() {
+        List<String> senders = dao1.findDistinctSenders();
+        assertEquals(7, senders.size());
+    }
+
+    @Test
     public void findAllWithSortingAndPaging12() throws Exception {
         DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z");
         ZonedDateTime from = ZonedDateTime.parse("2014-12-05 13:34:42 +1100", f);

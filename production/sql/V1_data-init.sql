@@ -57,12 +57,12 @@ INSERT INTO bkv.dict_role (id, description) VALUES
   (103, 'API_CONFIRM_TRANSACTIONS');
 
 INSERT INTO bkv.user (id, login, password, description, super_admin, disabled) VALUES
-  (0, 'dxall', '123', 'this monster is permitted for everething', TRUE, FALSE), -- allowed all instances, all permissions
+  (0, 'dxall', '$2a$10$Rj3NMGE88KJnyiutHJbNaup/spC5XV.WChz8bI4YBB4OvdYTknzGG', 'this monster is permitted for everething', TRUE, FALSE), -- allowed all instances, all permissions
   (1, 'admin', '$2a$10$Rj3NMGE88KJnyiutHJbNaup/spC5XV.WChz8bI4YBB4OvdYTknzGG', 'super admin', FALSE, FALSE), -- hashed pass 123
-  (2, 'ui-admin', '123', 'UI admin', FALSE, FALSE),
-  (3, 'api-admin', '123', 'API admin', FALSE, TRUE),
-  (4, 'ui-user', '123', 'UI user', FALSE, FALSE ),
-  (5, 'api-user', '123', 'API user', FALSE, FALSE);
+  (2, 'ui-admin', '$2a$10$Rj3NMGE88KJnyiutHJbNaup/spC5XV.WChz8bI4YBB4OvdYTknzGG', 'UI admin', FALSE, FALSE),
+  (3, 'api-admin', '$2a$10$Rj3NMGE88KJnyiutHJbNaup/spC5XV.WChz8bI4YBB4OvdYTknzGG', 'API admin', FALSE, TRUE),
+  (4, 'ui-user', '$2a$10$Rj3NMGE88KJnyiutHJbNaup/spC5XV.WChz8bI4YBB4OvdYTknzGG', 'UI user', FALSE, FALSE ),
+  (5, 'api-user', '$2a$10$Rj3NMGE88KJnyiutHJbNaup/spC5XV.WChz8bI4YBB4OvdYTknzGG', 'API user', FALSE, FALSE);
 
 SELECT setval('bkv.user_id_seq', 6, FALSE);
 

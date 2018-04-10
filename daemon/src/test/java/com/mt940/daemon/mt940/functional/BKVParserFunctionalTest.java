@@ -107,6 +107,26 @@ public class BKVParserFunctionalTest {
         return LocalDate.parse(in, DateTimeFormatter.ofPattern(dateFormat)).atStartOfDay(ZoneId.systemDefault());
     }
 
+
+    @Test
+    public void testSWIFT_MT940_Standard() throws Exception {
+        String fileName = "SWIFT_MT940_Standard_27May.dat";
+        Message<List<EARAttachment>> messageOut = parser.handle(init(fileName));
+        EARAttachment file = extract(messageOut);
+        log.info("{}", file);
+        Set<MT940Statement> statementSet = file.getStatementSet();
+        assertNotNull(statementSet);
+        assertEquals(1, statementSet.size());
+
+        List<MT940Statement> statementList = new ArrayList<MT940Statement>(statementSet);
+        assertNotNull(statementSet);
+        assertEquals(1, statementSet.size());
+        MT940Statement statement1 = statementList.get(0);
+        log.info("{}", statement1);
+        assertNotNull(statement1.getTransactionSet());
+        assertEquals(19, statement1.getTransactionSet().size());
+    }
+
     @Test
     public void testFile40022530437() throws Exception {
         String fileName = "40022530437.dat";
@@ -120,7 +140,7 @@ public class BKVParserFunctionalTest {
         List<MT940Statement> statementList = new ArrayList<MT940Statement>(statementSet);
         MT940Statement statement1 = statementList.get(0);
         assertEquals("F01VALLMTMTAXXX.SS..SEQ..", statement1.getSWIFTHeader1());
-        assertEquals("I940BOVNXSYS1822N", statement1.getSWIFTHeader2());
+        assertEquals("I940BOVDXSYS1822N", statement1.getSWIFTHeader2());
         assertEquals("{108:STATEMENT}", statement1.getSWIFTHeader3());
         assertEquals("220501", statement1.getTransactionReference());
         assertEquals("40022530437", statement1.getAccountId());
@@ -146,7 +166,7 @@ public class BKVParserFunctionalTest {
         List<MT940Statement> statementList = new ArrayList<MT940Statement>(statementSet);
         MT940Statement statement1 = statementList.get(0);
         assertEquals("F01VALLMTMTAXXX.SS..SEQ..", statement1.getSWIFTHeader1());
-        assertEquals("I940BOVNXSYS1823N", statement1.getSWIFTHeader2());
+        assertEquals("I940BOVDXSYS1823N", statement1.getSWIFTHeader2());
         assertEquals("{108:STATEMENT}", statement1.getSWIFTHeader3());
         assertEquals("220502", statement1.getTransactionReference());
         assertEquals("40022530453", statement1.getAccountId());
@@ -172,7 +192,7 @@ public class BKVParserFunctionalTest {
         List<MT940Statement> statementList = new ArrayList<MT940Statement>(statementSet);
         MT940Statement statement1 = statementList.get(0);
         assertEquals("F01VALLMTMTAXXX.SS..SEQ..", statement1.getSWIFTHeader1());
-        assertEquals("I940BOVNXSYS1821N", statement1.getSWIFTHeader2());
+        assertEquals("I940BOVDXSYS1821N", statement1.getSWIFTHeader2());
         assertEquals("{108:STATEMENT}", statement1.getSWIFTHeader3());
         assertEquals("221094", statement1.getTransactionReference());
         assertEquals("40022530424", statement1.getAccountId());
@@ -200,7 +220,7 @@ public class BKVParserFunctionalTest {
 
         MT940Statement statement2 = statementList.get(1);
         assertEquals("F01VALLMTMTAXXX.SS..SEQ..", statement2.getSWIFTHeader1());
-        assertEquals("I940BOVNXSYS1821N", statement2.getSWIFTHeader2());
+        assertEquals("I940BOVDXSYS1821N", statement2.getSWIFTHeader2());
         assertEquals("{108:STATEMENT}", statement2.getSWIFTHeader3());
         assertEquals("221094", statement2.getTransactionReference());
         assertEquals("40022530424", statement2.getAccountId());

@@ -15,20 +15,19 @@
  */
 package com.mt940.daemon.endpoints;
 
-import com.mt940.daemon.BKVHeaders;
-import com.mt940.daemon.email.EmailFragment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.integration.annotation.Filter;
-import org.springframework.messaging.Message;
+import org.springframework.stereotype.Component;
 
+import javax.mail.MessagingException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Slf4j
+@Component("bkvEmailFilter")
 public class BKVEmailFilter {
 
     @Autowired
@@ -36,20 +35,20 @@ public class BKVEmailFilter {
     private BKVEmailSearchStrategy strategy;
 
     @Filter
-    public boolean accept(final Message<List<EmailFragment>> in) {
-        if (in.getPayload().size() == 0) {
-            log.info("Skipping messages without attachments...: {}", in);
-            return false;
-        }
-        ZonedDateTime currentReceivedDate = (ZonedDateTime) in.getHeaders().get(BKVHeaders.CURRENT_RECEIVED_DATE);
+    public boolean accept(final javax.mail.Message in) throws MessagingException {
         ZonedDateTime lastReceivedDate = strategy.getLastReceivedDate();
-        log.info("current received date: {}; last received date: {}", currentReceivedDate == null ? null : currentReceivedDate.withZoneSameInstant(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME), lastReceivedDate == null ? null : lastReceivedDate.withZoneSameInstant(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-        if (lastReceivedDate == null || currentReceivedDate == null)
-            return true;
+        if (lastReceivedDate == null || in.getReceivedDate() == null) return true;
+        ZonedDateTime currentReceivedDate = in.getReceivedDate().toInstant().atZone(ZoneId.systemDefault());
+        log.info("email: {}", in.getSubject());
+        log.info("current received date: {}; last received date: {}", toStringSafe(currentReceivedDate), toStringSafe(lastReceivedDate));
         if (lastReceivedDate.isAfter(currentReceivedDate) || lastReceivedDate.isEqual(currentReceivedDate)) {
-            log.info("Skipping already processed message...: {}", in);
+            log.info("Skipping already processed message...");
             return false;
         }
         return true;
+    }
+
+    private String toStringSafe(ZonedDateTime zonedDateTime) {
+        return zonedDateTime == null ? null : zonedDateTime.withZoneSameInstant(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     }
 }

@@ -15,9 +15,9 @@ public interface MT940TransactionDao extends Dao<MT940Transaction, Long> {
 
     public Page<MT940Transaction> findAllByPage(Pageable pageable);
 
-    public List<MT940Transaction> findByAllNullable(MT940TransactionStatus status, Instance instance, MT940FundsCode fundsCode, ZonedDateTime from, ZonedDateTime to, String infoToAccountOwner, String referenceForAccountOwner, String referenceForBank, String transactionDescription, Long emailId, Long fileId, Long statementId);
+    public List<MT940Transaction> findByAllNullable(MT940TransactionStatus status, Instance instance, MT940FundsCode fundsCode, ZonedDateTime from, ZonedDateTime to, String infoToAccountOwner, String referenceForAccountOwner, String referenceForBank, String transactionDescription, Long emailId, Long fileId, Long statementId, String currency, String sender);
 
-    public Page<MT940Transaction> findByAllNullable(MT940TransactionStatus status, Instance instance, MT940FundsCode fundsCode, ZonedDateTime from, ZonedDateTime to, String infoToAccountOwner, String referenceForAccountOwner, String referenceForBank, String transactionDescription, Long emailId, Long fileId, Long statementId, Pageable pageable);
+    public Page<MT940Transaction> findByAllNullable(MT940TransactionStatus status, Instance instance, MT940FundsCode fundsCode, ZonedDateTime from, ZonedDateTime to, String infoToAccountOwner, String referenceForAccountOwner, String referenceForBank, String transactionDescription, Long emailId, Long fileId, Long statementId, String currency, String sender, Pageable pageable);
 
     public List<MT940Transaction> findByAllNullable(final MT940TransactionSearchRequest request);
 

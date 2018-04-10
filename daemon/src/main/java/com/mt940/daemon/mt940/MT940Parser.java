@@ -27,10 +27,6 @@ import java.util.regex.Pattern;
 @Slf4j
 @Service("MT940Parser")
 public class MT940Parser {
-    
-    private ZonedDateTime toZonedDateTime(String in) {
-        return LocalDate.parse(in, DateTimeFormatter.ofPattern(dateFormat)).atStartOfDay(ZoneId.systemDefault());
-    }
 
     String notTag = "([^:]|:[^\\d]|:\\d[^\\d]|:\\d\\d[^:])";
     //    private String dateFormat = "YYMMDD";
@@ -41,38 +37,70 @@ public class MT940Parser {
     private String mt940BalanceReg = String.format("^(C|D)([\\d]{6})([A-Z]{3})%s", amountReg);
     private String mt940TransactionReg = String.format("^([\\d]{6})([\\d]{4}){0,1}(C|D|RC|RD)%s([A-Z]{4})(.+){1,16}", amountReg);
     private String mt940SequenceNumberReg = String.format("^([\\d]{1,5})(/([\\d]{1,5})){0,1}", amountReg);
-
     private Pattern pattern20 = Pattern.compile(String.format(":20:([^%s]{1,16}){1}", newLineReg1));
     private Pattern pattern21 = Pattern.compile(String.format(":21:([^%s]{1,16}){1}", newLineReg1));
     private Pattern pattern25 = Pattern.compile(String.format(":25:([^%s]{1,35}){1}", newLineReg1));
     private Pattern pattern28C = Pattern.compile(String.format(":28C:([^%s]{1,11}){1}", newLineReg1));
-//    private Pattern pattern28C = Pattern.compile(":28C:{1}([\\d]{1,5}(/[\\d]{1,5}){0,1}){1}");
-
-    private Pattern patternMT940Statement = Pattern.compile("\\u0001\\{([^\\u0001\\u0003]+)-\\}\\u0003");
+    //    private Pattern patternMT940Statement = Pattern.compile("\\u0001\\{([^\\u0001\\u0003]+)-\\}\\u0003");
+    private Pattern patternMT940Statement = Pattern.compile("\\{([^\\u0001\\u0003]+)-\\}");
+    //    private Pattern pattern28C = Pattern.compile(":28C:{1}([\\d]{1,5}(/[\\d]{1,5}){0,1}){1}");
     private Pattern patternMT940Balance = Pattern.compile(mt940BalanceReg);
     private Pattern patternMT940Transaction = Pattern.compile(mt940TransactionReg);
     private Pattern patternMT940StatementNumber = Pattern.compile(mt940SequenceNumberReg);
-
     private Pattern pattern60F_extract = Pattern.compile(String.format(":60[F|M]:([^%s]{1,25}){1}", newLineReg1));
     private Pattern pattern62F_extract = Pattern.compile(String.format(":62[F|M]:([^%s]{1,25}){1}", newLineReg1));
     private Pattern pattern61_86_base = Pattern.compile(String.format("(:61:[\\w\\d\\W]*?):62[F|M]:"));
     private Pattern pattern61_86 = Pattern.compile(String.format(":61:(%s+):86:(%s+)", notTag, notTag));
-
     private Pattern patternHeader1 = Pattern.compile(String.format("1:([^:]+)\\}", newLineReg));
     private Pattern patternHeader2 = Pattern.compile(String.format("\\{2:([^:]+)\\}", newLineReg));
     private Pattern patternHeader3 = Pattern.compile(String.format("\\{3:([^%s]+)\\}", newLineReg));
 
+    private ZonedDateTime toZonedDateTime(String in) {
+        return LocalDate.parse(in, DateTimeFormatter.ofPattern(dateFormat)).atStartOfDay(ZoneId.systemDefault());
+    }
+
+    //    public List<String[]> extractListOfTransactionCommentPair(String in) {
+//        if (in == null) return null;
+//        List<String[]> result = new ArrayList<String[]>();
+//        Matcher matcher = pattern61_86.matcher(in);
+//        while (matcher.find()) {
+//            String[] pair = new String[2];
+//            pair[0] = matcher.group(1);
+//            pair[1] = matcher.group(3);
+//            result.add(pair);
+//        }
+//        return result;
+//    }
     public List<String[]> extractListOfTransactionCommentPair(String in) {
         if (in == null) return null;
+        String[] pairs = in.split(":61:");
         List<String[]> result = new ArrayList<String[]>();
-        Matcher matcher = pattern61_86.matcher(in);
-        while (matcher.find()) {
-            String[] pair = new String[2];
-            pair[0] = matcher.group(1);
-            pair[1] = matcher.group(3);
-            result.add(pair);
+        for (int i = 0; i < pairs.length; i++) {
+            String pair = pairs[i];
+            if(pair.isEmpty()) continue;
+            String[] parts = pair.split(":86:");
+            String[] out = new String[2];
+            if (parts.length == 2) {
+//                out[0] = parts[0].trim();
+//                out[1] = parts[1].trim();
+                out[0] = parts[0];
+                out[1] = parts[1];
+            } else {
+                out[0] = pair;
+                out[1] = "";
+            }
+            result.add(out);
         }
         return result;
+
+//        Matcher matcher = pattern61_86.matcher(in);
+//        while (matcher.find()) {
+//            String[] pair = new String[2];
+//            pair[0] = matcher.group(1);
+//            pair[1] = matcher.group(3);
+//            result.add(pair);
+//        }
+//        return result;
     }
 
     public String extractHeader1(String in) {
