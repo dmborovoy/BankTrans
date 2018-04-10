@@ -6,14 +6,14 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss,SSS} %5p \(%t\) [%c{1}] %m%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} %5p \(%t\) [%c{1}] %m%n</pattern>
         </encoder>
     </appender>
 
     <appender name="File-Appender" class="ch.qos.logback.core.FileAppender">
         <file>${LOG_PATH}/logfile-${timestamp-by-second}.log</file>
         <encoder>
-            <pattern>%d{HH:mm:ss,SSS} %5p \(%t\) [%c{1}] %m%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} %5p \(%t\) [%c{1}] %m%n</pattern>
             <outputPatternAsHeader>true</outputPatternAsHeader>
         </encoder>
     </appender>

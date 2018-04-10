@@ -21,4 +21,6 @@ public class MT940TransactionSearchRequest {
     public MT940TransactionStatus status = null;
     public Instance instance = null;
     public String informationToAccountOwner = null;
+    public String currency = null;
+    public String sender = null;
 }

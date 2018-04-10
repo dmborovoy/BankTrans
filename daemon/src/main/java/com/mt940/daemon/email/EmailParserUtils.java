@@ -23,9 +23,7 @@ import javax.mail.BodyPart;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
-import javax.mail.internet.ContentType;
 import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.ParseException;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -38,15 +36,9 @@ import java.util.UUID;
 @Slf4j
 public final class EmailParserUtils {
 
-//    TODO DB: add more warnings in log about data content
-
-    /**
-     * Prevent instantiation.
-     */
     private EmailParserUtils() {
         throw new AssertionError();
     }
-
     /**
      * Parses a mail message. The respective message can either be the root message
      * or another message that is attached to another message.
@@ -72,19 +64,11 @@ public final class EmailParserUtils {
             content = mailMessage.getContent();
             subject = mailMessage.getSubject();
             log.debug("subject: {}", subject);
-
         } catch (IOException | MessagingException e) {
             throw new IllegalStateException("Error while retrieving the email contents.", e);
         }
-        final File directoryToUse = directory;
 
-//        if (directory == null) {
-//            directoryToUse = new File(subject);
-//        } else {
-//            directoryToUse = new File(directory, subject);
-//        }
-
-        if (content instanceof String) {
+        if (content instanceof String) {//wtf
             log.debug("skipping body1...");
             emailFragments.add(new EmailFragment(new File(subject), "message.txt", content));
             emailFragments.add(new EmailFragment(directory, "message.txt", content));
@@ -169,10 +153,10 @@ public final class EmailParserUtils {
             }
 
             if (content instanceof String) {
-                log.warn("skipping body...");
+                log.warn("body is of type String...");
                 if (Part.ATTACHMENT.equalsIgnoreCase(disposition) && filename!=null) {
                     emailFragments.add(new EmailFragment(directory, i + "-" + filename,  content));
-                    log.info(String.format("2Handdling attachment '%s', type: '%s'", filename, generateName(filename) , contentType));
+                    log.info(String.format("2Handdling attachment '%s', filename: '%s', type: '%s'", filename, generateName(filename) , contentType));
                 }
 //                else {
 //

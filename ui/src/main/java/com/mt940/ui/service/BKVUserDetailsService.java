@@ -46,6 +46,7 @@ public class BKVUserDetailsService implements UserDetailsService {
 
         for (BKVRoles userRole : userRoles) {
             setAuths.add(new SimpleGrantedAuthority("ROLE_" + userRole.name()));
+//            setAuths.add(new SimpleGrantedAuthority(userRole.name()));
         }
 
         return new ArrayList<GrantedAuthority>(setAuths);

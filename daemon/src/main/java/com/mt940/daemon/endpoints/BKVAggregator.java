@@ -4,7 +4,6 @@ import com.mt940.daemon.BKVHeaders;
 import com.mt940.domain.EARAttachment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.integration.IntegrationMessageHeaderAccessor;
 import org.springframework.integration.annotation.Aggregator;
 import org.springframework.integration.annotation.CorrelationStrategy;
 import org.springframework.integration.annotation.ReleaseStrategy;
@@ -12,14 +11,14 @@ import org.springframework.integration.mail.MailHeaders;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.List;
 
 @Slf4j
-@Service("bkvAggregator")
+@Component("bkvAggregator")
 public class BKVAggregator {
 
     @Value("${bkv.daemon.email.sender.max-message-to-send}")
@@ -35,19 +34,9 @@ public class BKVAggregator {
     public Message<?> aggregate(final List<Message<List<EARAttachment>>> in) throws MessagingException {
         log.info("$$$$$ aggregating....");
         log.info("Message count: {}", in.size());
-        if (in.size() > 0) {
-            return MessageBuilder.withPayload(okBody(in))
-                    .setHeader(MailHeaders.SUBJECT, subjectOk)
-                    .build();
-        } else { //TODO DB: unreachable statement. Review channels
-            return MessageBuilder.withPayload(errorBody(in))
-                    .setHeader(MailHeaders.SUBJECT, subjectError)
-                    .build();
-        }
-    }
-
-    private String errorBody(List<Message<List<EARAttachment>>> in) throws MessagingException {
-        return "Warning. At predefined time target email box doesn't contain new messages for processing.\nPing admins to check consistency of bkv-daemon module configuration";
+        return MessageBuilder.withPayload(okBody(in))
+                .setHeader(MailHeaders.SUBJECT, subjectOk)
+                .build();
     }
 
     private String okBody(List<Message<List<EARAttachment>>> in) throws MessagingException {
@@ -72,8 +61,8 @@ public class BKVAggregator {
 
 
     @CorrelationStrategy
-    public String correlateBy(@Header("id") String id, @Header(IntegrationMessageHeaderAccessor.CORRELATION_ID) String correlationId) {
-        log.debug("id: {}; correlation id: {}", id, correlationId);
+    public String correlateBy(@Header("id") String id) {
+        log.info("id: {}; correlation id: {}", id, id);
         return "BKVGroup";
     }
 

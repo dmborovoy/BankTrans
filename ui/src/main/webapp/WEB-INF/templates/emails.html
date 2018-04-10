@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.2-1/css/bootstrap.min.css}" href="/webjars/bootstrap/3.3.2-1/css/bootstrap.min.css"/>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.2-1/css/bootstrap-theme.min.css}" href="/webjars/bootstrap/3.3.2-1/css/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" th:href="@{/webjars/datatables-plugins/ca6ec50/integration/bootstrap/3/dataTables.bootstrap.css}" href="/webjars/datatables-plugins/ca6ec50/integration/bootstrap/3/dataTables.bootstrap.css"/>
+    <link rel="stylesheet" th:href="@{/webjars/datatables-plugins/ca6ec50/integration/bootstrap/2/dataTables.bootstrap.css}" href="/webjars/datatables-plugins/ca6ec50/integration/bootstrap/2/dataTables.bootstrap.css"/>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap-datetimepicker/2.3.1/css/bootstrap-datetimepicker.min.css}" href="http://cdn.jsdelivr.net/webjars/org.webjars/bootstrap-datetimepicker/2.3.1/css/datetimepicker.css"/>
     <link rel="stylesheet" th:href="@{/styles/style.css}" href="/styles/style.css"/>
 </head>
@@ -101,6 +101,7 @@
                 <th>sent date</th>
                 <th>received date</th>
                 <th>processing date</th>
+                <th>from</th>
                 <th>subject</th>
                 <th></th>
             </tr>
@@ -110,6 +111,7 @@
                 <td th:text="${{item.sentDate}}">10-10-2015</td>
                 <td th:text="${{item.receivedDate}}">10-10-2015</td>
                 <td th:text="${{item.processingDate}}">10-10-2015</td>
+                <td th:text="${{item.from}}">from</td>
                 <td th:text="${{item.subject}}">bkv</td>
                 <td>
                     <button type="button" class="btn btn-default btn-xs detailsBtn" data-toggle="modal" data-target="#detailsModal" data-id="1" th:attr="data-id=${item.id}">
@@ -178,8 +180,9 @@
                 { "name": 'sentDate', "targets": 1},
                 { "name": 'receivedDate', "targets": 2},
                 { "name": 'processingDate', "targets": 3},
-                { "name": 'subject', "targets": 4},
-                { "name": 'none', "targets": 5, "orderable": false}
+                { "name": 'from', "targets": 4},
+                { "name": 'subject', "targets": 5},
+                { "name": 'none', "targets": 6, "orderable": false}
             ],
             order: [[ 2, "desc" ]]
         }));

@@ -14,11 +14,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,6 +38,12 @@ public class MT940ParserTest {
         validator = new MT940Parser();
         currentLocale = Locale.getDefault();
         Locale.setDefault(Locale.ENGLISH);
+    }
+
+    @Test
+    public void name() {
+//        log.info("{}", DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        log.info("{}", new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX").format(new Date()));
     }
 
     @After
@@ -395,7 +403,7 @@ public class MT940ParserTest {
     @Test
     public void test123() {
         String in = "141122";
-        String format =  "yyMMdd";
+        String format = "yyMMdd";
         LocalDate localDate = LocalDate.parse(in, DateTimeFormatter.ofPattern(dateFormat));
         LocalDateTime localDateTime = LocalDate.parse(in, DateTimeFormatter.ofPattern(dateFormat)).atStartOfDay();
         ZonedDateTime zonedDateTime = LocalDate.parse(in, DateTimeFormatter.ofPattern(dateFormat)).atStartOfDay(ZoneId.systemDefault());
@@ -411,6 +419,7 @@ public class MT940ParserTest {
 //        l.info("{}", localDateTime);
 //        l.info("{}", zonedDateTime);
     }
+
     @Test
     public void testMapMT940Balance() throws Exception {
         MT940Balance expected = new MT940Balance(MT940BalanceType.CREDIT, toZonedDateTime("141122"), "USD", new BigDecimal("15.85"));

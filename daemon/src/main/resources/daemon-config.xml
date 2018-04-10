@@ -9,10 +9,8 @@
         <property name="locations">
             <list>
                 <value>classpath:/daemon.properties</value>
-                <value>file:///${ext.prop.file}</value>
+                <!--<value>file:///${ext.prop.file}</value>-->
             </list>
         </property>
     </bean>
-
-
 </beans>

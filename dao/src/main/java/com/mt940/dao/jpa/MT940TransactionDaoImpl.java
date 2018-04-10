@@ -17,7 +17,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,15 @@ public class MT940TransactionDaoImpl extends AbstractDao<MT940Transaction, Long>
         return (root, query, cb) -> {
             if (status != null) {
                 return cb.equal(root.get(MT940Transaction_.status), status);
+            } else
+                return null;
+        };
+    }
+
+    private static Specification<MT940Transaction> currencyCondition(final String currency) {
+        return (root, query, cb) -> {
+            if (currency != null) {
+                return cb.equal(root.get(MT940Transaction_.currency), currency);
             } else
                 return null;
         };
@@ -153,15 +164,27 @@ public class MT940TransactionDaoImpl extends AbstractDao<MT940Transaction, Long>
         };
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public List<MT940Transaction> findByAllNullable(MT940TransactionStatus status, Instance instance, MT940FundsCode fundsCode, ZonedDateTime from, ZonedDateTime to, String infoToAccountOwner, String referenceForAccountOwner, String referenceForBank, String transactionDescription, Long emailId, Long fileId, Long statementId) {
-        return findByAllNullable(status, instance, fundsCode, from, to, infoToAccountOwner, referenceForAccountOwner, referenceForBank, transactionDescription, emailId, fileId, statementId, null).getContent();
+    private Specification<MT940Transaction> senderCondition(final String sender) {
+        return (root, query, cb) -> {
+            if (sender != null) {
+                return cb.equal(root
+                        .join(MT940Transaction_.statement, JoinType.INNER)
+                        .join(MT940Statement_.settlementFile, JoinType.INNER)
+                        .join(EARAttachment_.message, JoinType.INNER).get(EARMessage_.from), sender);
+            } else
+                return null;
+        };
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Page<MT940Transaction> findByAllNullable(MT940TransactionStatus status, Instance instance, MT940FundsCode fundsCode, ZonedDateTime from, ZonedDateTime to, String infoToAccountOwner, String referenceForAccountOwner, String referenceForBank, String transactionDescription, Long emailId, Long fileId, Long statementId, Pageable pageable) {
+    public List<MT940Transaction> findByAllNullable(MT940TransactionStatus status, Instance instance, MT940FundsCode fundsCode, ZonedDateTime from, ZonedDateTime to, String infoToAccountOwner, String referenceForAccountOwner, String referenceForBank, String transactionDescription, Long emailId, Long fileId, Long statementId, String currency, String sender) {
+        return findByAllNullable(status, instance, fundsCode, from, to, infoToAccountOwner, referenceForAccountOwner, referenceForBank, transactionDescription, emailId, fileId, statementId, currency, sender, null).getContent();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<MT940Transaction> findByAllNullable(MT940TransactionStatus status, Instance instance, MT940FundsCode fundsCode, ZonedDateTime from, ZonedDateTime to, String infoToAccountOwner, String referenceForAccountOwner, String referenceForBank, String transactionDescription, Long emailId, Long fileId, Long statementId, String currency, String sender, Pageable pageable) {
         return mt940TransactionRepository.findAll(
                 where(statusCondition(status)).
                         and(instanceCondition(instance)).
@@ -171,38 +194,40 @@ public class MT940TransactionDaoImpl extends AbstractDao<MT940Transaction, Long>
                         and(referenceForAccountOwnerCondition(referenceForAccountOwner)).
                         and(referenceForBankCondition(referenceForBank)).
                         and(transactionDescriptionCondition(transactionDescription)).
-                        and(idsCondition(emailId, fileId, statementId)),
+                        and(idsCondition(emailId, fileId, statementId)).
+                        and(currencyCondition(currency)).
+                        and(senderCondition(sender)),
                 pageable);
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<MT940Transaction> findByAllNullable(final MT940TransactionSearchRequest request) {
-        return findByAllNullable(request.status, request.instance, request.fundsCode, request.from, request.to, request.informationToAccountOwner, request.referenceForAccountOwner, request.referenceForBank, request.transactionDescription, request.messageId, request.fileId, request.statementId, null).getContent();
+        return findByAllNullable(request.status, request.instance, request.fundsCode, request.from, request.to, request.informationToAccountOwner, request.referenceForAccountOwner, request.referenceForBank, request.transactionDescription, request.messageId, request.fileId, request.statementId, request.currency, request.sender, null).getContent();
     }
 
     @Transactional(readOnly = true)
     @Override
     public Page<MT940Transaction> findByAllNullable(final MT940TransactionSearchRequest request, Pageable pageable) {
-        return findByAllNullable(request.status, request.instance, request.fundsCode, request.from, request.to, request.informationToAccountOwner, request.referenceForAccountOwner, request.referenceForBank, request.transactionDescription, request.messageId, request.fileId, request.statementId, pageable);
+        return findByAllNullable(request.status, request.instance, request.fundsCode, request.from, request.to, request.informationToAccountOwner, request.referenceForAccountOwner, request.referenceForBank, request.transactionDescription, request.messageId, request.fileId, request.statementId, request.currency, request.sender, pageable);
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<MT940Transaction> getTransactionListByDateTransactionTypeInstanceAndStatus(Instance instance, ZonedDateTime fromDate, ZonedDateTime toDate, MT940FundsCode fundsCode, MT940TransactionStatus status) {
-        return findByAllNullable(status, instance, fundsCode, fromDate, toDate, null, null, null, null, null, null, null, null).getContent();
+        return findByAllNullable(status, instance, fundsCode, fromDate, toDate, null, null, null, null, null, null, null, null, null, null).getContent();
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<MT940Transaction> getOrphanTransactionList(ZonedDateTime toDate, MT940FundsCode fundsCode, MT940TransactionStatus status) {
-        return findByAllNullable(status, null, fundsCode, null, toDate, null, null, null, null, null, null, null, null).getContent();
+        return findByAllNullable(status, null, fundsCode, null, toDate, null, null, null, null, null, null, null, null, null, null).getContent();
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<MT940Transaction> getReadTransactionList(MT940FundsCode fundsCode, MT940TransactionStatus status) {
-        return findByAllNullable(status, null, fundsCode, null, null, null, null, null, null, null, null, null, null).getContent();
+        return findByAllNullable(status, null, fundsCode, null, null, null, null, null, null, null, null, null, null, null, null).getContent();
     }
 
     @Transactional(readOnly = true)
@@ -214,7 +239,7 @@ public class MT940TransactionDaoImpl extends AbstractDao<MT940Transaction, Long>
     @Transactional(readOnly = true)
     @Override
     public List<MT940Transaction> getUnknownInstanceTransactionList(MT940FundsCode fundsCode) {
-        return findByAllNullable(null, Instance.UNKNOWN, fundsCode, null, null, null, null, null, null, null, null, null, null).getContent();
+        return findByAllNullable(null, Instance.UNKNOWN, fundsCode, null, null, null, null, null, null, null, null, null, null, null, null).getContent();
     }
 
     @Override
