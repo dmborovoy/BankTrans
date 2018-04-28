@@ -19,6 +19,7 @@
         <module>dao</module>
         <module>ui</module>
         <module>daemon</module>
+        <module>rest</module>
     </modules>
 
 
@@ -46,6 +47,7 @@
         <spring.web.version>4.3.14.RELEASE</spring.web.version>
         <spring-data.version>1.11.10.RELEASE</spring-data.version>
         <spring-integration.version>4.3.14.RELEASE</spring-integration.version>
+        <spring-boot.version>2.0.0.RELEASE</spring-boot.version>
 
         <hibernate.version>5.1.13.Final</hibernate.version>
         <hibernate-validator.version>6.0.9.Final</hibernate-validator.version>
@@ -71,6 +73,7 @@
         <logback.version>1.2.2</logback.version>
         <logback.scope>compile</logback.scope>
         <slf4j.version>1.7.12</slf4j.version>
+        <orika.version>1.5.2</orika.version>
 
         <!--plugin section-->
         <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
@@ -101,6 +104,11 @@
             <dependency>
                 <groupId>com.mt940</groupId>
                 <artifactId>domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mt940</groupId>
+                <artifactId>rest</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!--Spring Framework-->
@@ -188,6 +196,17 @@
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-jpa</artifactId>
                 <version>${spring-data.version}</version>
+            </dependency>
+            <!-- Spring Boot-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
             <!-- PostgreSQL-->
             <dependency>
@@ -334,6 +353,10 @@
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>ma.glasnost.orika</groupId>
+                <artifactId>orika-core</artifactId>
+                <version>${orika.version}</version></dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>

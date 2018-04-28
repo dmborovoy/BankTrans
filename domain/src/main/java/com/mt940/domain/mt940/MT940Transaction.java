@@ -1,5 +1,6 @@
 package com.mt940.domain.mt940;
 
+import com.fasterxml.jackson.annotation.*;
 import com.mt940.domain.enums.Instance;
 import com.mt940.domain.enums.MT940FundsCode;
 import com.mt940.domain.enums.MT940TransactionStatus;
@@ -14,6 +15,7 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(schema = "bkv", name = "mt940_transaction")
 @TypeDef(name = "PersistentEnum", typeClass = PersistentEnum.class)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class MT940Transaction implements Comparable<MT940Transaction> {
 
     private Long id;
@@ -71,7 +73,7 @@ public class MT940Transaction implements Comparable<MT940Transaction> {
         this.entryOrder = entryOrder;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.DETACH})
     @JoinColumn(name = "statement_id", referencedColumnName = "id")
     public MT940Statement getStatement() {
         return statement;

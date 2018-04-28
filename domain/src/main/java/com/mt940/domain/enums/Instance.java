@@ -1,10 +1,17 @@
 package com.mt940.domain.enums;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum Instance {
+    @JsonProperty
     UNKNOWN(-1, "UNKNOWN", false),
+    @JsonProperty
     RUSSIA(0, "RUSSIA", true),
+    @JsonProperty
     EUROPE(1, "EUROPE", true),
+    @JsonProperty
     ASIA(2, "ASIA", false),
+    @JsonProperty
     AMERICA(3, "AMERICA", true);
 
     final int code;

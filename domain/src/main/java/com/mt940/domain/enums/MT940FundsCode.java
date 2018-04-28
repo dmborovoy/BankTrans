@@ -1,9 +1,15 @@
 package com.mt940.domain.enums;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum MT940FundsCode {
+    @JsonProperty
     CREDIT("C"),
+    @JsonProperty
     DEBIT("D"),
+    @JsonProperty
     CREDIT_REVERS("RC"),
+    @JsonProperty
     DEBIT_REVERS("RD");
 
     final String code;
