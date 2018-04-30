@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -65,6 +66,11 @@ public class AppConfig {
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false );
         return objectMapper;
+    }
+
+    @Bean
+    MT940TransactionSearchRequest getSearchRequest() {
+        return new MT940TransactionSearchRequest();
     }
 
 }

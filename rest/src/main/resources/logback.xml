@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="trace">
+
+    <property name="LOG_PATH" value="logs" />
+    <timestamp key="timestamp-by-second" datePattern="yyyyMMdd'T'HHmmss"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss,SSS} %5p \(%t\) [%c{1}] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="File-Appender" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_PATH}/logfile-${timestamp-by-second}.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss,SSS} %5p \(%t\) [%c{1}] %m%n</pattern>
+            <outputPatternAsHeader>true</outputPatternAsHeader>
+        </encoder>
+    </appender>
+
+    <logger name="ch.qos.logback" level="INFO" />
+    <logger name="org.hibernate" level="INFO" />
+    <logger name="org.springframework.security" level="DEBUG" />
+
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="File-Appender" />
+    </root>
+</configuration>

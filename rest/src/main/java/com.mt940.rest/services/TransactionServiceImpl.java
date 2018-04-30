@@ -32,6 +32,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    MT940TransactionSearchRequest searchRequest;
+
     @Override
     public TransactionView findById(long transactionId) {
         MT940Transaction transaction = mt940TransactionDao.findById(transactionId);
@@ -66,15 +69,14 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Page<TransactionView> listAllByPage(Pageable pageable, String filter) {
-        MT940TransactionSearchRequest searchRequest = null;
-        try {
-            searchRequest = objectMapper.readValue(filter, MT940TransactionSearchRequest.class);
-        } catch (IOException e) {
-            log.error(e.getMessage());
+        if (filter != null) {
+            try {
+                searchRequest = objectMapper.readValue(filter, MT940TransactionSearchRequest.class);
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            }
         }
         //log.error(searchRequest.status.toString());
-
-        Page<MT940Transaction> transactionList = mt940TransactionDao.findByAllNullable(searchRequest, pageable);
-        return transactionList.map(source -> mapper.map(source, TransactionView.class));
+        return mt940TransactionDao.findByAllNullable(searchRequest, pageable).map(source -> mapper.map(source, TransactionView.class));
     }
 }
