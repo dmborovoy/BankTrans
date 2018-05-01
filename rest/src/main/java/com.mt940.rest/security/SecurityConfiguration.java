@@ -45,7 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http
             .csrf().disable()
-                .authorizeRequests().antMatchers(HttpMethod.GET,"/transaction/**").permitAll()
+                .authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/transaction/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/transaction/").access("hasAnyRole('UI_USER', 'UI_ADMIN')")
                 .antMatchers(HttpMethod.PUT,"/transaction/").access("hasRole('UI_ADMIN')")

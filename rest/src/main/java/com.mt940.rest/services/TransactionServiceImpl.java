@@ -6,6 +6,7 @@ import com.mt940.dao.jpa.MT940TransactionDao;
 import com.mt940.domain.mt940.MT940Transaction;
 import com.mt940.domain.mt940.MT940TransactionSearchRequest;
 import com.mt940.rest.dto.TransactionView;
+import com.mt940.rest.exceptions.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionView findById(long transactionId) {
         MT940Transaction transaction = mt940TransactionDao.findById(transactionId);
         TransactionView transactionView = mapper.map(transaction, TransactionView.class);
+        if (transactionView == null) throw new ResourceNotFoundException(String.format("Transaction with id=%s is not found", transactionId));
 
         transactionView.setStatementId(transaction.getStatement().getId());
         return transactionView;
