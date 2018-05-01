@@ -6,12 +6,14 @@ import com.mt940.dao.jpa.MT940TransactionDao;
 import com.mt940.domain.mt940.MT940Transaction;
 import com.mt940.domain.mt940.MT940TransactionSearchRequest;
 import com.mt940.rest.dto.TransactionView;
+import com.mt940.rest.exceptions.BadRequestException;
 import com.mt940.rest.exceptions.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +50,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void addTransaction(TransactionView transactionView) {
+        if(transactionView.getId() != null) throw new BadRequestException(String.format("Saving transaction with id is not supported, use PUT method /transaction/%s for updating instead", transactionView.getId()));
         MT940Transaction transaction = mapper.map(transactionView, MT940Transaction.class);
         transaction.setStatement(mt940StatementDao.findById(transactionView.getStatementId()));
         mt940TransactionDao.save(transaction);
