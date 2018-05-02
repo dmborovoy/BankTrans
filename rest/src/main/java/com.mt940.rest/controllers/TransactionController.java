@@ -22,7 +22,6 @@ public class TransactionController {
     private TransactionService transactionService;
 
 
-    //@PreAuthorize("hasRole(anonymous)")
     @GetMapping(value = "/transaction/{id}")
     public TransactionView getTransactionById(@PathVariable("id") long transactionId) {
         return transactionService.findById(transactionId);

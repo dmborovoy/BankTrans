@@ -13,7 +13,6 @@ import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +41,8 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionView findById(long transactionId) {
         MT940Transaction transaction = mt940TransactionDao.findById(transactionId);
         TransactionView transactionView = mapper.map(transaction, TransactionView.class);
-        if (transactionView == null) throw new ResourceNotFoundException(String.format("Transaction with id=%s is not found", transactionId));
+        if (transactionView == null)
+            throw new ResourceNotFoundException(String.format("Transaction with id=%s is not found", transactionId));
 
         transactionView.setStatementId(transaction.getStatement().getId());
         return transactionView;
@@ -50,7 +50,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void addTransaction(TransactionView transactionView) {
-        if(transactionView.getId() != null) throw new BadRequestException(String.format("Saving transaction with id is not supported, use PUT method /transaction/%s for updating instead", transactionView.getId()));
+        if (transactionView.getId() != null)
+            throw new BadRequestException(String.format("Saving transaction with id is not supported, use PUT method /transaction/%s for updating instead", transactionView.getId()));
         MT940Transaction transaction = mapper.map(transactionView, MT940Transaction.class);
         transaction.setStatement(mt940StatementDao.findById(transactionView.getStatementId()));
         mt940TransactionDao.save(transaction);

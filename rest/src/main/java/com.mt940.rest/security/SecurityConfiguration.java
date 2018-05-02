@@ -31,26 +31,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         DaoAuthenticationProvider authProvider
                 = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
-        //authProvider.setPasswordEncoder(encoder());
+        authProvider.setPasswordEncoder(encoder());
         return authProvider;
     }
 
     @Bean
     public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder(15);
+        return new BCryptPasswordEncoder(10);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http
-            .csrf().disable()
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/transaction/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/transaction/").access("hasAnyRole('UI_USER', 'UI_ADMIN')")
-                .antMatchers(HttpMethod.PUT,"/transaction/").access("hasRole('UI_ADMIN')")
-                .antMatchers(HttpMethod.DELETE,"/transaction/**").access("hasAnyRole('UI_USER', 'UI_ADMIN')")
-                .antMatchers(HttpMethod.GET,"/transaction/list/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/transaction/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/transaction/").access("hasAnyRole('UI_USER', 'UI_ADMIN')")
+                .antMatchers(HttpMethod.PUT, "/transaction/").access("hasRole('UI_ADMIN')")
+                .antMatchers(HttpMethod.DELETE, "/transaction/**").access("hasAnyRole('UI_USER', 'UI_ADMIN')")
+                .antMatchers(HttpMethod.GET, "/transaction/list/**").permitAll()
                 .and().httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
