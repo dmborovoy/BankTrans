@@ -22,27 +22,32 @@ public class TransactionController {
     private TransactionService transactionService;
 
 
+    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
     @GetMapping(value = "/transaction/{id}")
     public TransactionView getTransactionById(@PathVariable("id") long transactionId) {
         return transactionService.findById(transactionId);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
     @PostMapping(value = "/transaction")
     public void addTransaction(@RequestBody TransactionView transaction) {
         transactionService.addTransaction(transaction);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
     @PutMapping(value = "/transaction/{id}")
     public void updateTransaction(@PathVariable("id") long transactionId, @RequestBody TransactionView transaction) {
         transaction.setId(transactionId);
         transactionService.updateTransaction(transaction);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
     @DeleteMapping(value = "/transaction/{id}")
     public void deleteTransaction(@PathVariable("id") long transactionId) {
         transactionService.deleteTransaction(transactionId);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
     @GetMapping(value = "/transaction/list")
     public Page<TransactionView> listTransactions(@RequestParam(value = "filter", required = false) String filter,
                                                   @PageableDefault(size = DEFAULT_PAGE_SIZE)

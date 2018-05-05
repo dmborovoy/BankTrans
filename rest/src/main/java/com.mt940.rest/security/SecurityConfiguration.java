@@ -1,5 +1,6 @@
 package com.mt940.rest.security;
 
+import com.mt940.rest.services.UserService;
 import com.mt940.rest.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,13 +13,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.util.Arrays;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static String REALM = "Authentication required";
 
     @Autowired
-    private UserServiceImpl userDetailsService;
+    private UserService userDetailsService;
 
 
     @Override
@@ -45,6 +52,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http
                 .csrf().disable()
+                .cors()
+                .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/transaction/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/transaction/").access("hasAnyRole('UI_USER', 'UI_ADMIN')")
@@ -60,10 +69,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new CustomBasicAuthenticationEntryPoint();
     }
 
-    @Bean
-    public UserServiceImpl getUserService() {
-        return new UserServiceImpl();
-    }
+//    @Bean
+//    public UserService getUserService() {
+//        return new UserServiceImpl();
+//    }
 
+//    @Bean
+//    CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+//        configuration.setAllowedMethods(Arrays.asList("GET","POST", "OPTIONS"));
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 
 }

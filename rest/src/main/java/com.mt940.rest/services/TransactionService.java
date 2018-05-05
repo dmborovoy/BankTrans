@@ -4,7 +4,9 @@ package com.mt940.rest.services;
 import com.mt940.rest.dto.TransactionView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface TransactionService {
     TransactionView findById(long transactionId);
 

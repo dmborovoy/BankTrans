@@ -11,6 +11,7 @@ import com.mt940.rest.exceptions.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,8 +29,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     MT940StatementDao mt940StatementDao;
 
+    @Qualifier("transactionMapperFacade")
     @Autowired
-    MapperFacade mapper;
+    MapperFacade mapperFacade;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -40,7 +42,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionView findById(long transactionId) {
         MT940Transaction transaction = mt940TransactionDao.findById(transactionId);
-        TransactionView transactionView = mapper.map(transaction, TransactionView.class);
+        TransactionView transactionView = mapperFacade.map(transaction, TransactionView.class);
         if (transactionView == null)
             throw new ResourceNotFoundException(String.format("Transaction with id=%s is not found", transactionId));
 
@@ -52,7 +54,7 @@ public class TransactionServiceImpl implements TransactionService {
     public void addTransaction(TransactionView transactionView) {
         if (transactionView.getId() != null)
             throw new BadRequestException(String.format("Saving transaction with id is not supported, use PUT method /transaction/%s for updating instead", transactionView.getId()));
-        MT940Transaction transaction = mapper.map(transactionView, MT940Transaction.class);
+        MT940Transaction transaction = mapperFacade.map(transactionView, MT940Transaction.class);
         transaction.setStatement(mt940StatementDao.findById(transactionView.getStatementId()));
         mt940TransactionDao.save(transaction);
     }
@@ -60,7 +62,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public void updateTransaction(TransactionView transactionView) {
         MT940Transaction transaction = mt940TransactionDao.findById(transactionView.getId());
-        mapper.map(transactionView, transaction);
+        mapperFacade.map(transactionView, transaction);
         if (transactionView.getStatementId() != null)
             transaction.setStatement(mt940StatementDao.findById(transactionView.getStatementId()));
         transaction.setId(transactionView.getId());
@@ -83,6 +85,6 @@ public class TransactionServiceImpl implements TransactionService {
             }
         }
         //log.error(searchRequest.status.toString());
-        return mt940TransactionDao.findByAllNullable(searchRequest, pageable).map(source -> mapper.map(source, TransactionView.class));
+        return mt940TransactionDao.findByAllNullable(searchRequest, pageable).map(source -> mapperFacade.map(source, TransactionView.class));
     }
 }

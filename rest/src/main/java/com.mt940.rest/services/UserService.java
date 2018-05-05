@@ -1,24 +1,22 @@
 package com.mt940.rest.services;
 
-import com.mt940.domain.enums.BKVRoles;
-import com.mt940.domain.permission.BKVUser;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.security.core.GrantedAuthority;
+import com.mt940.rest.dto.UserDetailsView;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Set;
-
 @Service
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
     @Transactional
-    UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException;
+    UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException, BadCredentialsException;
 
-    SecurityProperties.User buildUserForAuthentication(BKVUser user, List<GrantedAuthority> authorities);
+    @Transactional
+    UserDetails loadUserByCredentials(final String auth);
 
-    List<GrantedAuthority> buildUserAuthority(Set<BKVRoles> userRoles);
+    @Transactional
+    UserDetailsView loadDetailsByCredentials(final String auth);
 }

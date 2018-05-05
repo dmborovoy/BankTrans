@@ -6,6 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mt940.domain.mt940.MT940Transaction;
 import com.mt940.domain.mt940.MT940TransactionSearchRequest;
 import com.mt940.rest.dto.TransactionView;
+import com.mt940.rest.dto.UserDetailsView;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.sql.DataSource;
@@ -51,12 +53,21 @@ public class AppConfig {
                 .build();
     }
 
-    @Bean
-    public MapperFacade getMapperFacade() {
+    @Bean("transactionMapperFacade")
+    public MapperFacade getTransactionMapperFacade() {
         MapperFactory factory = new DefaultMapperFactory
                 .Builder()
                 .build();
         factory.registerClassMap(factory.classMap(TransactionView.class,MT940Transaction.class).mapNulls(false).byDefault().toClassMap());
+        return factory.getMapperFacade();
+    }
+
+    @Bean("userDetailsMapperFacade")
+    public MapperFacade getUserDetailsMapperFacade() {
+        MapperFactory factory = new DefaultMapperFactory
+                .Builder()
+                .build();
+        factory.registerClassMap(factory.classMap(UserDetailsView.class,UserDetails.class).mapNulls(false).exclude("authorities").byDefault().toClassMap());
         return factory.getMapperFacade();
     }
 
