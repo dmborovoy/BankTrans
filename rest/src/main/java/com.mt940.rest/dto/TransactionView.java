@@ -13,7 +13,6 @@ import java.time.ZonedDateTime;
 @Setter
 
 public class TransactionView {
-
     private Long id;
     private ZonedDateTime date;
     private ZonedDateTime entryDate;
@@ -25,9 +24,9 @@ public class TransactionView {
     private String referenceForBank;
     private String transactionDescription;
     private Long statementId;  //statement id
-    private MT940TransactionStatus status = MT940TransactionStatus.NEW;
+    private MT940TransactionStatus status;
     private String errorDescription;
-    private Instance instance = Instance.UNKNOWN;
+    private Instance instance;
     private int entryOrder;
     private String informationToAccountOwner;
 }
