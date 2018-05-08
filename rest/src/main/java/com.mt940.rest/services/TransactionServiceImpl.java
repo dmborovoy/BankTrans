@@ -85,6 +85,12 @@ public class TransactionServiceImpl implements TransactionService {
             }
         }
         //log.error(searchRequest.status.toString());
-        return mt940TransactionDao.findByAllNullable(searchRequest, pageable).map(source -> mapperFacade.map(source, TransactionView.class));
+        return mt940TransactionDao.findByAllNullable(searchRequest, pageable).map(source -> {
+            TransactionView transactionView = mapperFacade.map(source, TransactionView.class);
+            transactionView.setStatementId(source.getStatement().getId());
+            return transactionView;
+        });
+
+
     }
 }
