@@ -50,8 +50,7 @@ public class TransactionController {
     @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
     @GetMapping(value = "/transaction/list")
     public Page<TransactionView> listTransactions(@RequestParam(value = "filter", required = false) String filter,
-                                                  @PageableDefault(size = DEFAULT_PAGE_SIZE)
-                                                          Pageable pageable) {
+                                                  @PageableDefault(size = DEFAULT_PAGE_SIZE) Pageable pageable) {
         return transactionService.listAllByPage(pageable, filter);
     }
 }

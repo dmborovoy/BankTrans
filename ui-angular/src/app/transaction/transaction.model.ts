@@ -16,4 +16,5 @@ export interface Transaction {
   entryOrder: number;
   informationToAccountOwner: string;
   content: Array<Transaction>;
+  totalElements: number;
 }
