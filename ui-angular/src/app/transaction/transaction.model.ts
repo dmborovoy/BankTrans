@@ -9,12 +9,11 @@ export interface Transaction {
   referenceForAccountOwner: string;
   referenceForBank: string;
   transactionDescription: string;
-  statementID: string;
-  transactionStatus: string;
+  statementId: string;
+  status: string;
   errorDescription: string;
   instance: string;
   entryOrder: number;
   informationToAccountOwner: string;
   content: Array<Transaction>;
-
 }

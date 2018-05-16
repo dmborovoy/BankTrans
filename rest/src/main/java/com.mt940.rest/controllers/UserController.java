@@ -19,8 +19,7 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
     @GetMapping(value = "/users")
     public UserDetailsView getDetailsByCredentials(@RequestHeader(value = "Authorization") String auth) {
-        UserDetailsView userDetails = userService.loadDetailsByCredentials(auth);
-        return userDetails;
+        return userService.loadDetailsByCredentials(auth);
 
     }
 

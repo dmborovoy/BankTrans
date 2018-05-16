@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {log} from "util";
 import {UserService} from "../user/user.service";
 import 'rxjs/add/operator/map'
+import {Authority} from "../user/user.model";
 
 
 const TOKEN_KEY = 'AuthToken';
@@ -14,17 +15,18 @@ export class AuthenticationService {
 
   setToken(token: string) {
     window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY,  token);
+    window.sessionStorage.setItem(TOKEN_KEY, token);
   }
 
   public getToken(): string {
     return sessionStorage.getItem(TOKEN_KEY);
   }
 
-  public setAuthorities(authoritiesArray: string[]) {
-    let authorities = String();
+  public setAuthorities(authoritiesArray: Authority[]) {
+    console.log(authoritiesArray);
+    let authorities:string = '';
     for (let authority of authoritiesArray) {
-      authorities += authority;
+      authorities += authority.authority;
     }
     log("Saving authorities: " + authorities);
     window.sessionStorage.removeItem(AUTHORITIES_KEY);
@@ -52,5 +54,10 @@ export class AuthenticationService {
   logout() {
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.clear();
+  }
+
+  isAdmin() {
+    if(sessionStorage.getItem(AUTHORITIES_KEY)===null) return false;
+    return (sessionStorage.getItem(AUTHORITIES_KEY).indexOf("ROLE_UI_ADMIN") != -1);
   }
 }

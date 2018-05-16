@@ -13,12 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-import java.util.Arrays;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -29,7 +23,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
     }
 
@@ -57,9 +51,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/transaction/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/transaction/").access("hasAnyRole('UI_USER', 'UI_ADMIN')")
-                .antMatchers(HttpMethod.PUT, "/transaction/").access("hasRole('UI_ADMIN')")
+                .antMatchers(HttpMethod.PUT, "/transaction/**").access("hasRole('UI_ADMIN')")
                 .antMatchers(HttpMethod.DELETE, "/transaction/**").access("hasAnyRole('UI_USER', 'UI_ADMIN')")
-                .antMatchers(HttpMethod.GET, "/transaction/list/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/transaction/list/").permitAll()
                 .and().httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

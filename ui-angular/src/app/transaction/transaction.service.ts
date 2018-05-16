@@ -2,21 +2,27 @@ import {Transaction} from "./transaction.model";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Injectable} from "@angular/core";
-import {log} from "util";
 
 @Injectable()
 export class TransactionService {
 
-  constructor(private http: HttpClient) {}
+  private readonly transactionUrl = 'http://localhost:8081/transaction/';
 
-  private transactionUrl = 'http://localhost:8081';
-
-  public getTransactions(): Observable<Transaction> {
-    return this.http.get<Transaction>(this.transactionUrl + '/transaction/list');
+  constructor(private http: HttpClient) {
   }
 
-  public getTransaction(id: string): Observable<Transaction> {
-    return this.http.get<Transaction>(this.transactionUrl + '/transaction/' + id);
+
+  getTransactions(): Observable<Transaction> {
+    return this.http.get<Transaction>(this.transactionUrl + 'list' + '?sort=id');
   }
 
+  getTransaction(id: string): Observable<Transaction> {
+    return this.http.get<Transaction>(this.transactionUrl + id);
+  }
+
+  updateTransaction(id: string, transaction: Transaction): Observable<Transaction> {
+    console.log("Update service call");
+    console.log(id, transaction);
+    return this.http.put<Transaction>(this.transactionUrl + id, transaction);
+  }
 }
