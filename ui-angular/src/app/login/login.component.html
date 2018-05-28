@@ -1,0 +1,100 @@
+<!--<mat-toolbar color="primary">-->
+<!--<mat-toolbar-row>-->
+<!--<span></span>-->
+<!--&lt;!&ndash;<span class="login-fill-remaining-space"></span>&ndash;&gt;-->
+<!--<span class="login-spacer"></span>-->
+
+<!--<button mat-button>About</button>-->
+<!--<button mat-button>Contact</button>-->
+<!--</mat-toolbar-row>-->
+<!--</mat-toolbar>-->
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form class="login-form">
+        <table class="login-full-width" cellspacing="0">
+          <tr>
+              <mat-form-field class="login-full-width">
+                <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
+              </mat-form-field>
+          </tr>
+          <tr>
+              <mat-form-field class="login-full-width">
+                <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
+              </mat-form-field>
+          </tr>
+        </table>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <a routerLink="/transaction"><button mat-raised-button color="primary">View</button></a>
+
+      <button mat-raised-button (click)="login(username, password)" color="primary">Login</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<!--&lt;!&ndash; Application header starts &ndash;&gt;-->
+<!--<div class="app-header">-->
+<!--<h1 class="app-heading">{{title}}</h1>-->
+<!--</div>-->
+<!--&lt;!&ndash; Application header ends &ndash;&gt;-->
+
+<!--<mat-grid-list cols="3">-->
+<!--<mat-grid-tile></mat-grid-tile>-->
+
+<!--&lt;!&ndash; Writing markup for login starts &ndash;&gt;-->
+<!--<mat-grid-tile class='login-element'>-->
+<!--<div class="login-container">-->
+
+<!--&lt;!&ndash; Template Header starts &ndash;&gt;-->
+<!--<div class="login-box-header">-->
+<!--<img src="http://www.codershood.info/wp-content/uploads/2015/12/codershood.info-logo1.png">-->
+<!--</div>-->
+<!--&lt;!&ndash; Template Header ends &ndash;&gt;-->
+
+<!--&lt;!&ndash; Template Body starts &ndash;&gt;-->
+<!--<div class="login-box-body">-->
+
+<!--&lt;!&ndash; Markup for getting Username starts &ndash;&gt;-->
+<!--<mat-grid-list cols="9" rowHeight="75px">-->
+<!--<mat-grid-tile [rowspan]="1" class="login-icon">-->
+<!--<mat-icon>lock</mat-icon>-->
+<!--</mat-grid-tile>-->
+<!--<mat-grid-tile [colspan]="7">-->
+<!--<mat-input-container class="justifier">-->
+<!--<input matInput placeholder="Username" type="text">-->
+<!--</mat-input-container>-->
+<!--</mat-grid-tile>-->
+<!--</mat-grid-list>-->
+<!--&lt;!&ndash; Markup for getting Username ends &ndash;&gt;-->
+
+<!--&lt;!&ndash; Markup for getting Password starts &ndash;&gt;-->
+<!--<mat-grid-list cols="9" rowHeight="100px">-->
+<!--<mat-grid-tile [rowspan]="1"  class="login-icon">-->
+<!--<mat-icon>remove_red_eye</mat-icon>-->
+<!--</mat-grid-tile>-->
+<!--<mat-grid-tile [colspan]="7">-->
+<!--<mat-input-container class="justifier">-->
+<!--<input matInput placeholder="Password" type="password">-->
+<!--</mat-input-container>-->
+<!--</mat-grid-tile>-->
+<!--</mat-grid-list>-->
+<!--&lt;!&ndash; Markup for getting Password ends &ndash;&gt;-->
+
+<!--<button mat-raised-button class="login-button">-->
+<!--<mat-icon>input</mat-icon> Login-->
+<!--</button>-->
+
+<!--</div>-->
+<!--&lt;!&ndash; Template Body ends &ndash;&gt;-->
+
+<!--</div>-->
+<!--</mat-grid-tile>-->
+<!--&lt;!&ndash; Writing markup for login ends &ndash;&gt;-->
+<!--<mat-grid-tile></mat-grid-tile>-->
+
+<!--</mat-grid-list>-->

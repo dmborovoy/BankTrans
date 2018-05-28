@@ -5,13 +5,15 @@ import {
   MatTableModule,
   MatToolbarModule,
   MatSelectModule,
-  MatSnackBarModule, MatSortModule, MatPaginatorModule
+  MatSnackBarModule, MatSortModule, MatPaginatorModule, MatExpansionModule, MatDatepickerModule, MatNativeDateModule,
+  MatGridListModule
 } from '@angular/material';
 
 @NgModule({
   imports: [CommonModule,
     MatToolbarModule,
     MatButtonModule,
+    MatGridListModule,
     MatCardModule,
     MatInputModule,
     MatDialogModule,
@@ -21,10 +23,14 @@ import {
     MatSelectModule,
     MatSnackBarModule,
     MatSortModule,
-    MatPaginatorModule],
+    MatPaginatorModule,
+    MatExpansionModule,
+    MatDatepickerModule,
+    MatNativeDateModule],
   exports: [CommonModule,
     MatToolbarModule,
     MatButtonModule,
+    MatGridListModule,
     MatCardModule,
     MatInputModule,
     MatDialogModule,
@@ -34,6 +40,9 @@ import {
     MatSelectModule,
     MatSnackBarModule,
     MatSortModule,
-    MatPaginatorModule],
+    MatPaginatorModule,
+    MatExpansionModule,
+    MatDatepickerModule,
+    MatNativeDateModule],
 })
 export class CustomMaterialModule { }

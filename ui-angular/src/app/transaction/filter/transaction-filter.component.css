@@ -1,0 +1,74 @@
+.filter-flex-container {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  align-content: center;
+}
+
+.filter-flex-container_block-0 {
+  flex-basis: 13%;
+  flex-grow: 1;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.filter-flex-container_block-1 {
+  flex-basis: 13%;
+  flex-grow: 1;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.filter-flex-container_block-2 {
+  flex-basis: 25%;
+  flex-grow: 2;
+  min-width: 15ch;
+  max-width: 46ch;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  child-align: bottom;
+}
+/*.filter-flex-container_block-2:nth-child(0) {*/
+/*border-top: .84375em solid transparent;*/
+/*!*padding-top: 20px;*!*/
+/*}*/
+/*.filter-flex-container_block-2:nth-child(1) {*/
+/*border-top: .84375em solid transparent;*/
+
+/*!*padding-bottom: 20px;*!*/
+/*}*/
+.filter-flex-container_block-2 .ng-tns-c8-6{
+  border-top: 1em solid transparent;
+  height:30px;
+}
+.filter-flex-container_block-2 .ng-tns-c8-7{
+  border-top: 1em solid transparent;
+  height:30px;
+}
+.filter-flex-container_block-3 {
+  flex-basis: 13%;
+  flex-grow: 1;
+  padding-left: 15px;
+  padding-right: 15px;
+  flex-direction: column;
+}
+/*.filter-flex-container_block-3 .mat-form-field-wrapper{*/
+/*padding-bottom: 0px;*/
+/*}*/
+
+/*.mat-expansion-panel-body {*/
+/*padding: 0 24px 0;*/
+/*}*/
+
+:host ::ng-deep .mat-expansion-panel-body{
+  padding: 0 24px 6px;
+}
+
+
+.filter-flex-container_block-4 {
+  flex-basis: 13%;
+  flex-grow: 1;
+  padding-left: 15px;
+  padding-right: 15px;
+  flex-direction: column;
+}

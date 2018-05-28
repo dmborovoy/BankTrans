@@ -1,0 +1,80 @@
+  <mat-expansion-panel class="filter-panel">
+    <mat-expansion-panel-header [expandedHeight]="0">
+      <!--<mat-panel-title>Filter</mat-panel-title>-->
+    </mat-expansion-panel-header>
+
+    <div class="filter-flex-container">
+
+      <div class="filter-flex-container_block-0">
+        <mat-form-field>
+          <input matInput [(ngModel)]="from" [matDatepicker]="pickerFrom" placeholder="From" (dateChange)="keyUp.next($event)">
+          <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+          <mat-datepicker #pickerFrom></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [(ngModel)]="to" [matDatepicker]="pickerTo" placeholder="To" (dateChange)="keyUp.next($event)">
+          <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+          <mat-datepicker #pickerTo></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="filter-flex-container_block-1">
+        <mat-form-field>
+          <input [(ngModel)]="statementId" matInput placeholder="Statement ID" (keyup)="keyUp.next($event)">
+        </mat-form-field>
+        <mat-select [(ngModel)]="instance" placeholder="Instance" (selectionChange)="keyUp.next($event)">
+          <mat-option>Clear</mat-option>
+          <mat-option value="RUSSIA">RUSSIA</mat-option>
+          <mat-option value="EUROPE">EUROPE</mat-option>
+          <mat-option value="AMERICA">AMERICA</mat-option>
+          <mat-option value="ASIA">ASIA</mat-option>
+          <mat-option value="UNKNOWN">UNKNOWN</mat-option>
+        </mat-select>
+      </div>
+
+
+      <div class="filter-flex-container_block-2">
+        <mat-select [(ngModel)]="status" placeholder="Status" (selectionChange)="keyUp.next($event)">
+          <mat-option>Clear</mat-option>
+          <mat-option value="NEW">NEW</mat-option>
+          <mat-option value="PROCESSED">PROCESSED</mat-option>
+          <mat-option value="READ">READ</mat-option>
+          <mat-option value="DISALLOW_PLATFORM_FEED">DISALLOW_PLATFORM_FEED</mat-option>
+          <mat-option value="ERROR_BUSINESS">ERROR_BUSINESS</mat-option>
+          <mat-option value="ERROR_BUSINESS_ACCOUNT_WAS_NOT_FOUND">ERROR_BUSINESS_ACCOUNT_WAS_NOT_FOUND</mat-option>
+          <mat-option value="ERROR_BUSINESS_ACCOUNT_IS_CLOSED">ERROR_BUSINESS_ACCOUNT_IS_CLOSED</mat-option>
+          <mat-option value="ERROR_BUSINESS_ACCOUNT_IS_FORBIDDEN">ERROR_BUSINESS_ACCOUNT_IS_FORBIDDEN</mat-option>
+          <mat-option value="ERROR_BUSINESS_INSUFFICIENT_FUNDS">ERROR_BUSINESS_INSUFFICIENT_FUNDS</mat-option>
+          <mat-option value="ERROR_PROCESSING">ERROR_PROCESSING</mat-option>
+          <mat-option value="ERROR_PROCESSING_INVALID_TARGET_STATUS">ERROR_PROCESSING_INVALID_TARGET_STATUS</mat-option>
+          <mat-option value="ERROR_PROCESSING_ID_WAS_NOT_FOUND">ERROR_PROCESSING_ID_WAS_NOT_FOUND</mat-option>
+          <mat-option value="ERROR_PROCESSING_INVALID_INCOME_STATUS">ERROR_PROCESSING_INVALID_INCOME_STATUS</mat-option>
+        </mat-select>
+        <mat-select [(ngModel)]="fundsCode" placeholder="Funds Code" (selectionChange)="keyUp.next($event)">
+          <mat-option>Clear</mat-option>
+          <mat-option value="CREDIT">CREDIT</mat-option>
+          <mat-option value="DEBIT">DEBIT</mat-option>
+          <mat-option value="CREDIT_REVERSE">CREDIT_REVERSE</mat-option>
+          <mat-option value="DEBIT_REVERSE">DEBIT_REVERSE</mat-option>
+        </mat-select>
+      </div>
+
+      <div class="filter-flex-container_block-3">
+        <mat-form-field>
+          <input [(ngModel)]="informationToAccountOwner" matInput placeholder="Information to account owner" (keyup)="keyUp.next($event)">
+        </mat-form-field>
+        <mat-form-field>
+          <input [(ngModel)]="referenceForAccountOwner" matInput placeholder="Reference for account owner" (keyup)="keyUp.next($event)">
+        </mat-form-field>
+      </div>
+
+      <div class="filter-flex-container_block-4">
+        <mat-form-field>
+          <input [(ngModel)]="referenceForBank" matInput placeholder="Reference for bank" (keyup)="keyUp.next($event)">
+        </mat-form-field>
+        <mat-form-field>
+          <input [(ngModel)]="transactionDescription" matInput placeholder="Transaction description" (keyup)="keyUp.next($event)">
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-expansion-panel>

@@ -1,0 +1,125 @@
+<!--<mat-toolbar color="primary">-->
+  <!--<mat-toolbar-row>-->
+    <!--<span>Transactions</span>-->
+    <!--<span class="spacer"></span>-->
+    <!--<span class="example-fill-remaining-space"></span>-->
+    <!--<span class="example-spacer"></span>-->
+
+    <!--<button mat-button>About</button>-->
+    <!--<button mat-button>Contact</button>-->
+  <!--</mat-toolbar-row>-->
+<!--</mat-toolbar>-->
+
+<transaction-filter>
+</transaction-filter>
+
+<div class="example-container mat-elevation-z7">
+  <mat-table #table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.id}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="statementId">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Statement<br/>ID</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.statementId}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Amount</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.amount}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="currency">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Currency</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.currency}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Date</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.date}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="transactionDescription">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Transaction<br/>Description</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.transactionDescription}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="referenceForAccountOwner">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Reference for<br/>Account Owner</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.referenceForAccountOwner}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="instance">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Instance</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-select [disabled]=!editable (selectionChange)="updateInstance(row.id, $event.value)"
+                    placeholder={{row.instance}}>
+          <mat-option value="RUSSIA">RUSSIA</mat-option>
+          <mat-option value="EUROPE">EUROPE</mat-option>
+          <mat-option value="AMERICA">AMERICA</mat-option>
+          <mat-option value="ASIA">ASIA</mat-option>
+          <mat-option value="UNKNOWN">UNKNOWN</mat-option>
+        </mat-select>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="fundsCode">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Funds Code</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.fundsCode}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Transaction<br/>Status</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-select [disabled]=!editable (selectionChange)="updateStatus(row.id, $event.value)"
+                    placeholder={{row.status}}>
+          <mat-option value="NEW">NEW</mat-option>
+          <mat-option value="PROCESSED">PROCESSED</mat-option>
+          <mat-option value="READ">READ</mat-option>
+          <mat-option value="DISALLOW_PLATFORM_FEED">DISALLOW_PLATFORM_FEED</mat-option>
+          <mat-option value="ERROR_BUSINESS">ERROR_BUSINESS</mat-option>
+          <mat-option value="ERROR_BUSINESS_ACCOUNT_WAS_NOT_FOUND">ERROR_BUSINESS_ACCOUNT_WAS_NOT_FOUND</mat-option>
+          <mat-option value="ERROR_BUSINESS_ACCOUNT_IS_CLOSED">ERROR_BUSINESS_ACCOUNT_IS_CLOSED</mat-option>
+          <mat-option value="ERROR_BUSINESS_ACCOUNT_IS_FORBIDDEN">ERROR_BUSINESS_ACCOUNT_IS_FORBIDDEN</mat-option>
+          <mat-option value="ERROR_BUSINESS_INSUFFICIENT_FUNDS">ERROR_BUSINESS_INSUFFICIENT_FUNDS</mat-option>
+          <mat-option value="ERROR_PROCESSING">ERROR_PROCESSING</mat-option>
+          <mat-option value="ERROR_PROCESSING_INVALID_TARGET_STATUS">ERROR_PROCESSING_INVALID_TARGET_STATUS</mat-option>
+          <mat-option value="ERROR_PROCESSING_ID_WAS_NOT_FOUND">ERROR_PROCESSING_ID_WAS_NOT_FOUND</mat-option>
+          <mat-option value="ERROR_PROCESSING_INVALID_INCOME_STATUS">ERROR_PROCESSING_INVALID_INCOME_STATUS</mat-option>
+        </mat-select>
+      </mat-cell>
+    </ng-container>
+
+    <!--<ng-container matColumnDef="swiftCode">-->
+    <!--<mat-header-cell *matHeaderCellDef mat-sort-header>Swift Code</mat-header-cell>-->
+    <!--<mat-cell *matCellDef="let row"> {{row.swiftCode}}</mat-cell>-->
+    <!--</ng-container>-->
+
+    <!--<ng-container matColumnDef="referenceForBank">-->
+    <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Reference for<br/>Bank</mat-header-cell>-->
+    <!--<mat-cell *matCellDef="let row"> {{row.referenceForBank}}</mat-cell>-->
+    <!--</ng-container>-->
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> Details</mat-header-cell>
+      <mat-cell *matCellDef="let row; let i=index;">
+        <button mat-icon-button color="accent" (click)="showDetails(row.id)">
+          <mat-icon aria-label="Delete">description</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    <!--<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>-->
+  </mat-table>
+
+
+  <mat-paginator #paginator [length]="resultsLength"
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 20]">
+  </mat-paginator>
+</div>

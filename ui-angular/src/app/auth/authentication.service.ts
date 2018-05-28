@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import {log} from "util";
 import {UserService} from "../user/user.service";
 import 'rxjs/add/operator/map'
-import {Authority} from "../user/user.model";
+import {Authority, User} from "../user/user.model";
+import {Observable} from "rxjs/Observable";
 
 
 const TOKEN_KEY = 'AuthToken';
@@ -39,7 +40,7 @@ export class AuthenticationService {
   }
 
 
-  login(username: string, password: string) {
+  login(username: string, password: string): Observable<User> {
     this.setToken(btoa(username + `:` + password));
     return this.userService.getUserDetails().map(
       user => {
@@ -59,5 +60,9 @@ export class AuthenticationService {
   isAdmin() {
     if(sessionStorage.getItem(AUTHORITIES_KEY)===null) return false;
     return (sessionStorage.getItem(AUTHORITIES_KEY).indexOf("ROLE_UI_ADMIN") != -1);
+  }
+
+  isLoggedIn() {
+    return sessionStorage.getItem(AUTHORITIES_KEY) !== null;
   }
 }

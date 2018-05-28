@@ -1,0 +1,11 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.mat-button {
+  color: #ffffff;
+}
+
+[hidden] {
+  display: none !important;
+}

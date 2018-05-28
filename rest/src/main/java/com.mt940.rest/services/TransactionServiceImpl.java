@@ -77,19 +77,19 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Page<TransactionView> listAllByPage(Pageable pageable, String filter) {
-        if (filter != null) {
-            try {
-                searchRequest = objectMapper.readValue(filter, MT940TransactionSearchRequest.class);
-            } catch (IOException e) {
-                log.error(e.getMessage());
-            }
+        if(filter.equals(""))return mt940TransactionDao.findByAllNullable(new MT940TransactionSearchRequest(), pageable).map(source ->
+                mapperFacade.map(source, TransactionView.class));
+        try {
+            log.debug("Filter request: " + filter);
+            searchRequest = objectMapper.readValue(filter, MT940TransactionSearchRequest.class);
+        } catch (IOException e) {
+            log.error(e.getMessage());
         }
+
         return mt940TransactionDao.findByAllNullable(searchRequest, pageable).map(source -> {
             TransactionView transactionView = mapperFacade.map(source, TransactionView.class);
             transactionView.setStatementId(source.getStatement().getId());
             return transactionView;
         });
-
-
     }
 }

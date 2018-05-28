@@ -1,0 +1,23 @@
+<div class="jumbotron">
+  <div class="container">
+    <div class="col-sm-8 col-sm-offset-2">
+      <!--<alert></alert>-->
+    </div>
+  </div>
+</div>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>{{titleService.getTitle()}}</span>
+    <span class="spacer"></span>
+    <span class="fill-remaining-space"></span>
+
+    <button mat-button [hidden]="!authService.isAdmin()">Users</button>
+    <button mat-button [hidden]="!authService.isLoggedIn()" (click)="logout()">Logout</button>
+    <a routerLink="/login"><button mat-button [hidden]="authService.isLoggedIn()" (click)="logout()">Login</button></a>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+<router-outlet></router-outlet>
+<snackbar></snackbar>
+
+
