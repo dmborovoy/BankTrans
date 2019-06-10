@@ -1,5 +1,6 @@
 package com.mt940.rest.services;
 
+import com.mt940.domain.permission.BKVUser;
 import com.mt940.rest.dto.UserDetailsView;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public interface UserService extends UserDetailsService {
@@ -19,4 +22,7 @@ public interface UserService extends UserDetailsService {
 
     @Transactional
     UserDetailsView loadDetailsByCredentials(final String auth);
+
+    @Transactional
+    List<BKVUser> listAll();
 }

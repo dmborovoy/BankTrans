@@ -1,7 +1,6 @@
 package com.mt940.rest.security;
 
 import com.mt940.rest.services.UserService;
-import com.mt940.rest.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

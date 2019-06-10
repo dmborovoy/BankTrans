@@ -4,7 +4,6 @@ import com.mt940.dao.jpa.BKVUserDao;
 import com.mt940.domain.enums.BKVRoles;
 import com.mt940.domain.permission.BKVUser;
 import com.mt940.rest.dto.UserDetailsView;
-import com.sun.org.apache.xerces.internal.impl.dv.xs.UnionDV;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,13 +49,13 @@ public class UserServiceImpl implements UserService {
     }
 
     private List<GrantedAuthority> buildUserAuthority(Set<BKVRoles> userRoles) {
-        Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
+        Set<GrantedAuthority> setAuths = new HashSet<>();
 
         for (BKVRoles userRole : userRoles) {
             setAuths.add(new SimpleGrantedAuthority("ROLE_" + userRole.name()));
         }
 
-        return new ArrayList<GrantedAuthority>(setAuths);
+        return new ArrayList<>(setAuths);
     }
 
     public UserDetails loadUserByCredentials(String auth) throws BadCredentialsException {
@@ -82,6 +81,9 @@ public class UserServiceImpl implements UserService {
         UserDetailsView details = mapperFacade.map(userDetails, UserDetailsView.class);
         details.setAuthorities(new ArrayList<>(userDetails.getAuthorities()));
         return details;
+    }
 
+    public List<BKVUser> listAll() {
+        return userDao.findAll();
     }
 }
