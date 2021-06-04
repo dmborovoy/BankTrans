@@ -48,7 +48,7 @@
         <spring-integration.version>4.3.14.RELEASE</spring-integration.version>
 
         <hibernate.version>5.1.13.Final</hibernate.version>
-        <hibernate-validator.version>6.0.9.Final</hibernate-validator.version>
+        <hibernate-validator.version>6.0.20.Final</hibernate-validator.version>
         <hibernate-jpamodelgen.version>5.1.13.Final</hibernate-jpamodelgen.version>
 
         <jadira.user.type.version>5.0.0.GA</jadira.user.type.version>
