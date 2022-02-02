@@ -36,7 +36,7 @@
         <maven-surefire-plugin.redirectTestOutputToFile.functional>true
         </maven-surefire-plugin.redirectTestOutputToFile.functional>
 
-        <postgresql.version>42.2.2</postgresql.version>
+        <postgresql.version>42.2.25</postgresql.version>
         <hikari.version>2.7.8</hikari.version>
         <thymeleaf.version>2.1.2.RELEASE</thymeleaf.version>
         <lombok.version>1.16.20</lombok.version>
