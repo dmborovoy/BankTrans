@@ -47,7 +47,7 @@
         <spring-data.version>1.11.10.RELEASE</spring-data.version>
         <spring-integration.version>4.3.14.RELEASE</spring-integration.version>
 
-        <hibernate.version>5.1.13.Final</hibernate.version>
+        <hibernate.version>5.4.24.Final</hibernate.version>
         <hibernate-validator.version>6.0.9.Final</hibernate-validator.version>
         <hibernate-jpamodelgen.version>5.1.13.Final</hibernate-jpamodelgen.version>
 
