@@ -53,7 +53,7 @@
 
         <jadira.user.type.version>5.0.0.GA</jadira.user.type.version>
 
-        <jackson.version>2.9.5</jackson.version>
+        <jackson.version>2.13.4.1</jackson.version>
         <dumbster.version>1.6</dumbster.version>
         <log4jdbc-log4j2-jdbc4.version>1.16</log4jdbc-log4j2-jdbc4.version>
         <log4jdbc-log4j2-jdbc4.scope>test</log4jdbc-log4j2-jdbc4.scope>
